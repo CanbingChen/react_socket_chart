@@ -30,27 +30,27 @@ const Chart = asyncComponent(() =>
 
 export default () => (
   <BrowserRouter>
-    <div>
+      <div className="main-box">
+          <Route
+            exact
+            path="/"
+            render={props => <Chart {...props} name="Chart" />}
+          />
         <Route
           exact
-          path="/"
-          render={props => <Chart {...props} name="Chart" />}
+          path="/query"
+          render={props => <Query {...props} name="query" />}
         />
-      <Route
-        exact
-        path="/query"
-        render={props => <Query {...props} name="query" />}
-      />
-      <Route
-        exact
-        path="/detail"
-        render={props => <Detail {...props} name="detail" />}
-      />
-      <Route
-        exact
-        path="/parts"
-        render={props => <Parts {...props} name="parts" />}
-      />
-    </div>
+        <Route
+          exact
+          path="/detail"
+          render={props => <Detail {...props} name="detail" />}
+        />
+        <Route
+          exact
+          path="/parts"
+          render={props => <Parts {...props} name="parts" />}
+        />
+      </div>
   </BrowserRouter>
 );
