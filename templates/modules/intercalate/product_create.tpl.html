@@ -1,0 +1,135 @@
+<div class="anti-search-container merchant-edit">
+    <div class="search-header">
+        <div class="detail-header-l clearfix">
+            <div class="link">
+                <a href="/merchant/list">信贷产品管理</a>&gt;{{vm.title}}
+            </div>
+            <h2>
+				{{vm.title}}
+			</h2>
+        </div>
+    </div>
+    <div>
+        <div class="merchant-infor">
+            <div class="merchant-infor-content">
+                <ul class="merchant-infor-text product-create-text clearfix">
+                    <li><span class="must-write edit-input-label">信贷产品名称</span><span class="edit-input-block">
+						<input ng-model=" vm.modifyObj.name" type="text"  placeholder="请输入信贷产品名称" />
+						<p class="edit-error-msg" ng-bind="vm.errMsg.name" class="edit-error-msg" ></p>
+					</span></li>
+                    <li><span class="must-write edit-input-label">还款方式</span><span class="edit-input-block">
+						<input ng-model=" vm.modifyObj.repayType" type="text" placeholder="请输入还款方式" ng-disabled="true" />
+						<p class="edit-error-msg" ng-bind="vm.errMsg.repayType" class="edit-error-msg" ></p>
+					</span></li>
+                </ul>
+            </div>
+            <div class="application-block">
+	            <span class="must-write edit-input-label">选择进件申请表</span>
+				<zs-select  ng-if="vm.applicationList"  class="form-control anti-select" selected-value="vm.modifyObj.applyTableId" on-change="vm.getApplication"  options="vm.applicationList" ></zs-select>
+				<span class="preview-button" ng-click="vm.previewApplication(vm.modifyObj.applyTableId)" ng-class="{'preview-disabled':vm.modifyObj.applyTableId==='-9999'}">预览表单</span>
+            	<span ui-sref="Application.Modify" class="preview-button">点击创建表单</span>
+            	<p class="edit-error-msg" ng-if="vm.error_application[vm.modifyObj.applyTableId]">{{vm.error_application[vm.modifyObj.applyTableId]}}</p>
+	        </div>
+	        <div class="edit-trial ">
+	            <span class="trial-title edit-input-label must-write">试算表</span>
+	            <div class="table-block">
+	                <table>
+	                    <thead>
+	                        <th>期数</th>
+	                        <th>月利率(%)</th>
+	                        <th>月保险手续费率(%)</th>
+	                        <th>月服务费(%)</th>
+	                    </thead>
+	                    <tbody>
+	                        <tr ng-repeat="trialItem in vm.modifyObj.interest track by $index">
+	                            <td>
+	                                <input type="text" ng-model="trialItem.name" ng-keyup="vm.limitStage(vm.modifyObj, $index)">
+	                            </td>
+	                            <td>
+	                                <input ng-keyup="vm.limit(vm.modifyObj,$index,'month_rate')" type="text" ng-model="trialItem.month_rate">
+	                            </td>
+	                            <td>
+	                                <input ng-keyup="vm.limit(vm.modifyObj,$index,'poundage')" type="text" ng-model="trialItem.poundage">
+	                            </td>
+	                            <td>
+	                                <input ng-keyup="vm.limit(vm.modifyObj,$index,'month_server')" type="text" ng-model="trialItem.month_server">
+	                                <span ng-if="vm.modifyObj.interest.length > 1" ng-click="vm.removeTrialItem(trialItem,$index)" class="remove-trial icon-weichaxun"></span>
+	                            </td>
+	                        </tr>
+	                    </tbody>
+	                </table>
+					<p class="edit-error-msg trial-error-msg" ng-bind="vm.errMsg.interest" class="edit-error-msg" ></p>
+	                <p ng-if="vm.modifyObj.interest.length < 10">
+	                    <span class="add-trial" ng-click="vm.addTrialItem(table,$index)"><i class="icon-icon-jiahao"></i>添加期数</span>
+	                </p>
+	            </div>
+	        </div>
+	        <div class="merchant-infor-content product-infor-content clearfix">
+	            <ul class="merchant-infor-text product-create-text clearfix">
+	                <li style="width: auto">
+	                	<span class="must-write edit-input-label">逾期罚息</span>
+	                	<zs-select class="form-control anti-select" selected-value="vm.modifyObj.overdueType"  options="vm.OVER_DUE_TYPE_MAP"></zs-select>
+						<p class="edit-error-msg" ng-bind="vm.errMsg.overdueType" class="edit-error-msg" ></p>
+
+	            		<!-- <span>
+	            			<span class="must-write edit-input-label">日息</span>
+		                	<input type="text" placeholder="请输入日息" ng-model="vm.modifyObj.dailyInterst">
+							<p class="edit-error-msg" ng-bind="vm.errMsg.dailyInterst" class="edit-error-msg" ></p>
+	            		</span> -->
+	                </li>
+
+	                <li>
+	            		<span>
+	            			<span class="must-write edit-input-label">日息</span>
+		                	<input type="text" placeholder="请输入日息" ng-model="vm.modifyObj.dailyInterst">
+							<p class="edit-error-msg" ng-bind="vm.errMsg.dailyInterst" class="edit-error-msg" ></p>
+	            		</span>
+	                </li>
+	                <li><span class="must-write edit-input-label">打款给</span>
+	                	<zs-select class="form-control anti-select" selected-value="vm.modifyObj.recieveType"  options="vm.RECIEVE_TYPE_MAP"></zs-select>
+						<p class="edit-error-msg" ng-bind="vm.errMsg.recieveType" class="edit-error-msg" ></p>
+	                </li>
+	                <li><span class="must-write edit-input-label">产品状态</span>
+	                	<zs-select class="form-control anti-select" selected-value="vm.modifyObj.status"  options="vm.STATUS_MAP"></zs-select>
+						<p class="edit-error-msg" ng-bind="vm.errMsg.status" class="edit-error-msg" ></p>
+	                </li>
+	            </ul>
+	        </div>
+	        <div class="merchant-edit-button" ng-class="{'merchant-edit-button-loading': vm.postLoading}" ng-click="vm.handleSaveProduct()">保存</div>
+        </div>
+        
+    </div>
+</div>
+<script type="text/ng-template" id="JS_prewiew">
+    <span class="name">{{vm.applicationName}}（预览）</span>
+    <div class="preview-img-exit" ng-click="closeThisDialog()"></div>
+    <preview-application application="vm.application" ng-if="vm.application"></preview-application>
+    <preview-loader ng-if="!vm.application"></preview-loader>
+</script>
+<script type="text/ng-template" id="Js_leaveTemplate">
+    <div class="m-modal">
+        <div class="m-bar">
+            <div class="m-tl"><i class='icon-tanhao'></i></div>
+        </div>
+        <div class="m-cnt">
+            <p>{{vm.modalMsg}}</p>
+        </div>
+        <div class="m-btn">
+            <a class="m-y-btn" ng-click="confirm()">确认</a>
+            <a ng-if="vm.isConfirm" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="Js_addMerchantTemplate">
+    <div class="m-modal">
+        <div class="m-bar">
+            <div class="m-tl"><i class='icon-duigou'></i></div>
+        </div>
+        <div class="m-cnt">
+            <p>{{vm.successMsg}}</p>
+        </div>
+        <div class="m-btn">
+            <a class="m-y-btn" ng-click="confirm()">确认</a>
+        </div>
+    </div>
+</script>

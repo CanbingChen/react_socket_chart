@@ -1,0 +1,39 @@
+<div class="anti-search-container">
+	<div class="search-header">
+		<div class="link">
+			<a href="/antifraud/list">用户进件列表</a>&gt<a href="/monitor/credit/presentation?id={{vm.params.id}}&intoNumber={{vm.params.intoNumber}}&intoTime={{vm.params.intoTime}}&approveStatus={{vm.params.approveStatus}}">查看报告</a>&gt审批操作日志
+		</div>
+		<h2>
+			审批操作日志
+		</h2>
+	</div>
+	<div class="journal" >
+		<div class="journal-head">
+			<h2>
+				<span>进件单号&nbsp:&nbsp</span>
+				<span>{{vm.parmas.intoNumber}}</span>
+			</h2>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>时间</th>
+					<th>用户</th>
+					<th>操作内容</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="journal in vm.journalList" ng-if="vm.journalList.length>0">
+					<td>{{journal.time|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+					<td>{{journal.user}}</td>
+					<td>{{journal.content}}</td>
+				</tr>
+				<tr ng-if="vm.journalList.length<=0">
+					<td>--</td>
+					<td>--</td>
+					<td>--</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

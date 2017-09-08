@@ -1,0 +1,52 @@
+<div class="anti-search-container account-detail">
+	<div class="list-header clearfix">
+		<div class="link">
+			<a href="/intercalate/account_manage/list">账号管理</a>&gt;创建账号
+		</div>
+		<div class="list-header-l">
+			<h2 class="">创建账号</h2>
+		</div>
+	</div>
+	<div class="manage-body create-account">
+		<div class="manage-form-box account-manage">
+			<ul class="manage-form">
+				<li class="info">
+					<label for=""><span class="label-alert">*</span>账号名称：</label>
+					<input type="text" class="input-pwd" ng-model="vm.accountInfo.loginName" placeholder="最多20个英文字符">
+				</li>
+				<p class="err-msg" ng-bind="vm.err.loginName"></p>
+				<li class="info">
+					<label for=""><span class="label-alert">*</span>员工姓名：</label>
+					<input type="text" class="input-pwd" ng-model="vm.accountInfo.name" placeholder="请输入使用人姓名">
+				</li>
+				<p class="err-msg" ng-bind="vm.err.name"></p>
+				<li class="info">
+					<label for=""><span class="label-alert">*</span>手机号码：</label>
+					<input type="text" class="input-pwd" ng-model="vm.accountInfo.phone" placeholder="请输入账号使用人手机号码">
+				</li>
+				<p class="err-msg" ng-bind="vm.err.phone"></p>
+				<li class="info">
+					<label for=""><span class="label-alert">*</span>账号角色：</label>
+					<zs-select-edit  class="form-control account-select account-role" selected-value="vm.accountInfo.role"  options="vm.accountRoleArr">
+				</li>
+				<p class="err-msg" ng-bind="vm.err.role"></p>
+			</ul>
+		</div>
+		<div class="button-conten">
+			<a href="/intercalate/account_manage/list" class="ensure-cancel" >取消</a>
+			<a href="javascript:;" class="ensure-modify" ng-click="vm.checkInput()">创建</a>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="accountCreateSuccess">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tijiaochenggong'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>账号创建成功</p>
+		</div>
+	</div>
+</script>
+

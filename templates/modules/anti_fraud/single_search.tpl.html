@@ -1,0 +1,287 @@
+<div class="anti-search-container">
+	<div class="search-header">
+		<div class="link">
+			<a href="/antifraud/list">用户查询列表</a>&gt;
+			<span>查询新用户</span>
+		</div>
+		<h2>新增查询</h2>
+	</div>
+
+
+	<div class="search-body search-container">
+		<div class="search-header">
+			<ul class="clearfix search-header-banner">
+				<li ng-class="{'active': vm.stage >= 1}">
+					<p class="circle"><i class="icon-jibenxinxi"></i></p>
+					<p class="stage-desc">第一步：填写基本信息</p>
+				</li>
+				<li ng-class="{'active': vm.stage >= 2}">
+					<p class="circle"><i class="icon-shouquanrenzheng"></i></p>
+					<p class="stage-desc">第二步：授权验证</p>
+					<span class="line"></span>
+				</li>
+				<li ng-class="{'active': vm.stage === 5}">
+					<p class="circle"><i class="icon-tijiaochenggong"></i></p>
+					<p class="stage-desc">第三步：提交成功</p>
+					<span class="line"></span>
+				</li>
+			</ul>
+		</div>
+		<div class="search-content" ng-show="vm.stage === 1">
+			<div class="single-search-form basic-form">
+				<h2 class="form-title">基本信息</h2>
+				<div class="form-container">
+					<ul class="clearfix form-area">
+						<li>
+							<span class="input-label"><i class="red-mark">*</i>姓名</span>
+							<div class="input-container">
+								<input type="text" ng-model="vm.basicInfo.name" class="common-input" placeholder="请输入姓名" ng-keyup="vm.limitInput($event, 'name')">
+								<p class="errmsg" ng-bind="vm.errMsg.name"></p>
+							</div>
+						</li>
+						<li>
+							<span class="input-label">居住地址</span>
+							<div class="input-container">
+								<zs-select class="form-control search-select" ng-if="vm.provinceArr" selected-value="vm.basicInfo.province" options="vm.provinceArr">
+								</zs-select>
+								<zs-select class="form-control search-select" ng-if="vm.cityArr" selected-value="vm.basicInfo.city" options="vm.cityArr">
+								</zs-select>
+								<zs-select ng-if="vm.areaArr" class="form-control search-select" selected-value="vm.basicInfo.area" options="vm.areaArr">
+								</zs-select>
+								<p class="errmsg">
+									<span ng-bind="vm.errMsg.province"></span>
+									<span ng-bind="vm.errMsg.city"></span>
+									<span ng-bind="vm.errMsg.area"></span>
+								</p>
+							</div>
+						</li>
+						<li>
+							<span class="input-label"><i class="red-mark">*</i>手机号码</span>
+							<div class="input-container">
+								<input type="text" ng-model="vm.basicInfo.phone" class="common-input" placeholder="请输入手机号码">
+								<p class="errmsg" ng-bind="vm.errMsg.phone"></p>
+							</div>
+						</li>
+						<li>
+							<span class="input-label">详细地址</span>
+							<div class="input-container">
+								<input type="text" ng-model="vm.basicInfo.homeDetailAddress" class="common-input" placeholder="请输入详细地址">
+								<p class="errmsg" ng-bind="vm.errMsg.homeDetailAddress"></p>
+							</div>
+						</li>
+						<li>
+							<span class="input-label"><i class="red-mark">*</i>身份证号</span>
+							<div class="input-container">
+								<input type="text" ng-model="vm.basicInfo.idcard" class="common-input" placeholder="请输入身份证号">
+								<p class="errmsg" ng-bind="vm.errMsg.idcard"></p>
+							</div>
+						</li>
+					</ul>
+
+					<ul class="clearfix relation-area">
+
+						<li>
+							<span class="input-label">家庭联系人</span>
+							<div class="input-container">
+								<input type="text" ng-model="vm.basicInfo.homeMemName" class="common-input" placeholder="请输入家庭联系人" ng-keyup="vm.limitInput($event, 'homeMemName')">
+								<p class="errmsg" ng-bind="vm.errMsg.homeMemName"></p>
+							</div>
+						</li>
+						<li>
+							<span class="input-label">联系人关系</span>
+							<div class="input-container relation-container">
+								<zs-select class="form-control search-select" selected-value="vm.basicInfo.homeMemRelation" options="vm.relationArr">
+								</zs-select>
+								<p class="errmsg" ng-bind="vm.errMsg.homeMemRelation"></p>
+							</div>
+						</li>
+
+					</ul>
+					<ul class="clearfix">
+						<li>
+							<span class="input-label">联系电话</span>
+							<div class="input-container">
+								<input type="text" ng-model="vm.basicInfo.homeMemPhone" class="common-input" placeholder="请输入联系电话">
+								<p class="errmsg" ng-bind="vm.errMsg.homeMemPhone"></p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="single-search-form work-form">
+				<h2 class="form-title">工作信息</h2>
+				<div class="form-container">
+					<ul class="clearfix">
+						<li>
+							<span class="input-label">单位联系人</span>
+							<div class="input-container">
+								<input type="text" ng-model="vm.basicInfo.workContactName" class="common-input" placeholder="请输入单位联系人" ng-keyup="vm.limitInput($event, 'workContactName')">
+								<p class="errmsg" ng-bind="vm.errMsg.workContactName"></p>
+							</div>
+						</li>
+						<li>
+							<span class="input-label">单位地址</span>
+							<div class="input-container">
+								<zs-select class="form-control search-select" ng-if="vm.workprovinceArr" selected-value="vm.basicInfo.workprovince" options="vm.workprovinceArr">
+								</zs-select>
+								<zs-select ng-if="vm.workcityArr" class="form-control search-select" selected-value="vm.basicInfo.workcity" options="vm.workcityArr">
+								</zs-select>
+								<zs-select ng-if="vm.workareaArr" class="form-control search-select" selected-value="vm.basicInfo.workarea" options="vm.workareaArr">
+								</zs-select>
+								<p class="errmsg" ng-bind="vm.errMsg.workDetailAddress"></p>
+							</div>
+						</li>
+						<li>
+							<span class="input-label">联系电话</span>
+							<div class="input-container">
+								<input type="text" ng-model="vm.basicInfo.workContactPhone" class="common-input" placeholder="请输入联系电话">
+								<p class="errmsg" ng-bind="vm.errMsg.workContactPhone"></p>
+							</div>
+						</li>
+						<li>
+							<span class="input-label">详细地址</span>
+							<div class="input-container">
+								<input type="text" ng-model="vm.basicInfo.workDetailAddress" class="common-input" placeholder="请输入详细地址">
+								<p class="errmsg" ng-bind="vm.errMsg.workDetailAddress"></p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="search-footer">
+				<button class="next-stage" ng-click="vm.saveBasicInfo()" ng-disabled="vm.isPosting">下一步</button>
+			</div>
+		</div>
+
+		<div class="search-content" ng-show="vm.stage === 2">
+			<div class="auth-content">
+				<p class="auth-icon-container">
+					<i class="icon-shouji"></i>
+					<i class="yirenzhen" ng-if="vm.isVerify"></i>
+				</p>
+
+				<p class="auth-desc">提交您的手机信息进行认证</p>
+				<p class="auth-desc">我们会收集您的身份、账单、通话信息等用于认证</p>
+
+				<p><button class="auth-btn" ng-click="vm.changeStage(3)" ng-disabled="vm.isVerify">运营商授权认证</button></p>
+				<a href="#" class="forget-label" ng-click="vm.showForget()">忘记服务密码？</a>
+			</div>
+
+
+			<div class="search-footer">
+				<button class="prev-stage" ng-click="vm.changeStage(1)">上一步</button>
+				<button class="search-now" ng-bind="vm.submitText" ng-disabled="vm.isPosting" ng-click="vm.submitSearch()"></button>
+			</div>
+		</div>
+
+		<div class="search-content" ng-if="vm.stage === 3">
+			<div class="auth-opreation">
+				<h2 class="auth-info"><i></i>请直接在页面上操作</h2>
+				<div style="height:44px;">
+					<div style="background:#008EDA;" class="mx-title-bar">
+						<div class="mx-title-bar-buttons mx-title-bar-left">
+						</div>
+						<h1 class="mx-title-bar-title">运营商认证</h1>
+					</div>
+				</div>
+				<div class="auth-opreation-container">
+
+					<iframe src="/init_auth" id="authIframe" scrolling="no" frameborder="0"></iframe>
+
+					<div class="alert-box">
+						<h4>运营商授权认证流程</h4>
+						<ol>
+							<li>1.输入该手机号的运营商服务密码</li>
+							<li>2.输入收到的验证码</li>
+							<li>3.授权成功</li>
+						</ol>
+					</div>
+				</div>
+
+
+			</div>
+
+
+			<div class="search-footer">
+				<button class="prev-stage" ng-click="vm.cancelAuth()">返回</button>
+			</div>
+		</div>
+
+		<div class="search-content" ng-show="vm.stage === 4">
+			<div class="auth-success">
+
+				<p class="auth-success-icon-container success-icon-container"><i></i></p>
+				<p class="success-info">恭喜，运营商授权已经成功!</p>
+				<p class="success-info">授权手机号：<span ng-bind="vm.basicInfo.phone"></span></p>
+			</div>
+			<div class="success-footer search-footer">
+				<button class="prev-stage" ng-click="vm.changeStage(2)">上一步</button>
+				<button class="search-now" ng-disabled="vm.isPosting" ng-click="vm.submitSearch()">提交查询</button>
+			</div>
+		</div>
+
+		<div class="search-content" ng-show="vm.stage === 5">
+			<div class="auth-success">
+
+				<p class="search-success-icon-container success-icon-container"><i></i></p>
+				<p class="success-info">恭喜，查询成功！</p>
+			</div>
+			<div class="success-footer search-footer">
+				<button class="prev-stage" ng-click="$state.go('AntiFraud.list')">马上查看</button>
+				<button class="search-now" ng-click="vm.reSearch()">继续查询</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/ng-template" id="JS_confirm_template">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p ng-bind="vm.modalMsg"></p>
+		</div>
+		<div class="m-btn">
+			<a class="m-y-btn" ng-click="confirm()">确认</a>
+			<a class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="JS_forget_template">
+	<div class="m-modal">
+		<div class="m-bar">
+			<h2 class="m-tl">忘记服务密码？</h2>
+		</div>
+		<div class="m-cnt f-cnt">
+			<h4>移动用户：</h4>
+			<p class="paragh">本机编辑短信602到10086，再回复短信“CZMM（空格）身份证号码”至10086进行密码重置。</p>
+			<h4>联通用户：</h4>
+			<p class="paragh">1、本机拨打10010，按照提示输入，进行密码重置。</p>
+			<p class="paragh">2、本机发送短信“MMCZ#6位新密码#身份证后6位”到10010。</p>
+			<h4>电信用户：</h4>
+			<p class="paragh">本机拨打电信服务号码10000号，选择密码服务，输入本机身份证号，成功后即可重置密码。</p>
+		</div>
+		<div class="m-btn">
+			<a class="m-y-btn" ng-click="closeThisDialog()">知道了</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="JS_alert_template">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p ng-bind="vm.modalMsg"></p>
+		</div>
+		<div class="m-btn">
+			<a class="m-y-btn" ng-click="closeThisDialog()">确认</a>
+		</div>
+	</div>
+</script>

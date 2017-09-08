@@ -1,0 +1,99 @@
+<header class="index-header">
+    <div class="header-center clearfix">
+        <div class="l-header clearfix">
+            <a href="#" class="logo">
+                <img src="/static/assets/images/logo.png"/>
+                <h1 style="display: none">卧龙大数据</h1>
+                <span style="display: none">WOLONG BIG DATA</span>
+            </a>
+            <span class="divice" style="display: none"></span>
+            <h2 class="system-name" style="display: none">反欺诈系统</h2>
+        </div>
+        <div class="r-header">
+            <span>您好，<span ng-bind="vm.userName"></span></span>
+            <a href="javascript:;" id="singOut" ng-click="vm.signOut()">退出</a>
+        </div>
+    </div>
+</header>
+<div class="main-container clearfix">
+    <nav class="left-bar" area-frozen top="0px" fix="left">
+        <ul class="left-menu">
+            <li ng-if="$menu.riskTrend.show" ng-class="{'active': $state.is('AntiFraud.statistics')}">
+                <a href="/antifraud/statistics?antiPeriod=week&monitorPeriod=week&checkPeriod=week" class="parent-menu"><i class="icon-menu-fengxianqushi"></i>风险趋势</a>
+            </li>
+            <li ng-if="$menu.creditEvaluate.show" ng-class="{'active': $state.is('AntiFraud.search') || $state.is('Monitor.credit.intoPieces')  || $state.is('Monitor.credit.presentation') || $state.is('AntiFraud.list') || $state.is('Monitor.journal') || $state.is('Monitor.intoPieces')}">
+                <a href="/antifraud/list" class="parent-menu"><i class="icon-menu-zonghefanqizha"></i>信用评估</a>
+            </li>
+            <li ng-if="$menu.tradeManage.show" class="have-sub-menu" ng-class="{'active': $state.includes('Trade.*')}">
+                <a class="parent-menu"  ng-click="vm.intercalateClick('trade')"><i class="icon-menu-xitongguanli" ></i>交易管理<i class="jiantou" ng-class="{'icon-icon-jiantouright':!vm.slideDown.trade,'icon-icon-jiantoudown':vm.slideDown.trade}"></i></a>
+                <div class="left-menu-slidebar"  ng-if="vm.slideDown.trade" >
+                    <a class="sub-menu" ng-class="{'active': $state.is('Trade.loanList')||$state.is('Trade.loanDetail')}" href="/trade/loan_list" ng-if="$second.loanManage.show"><span></span>借款管理</a>
+                    <a class="sub-menu" ng-class="{'active': $state.is('Trade.repaymentList')||$state.is('Trade.repaymentDetail')}" href="/trade/repayment_list" ng-if="$second.repayManage.show"><span></span>还款管理</a>
+                </div>
+            </li>
+            <li ng-if="$menu.loanMonitor.show" ng-class="{'active': $state.is('Monitor.search') || $state.is('Monitor.result') || $state.is('Monitor.list')}">
+                <a href="/monitor/list" class="parent-menu"><i class="icon-menu-daizhongjiankong"></i>贷后监控</a>
+            </li>
+            <li ng-if="$menu.overdueManage.show" ng-class="{'active':  $state.includes('Overdue.*')}">
+                <a href="/overdue/list" class="parent-menu"><i class="icon-menu-daizhongjiankong"></i>逾期管理</a>
+            </li>
+            <li ng-if="$menu.merchant.show" ng-class="{'active': $state.includes('Merchant.*')}">
+                <a href="/merchant/list" class="parent-menu"><i class="icon-icon-shanghuguanli"></i>商户管理</a>
+            </li>
+            <li ng-if="$menu.loanManage.show" ng-class="{'active': $state.is('AntiFraud.loanManageList') || $state.is('AntiFraud.loanManageDetail')}">
+                <a href="/antifraud/loan_list?root={{$menu.loanManage.id}}" class="parent-menu"><i class="icon-imenu-jiekuangaunli"></i>借款管理</a>
+            </li>
+            <li ng-if="$menu.systemManage.show" class="have-sub-menu" ng-class="{'active': $state.includes('Intercalate.*') || $state.includes('Intercalate.*.*') || $state.includes('Application.*')}">
+                <a class="parent-menu"  ng-click="vm.intercalateClick('intercalate')"><i class="icon-menu-xitongguanli" ></i>系统管理<i class="jiantou" ng-class="{'icon-icon-jiantouright':!vm.slideDown.intercalate,'icon-icon-jiantoudown':vm.slideDown.intercalate}"></i></a>
+                <div class="left-menu-slidebar"  ng-if="vm.slideDown.intercalate" >
+                    <a class="sub-menu" ng-class="{'active': $state.is('Intercalate.product')||$state.is('Intercalate.productModify')||$state.is('Intercalate.productDetail')}" href="/intercalate/product" ng-if="$second.productManage.show"><span></span>信贷产品管理</a>
+                    <a class="sub-menu" ng-class="{'active': $state.is('Application.list') || $state.is('Application.Modify')}" href="/application/list" ng-if="$second.application.show"><span></span>申请表管理</a>
+                    <a class="sub-menu" ng-class="{'active': $state.is('Intercalate.conmpanyInfor')}" href="/intercalate/conmpany_infor" ng-if="$second.companyInfo.show"><span></span>公司信息</a>
+                    <a class="sub-menu" ng-class="{'active': $state.is('Intercalate.account.list')||$state.is('Intercalate.accountCreate')||$state.is('Intercalate.accountModify')||$state.is('Intercalate.accountDetail')}" href="/intercalate/account_manage/list" ng-if="$second.accountManage.show"><span></span>账号管理</a>
+                    <a class="sub-menu" ng-class="{'active': $state.is('Intercalate.rolelist')||$state.is('Intercalate.roleDetail.list')||$state.is('Intercalate.roleModify.list')}" href="/intercalate/role_manage_list" ng-if="$second.roleManage.show"><span></span>角色管理</a>
+                    <a class="sub-menu" ng-class="{'active': $state.is('Intercalate.reset')}" href="/intercalate/reset"><span></span>重置密码</a>
+                </div>
+            </li>
+
+            <!-- <li>
+                <a href="/life_cycle/customer_potential" class="parent-menu"><i class=""></i>规则引擎</a>
+            </li>
+            <li>
+                <a href="/life_cycle/customer_potential" class="parent-menu"><i class=""></i>数据API</a>
+            </li> -->
+
+        </ul>
+    </nav>
+    <div class="right-bar">
+        <div ui-view class="right-bar-inner">
+        </div>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="JS_errAlertTemplate">
+    <div class="m-modal">
+        <div class="m-bar">
+            <div class="m-tl"><i class='icon-tanhao'></i></div>
+        </div>
+        <div class="m-cnt">
+            <p ng-bind="internetErrMsg" class="font-16"></p>
+        </div>
+        <div class="m-btn">
+            <a href="javascript:;" class="m-y-btn" ng-click="closeThisDialog()">确认</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="JS_errConfirmTemplate">
+    <div class="m-modal">
+        <div class="m-bar">
+            <div class="m-tl"><i class='icon-tanhao'></i></div>
+        </div>
+        <div class="m-cnt">
+            <p ng-bind="internetErrMsg" class="font-16"></p>
+        </div>
+        <div class="m-btn">
+            <a href="javascript:;" class="m-y-btn" ng-click="confirm()">确认</a>
+        </div>
+    </div>
+</script>

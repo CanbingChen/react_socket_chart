@@ -1,0 +1,67 @@
+<!-- 账号列表 -->
+<div class="list-header clearfix" ng-if="vm.thisState === 'Intercalate.account.list'">
+	<div class="list-header-l">
+		<h2 class="">账号管理</h2>
+	</div>
+	<div class="list-header-r   clearfix">
+		<div class="phone-l merchant-phone-l clearfix" >
+			<label class="common-search-box ">
+				<input type="text" placeholder="请输入账号名称或员工姓名搜索" ng-model="vm.postParams.name" ng-keyup="vm.searchAccount($event)">
+			</label>
+			<span ng-click="vm.searchAccount()" class="merchant-search-btn"><i class="icon-fangdajing"></i><span>搜索</span>
+		</span>
+		<a href="/intercalate/account_manage_create" class="common-sucess-btn btn merchant-list-search"><i class="icon-xinzeng"></i>创建账号</a>
+		</div>
+	</div>
+</div>
+<!-- 列表 -->
+<div class="list-table">
+	<table class="common-table">
+		<thead>
+			<tr>
+				<th class="account">账号</th>
+				<th class="name">员工姓名</th>
+				<th class="left">账号角色</th>
+				<th ng-if="vm.thisState === 'Intercalate.account.list'">创建人账号</th>
+				<th ng-if="vm.thisState === 'Intercalate.account.list'">创建时间</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="accountItem in vm.accountList">
+				<td class="account" ng-bind="accountItem.loginName"></td>
+				<td class="name" ng-bind="accountItem.name"></td>
+				<td class="left" ng-bind="accountItem.roleNames" ng-attr-title="{{accountItem.roleAll}}"></td>
+				<td ng-bind="accountItem.createUserName" ng-if="vm.thisState === 'Intercalate.account.list'"></td>
+				<td ng-bind="accountItem.createTime | emptyFilter | date:'yyyy-MM-dd'" ng-if="vm.thisState === 'Intercalate.account.list'"></td>
+				<td ng-bind="accountItem.status"></td>
+				<td >
+					<a class="check-detail"  href="/intercalate/account_manage_detail?id={{accountItem.id}}">查看详情</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="loader-box" ng-if="vm.isSearching">
+		<div class="bg-white">
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+				<div class="rect6"></div>
+				<div class="rect7"></div>
+				<div class="rect8"></div>
+			</div>
+			<span>查询中，请耐心等待...</span>
+		</div>
+	</div>
+	<div ng-if="vm.accountList.length === 0" class="empty-info">
+		<span class="empty-img"></span>
+		<span class="empty-text">暂无账号信息，赶快去添加吧！</span>
+	</div>
+</div>
+<!-- <div ng-if="vm.accountList.length > 0" class="pagination-ng" pagination-directive page-index="vm.postParams.pageNum" page-total="vm.pageTotal"> -->
+<pagination-counts-directive ng-if="vm.accountList.length > 0"  page-index="vm.postParams.pageNum" total="vm.total" page-total="vm.pageTotal" counts="vm.postParams.pageCount" counts-array="vm.pageCountsArray">
+</pagination-counts-directive>

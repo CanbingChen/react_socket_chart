@@ -1,0 +1,118 @@
+@import "./base/mixin";
+// @import "./base/reset";
+// @import "./base/toast";
+// @import "./base/transition";
+// @import "./base/swiper";
+// @import "./pages/query";
+// @import "./pages/detail";
+// @import "./pages/parts";
+@import "./pages/chart";
+/* 请浮动 */
+.clearfix {
+    &:after {
+        content: '\20';
+        display: block;
+        height: 0;
+        clear: both;
+    }
+}
+html {
+    height: 100%;
+}
+body{
+    min-height: 100%;
+    background-color: #f2f4f6;
+}
+
+.main-ui-view{
+    height: 100%;
+    animation: moveIn .3s ease-in-out;
+}
+
+@keyframes moveIn{
+    from {
+        opacity: 0;
+        transform: translateY(0.133333rem);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn{
+    from {
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+.pull-to-refresh {
+  position: relative;
+  display: block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  // height: 40px;
+  padding: 20px 0;
+  border-bottom: 1px dashed #ccc;
+  text-align: center;
+  line-height: 40px;
+  -webkit-transition-duration: 400ms;
+  -moz-transition-duration: 400ms;
+  transition-duration: 400ms;
+  -webkit-transition-property: margin;
+  -moz-transition-property: margin;
+  transition-property: margin;
+  // Make block visible to gpu scroll
+  -webkit-transform: translateZ(0px);
+  -moz-transform: translateZ(0px);
+  transform: translateZ(0px);
+}
+
+.main-container{
+  padding-bottom: 1.28rem;
+}
+
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 1.5rem;
+  background-color: #ffffff;
+  border-top: 1px solid #ebebeb;
+  z-index: 10000;
+  li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    padding-top: 0.2rem;
+    a {
+      display: block;
+    }
+    svg {
+      width: 0.586667rem;
+      height: 0.533333rem;
+      text-align: center;
+      margin-bottom: 0.133333rem;
+    }
+    span {
+      color: #969696;
+      display: block;
+      .fz(14px);
+    }
+
+    &.active {
+      span {
+        color: #1596f5;
+      }
+    }
+  }
+}

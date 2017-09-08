@@ -1,0 +1,53 @@
+<div class="anti-search-container">
+	<div class="search-header manage-header">
+		<h2>系统管理</h2>
+	</div>
+	<div class="merchant-infor">
+		<h2 class="detail-title CI-title">
+			<span>公司信息</span>
+		</h2>
+		<div class="merchant-infor-content merchant-edit-content company-infor-content">
+			<ul class="merchant-infor-text CI-text">
+				<li><span class="edit-input-label CI-label">公司名称：</span><span class="edit-input-block">
+					<span>{{vm.companyInfor.name|emptyFilter}}</span>
+				</span></li>
+				<li><span class="edit-input-label CI-label">公司地址：</span><span class="edit-input-block">
+					<span>{{vm.address|emptyFilter}}</span>
+				</span></li>
+				<li><span class="edit-input-label CI-label">工商注册号：</span><span class="edit-input-block">
+					<span>{{vm.companyInfor.commerceNumber|emptyFilter}}</span>
+				</span></li>
+				<li><span class="edit-input-label CI-label">组织机构代码：</span><span class="edit-input-block">
+					<span>{{vm.companyInfor.organizeCode|emptyFilter}}</span>
+				</span></li>
+				<li><span class="edit-input-label CI-label">税务登记证号：</span><span class="edit-input-block">
+					<span>{{vm.companyInfor.taxNumber|emptyFilter}}</span>
+				</span></li>
+				<li><span class="edit-input-label CI-label">联系人姓名：</span><span class="edit-input-block">
+					<span>{{vm.companyInfor.contactName|emptyFilter}}</span>
+				</span></li>
+				<li><span class="edit-input-label CI-label">联系人电话：</span><span class="edit-input-block">
+					<span>{{vm.companyInfor.contactPhone|emptyFilter}}</span>
+				</span></li>
+				<li><span class="edit-input-label CI-label">身份证号：</span><span class="edit-input-block">
+					<span>{{vm.companyInfor.Id|emptyFilter}}</span>
+				</span></li>
+				<li><span class="edit-input-label CI-label">合同附件：</span><span class="edit-input-block">
+					<span ng-if="vm.companyInfor.contract">{{vm.companyInfor.contract|emptyFilter}}<a class="contract-download-button" ng-click="vm.downloadContract(vm.companyInfor.contractUrl)"><i class="icon-icon_xiazai"></i>下载合同附件</a></span>
+					<span ng-if="!vm.companyInfor.contract">--</span>
+				</span></li>
+			</ul>
+			<div class="license-block merchant-infor-img edit-infor-img CI-img">
+				<div class="img-block">
+					<img ng-if="vm.companyInfor.officeSeal" class="normal-img" ng-src="{{vm.companyInfor.officeSeal}}" ng-click="vm.showModal(vm.companyInfor.officeSeal)"/>
+					<img ng-if="!vm.companyInfor.officeSeal" class="normal-img" src="/static/assets/images/weishangchuangongzhang.png"/>
+					<p class="office-seal-title">企业公章</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/ng-template" id="JS_imgAlert">
+		<div class="alert-img-exit" ng-click="closeThisDialog()"></div>
+        <img ng-src="{{vm.src}}" alt=""/>
+</script>

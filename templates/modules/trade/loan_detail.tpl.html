@@ -1,0 +1,116 @@
+<div class="anti-result-container loan-manage">
+	<div class="search-header loan-detail-header">
+		<div class="link">
+			<a href="/trade/loan_list">还款管理</a>&nbsp;&gt;
+			<span>借款详情</span>
+		</div>
+		<h2>
+		    借款详情
+			<a ng-click="vm.contactEvent('download')" ng-if="vm.loanDetail.signId" target="_blank" class="btn loan-detail-export contact-button"><i class="icon-icon_xiazai"></i>下载合同</a>
+			<a ng-if="vm.loanDetail.signId" ng-click="vm.contactEvent('see')" target="_blank"  class="btn loan-detail-export contact-button"><i class="icon-yulan"></i>预览合同</a>
+		</h2>
+	</div>
+	<!-- <div class="result-body" ng-if="!vm.isSearching"> -->
+	<div class="result-body">
+		<div class="content">
+			<ul>
+				<li>
+					<span class="name">借款人姓名:</span>
+					<span class="value" ng-bind="vm.loanDetail.name | emptyFilter"></span>
+				</li>
+				<li>
+					<span class="name">手机号码:</span>
+					<span class="value" ng-bind="vm.loanDetail.telphone | emptyFilter"></span>
+				</li>
+                <li>
+					<span class="name">身份证号码:</span>
+					<span class="value" ng-bind="vm.loanDetail.idCard | emptyFilter"></span>
+				</li>
+                <li>
+					<span class="name">订单号:</span>
+					<span class="value" ng-bind="vm.loanDetail.intoNumber | emptyFilter"></span>
+				</li>
+                <li>
+                   <span class="name">申请日期:</span>
+                   <span class="value" ng-bind="vm.loanDetail.intoTime | emptyFilter |date:'yyyy-MM-dd'"></span>
+               </li>
+				<li>
+					<span class="name">借记卡:</span>
+					<span class="value" ng-bind="vm.loanDetail.bankNum | emptyFilter"></span>
+				</li>
+				<li>
+					<span class="name">购买商品:</span>
+					<span class="value" ng-bind="vm.loanDetail.product | emptyFilter"></span>
+				</li>
+				<li>
+					<span class="name">商户名称:</span>
+					<span class="value" ng-bind="vm.loanDetail.merchantName | emptyFilter"></span>
+				</li>
+				<li>
+					<span class="name">还款方式:</span>
+					<span class="value" ng-bind="vm.loanDetail.repayMethod"></span>
+				</li>
+				<li>
+					<span class="name">借款金额:</span>
+					<span class="value" ng-bind="vm.loanDetail.applyMoneys | emptyFilter"></span><span ng-if="vm.loanDetail.applyMoneys !== '--'">元</span>
+				</li>
+				<li>
+					<span class="name">分期期数:</span>
+					<span class="value" ng-bind="vm.loanDetail.instalments"></span>
+				</li>
+				<li>
+					<span class="name">月还款金额:</span>
+					<span class="value" ng-bind="vm.repayPerMonth | emptyFilter"></span>
+				</li>
+                <li>
+					<span class="name">订单状态:</span>
+					<span class="value loan-status" ng-bind="vm.showLoanStatus | emptyFilter"></span>
+				</li>
+                <li>
+                   <span class="name">放款时间:</span>
+                   <span class="value" ng-bind="vm.loanTime | emptyFilter |date:'yyyy-MM-dd'"></span>
+               </li>
+			</ul>
+		</div>
+		<div class="loan-btn-group" ng-if="vm.loanDetail.status === vm.orderStatusObj.waitSureLend">
+			<span class="btn btn-sure" ng-click="vm.showModal('loanDetailTemplate',vm.ensureObj.success)">确认放款</span>
+			<span class="btn btn-failure" ng-click="vm.showModal('loanDetailTemplate',vm.ensureObj.failure)">拒绝放款</span>
+		</div>
+	</div>
+
+	<div class="result-body"  ng-if="vm.isSearching">
+		<div class="bg-white">
+
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+				<div class="rect6"></div>
+				<div class="rect7"></div>
+				<div class="rect8"></div>
+			</div>
+			<span>添加中，请耐心等待...</span>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="loanDetailTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p ng-bind="vm.ensureInfo"></p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.ensure()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="JS_imgAlert">
+		<div class="alert-img-exit" ng-click="closeThisDialog()"></div>
+        <img ng-src="{{vm.src}}" alt=""/>
+</script>

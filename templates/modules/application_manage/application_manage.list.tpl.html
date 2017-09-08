@@ -1,0 +1,66 @@
+<div class="anti-list-container merchant-list" >
+	<div class="list-header clearfix">
+		<div class="list-header-l">
+			<h2 class="">申请表列表</h2>
+		</div>
+		<div class="list-header-r   clearfix">
+			<div class="phone-l merchant-phone-l clearfix" >
+			<button ng-disabled="!vm.buttonInfo.operate.show" ui-sref="Application.Modify" class="power-btn common-sucess-btn btn monitor-add-btn merchant-list-search" ng-class="{'disabled-btn':!vm.buttonInfo.operate.show}"><i class="icon-xinzeng"></i>新增申请表</button>
+			</div>
+		</div>
+	</div>
+	<div class="list-table" >
+		<table class="common-table credit-table" ng-if="!vm.isSearching">
+			<thead>
+				<tr>
+					<th>申请表编号</th>
+					<th>申请表名称</th>
+					<th>创建时间</th>
+					<th>申请表状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="application in vm.applicationList">
+					<td ng-bind="application.number | emptyFilter"></td>
+					<td ng-bind="application.name | emptyFilter"></td>
+					<td ng-bind="application.createTime | emptyFilter | date:'yyyy-MM-dd'"></td>
+					<td ng-bind="application.statusText | emptyFilter"></td>
+					<td class="">
+						<button class="power-a check-detail" ng-disabled="!vm.buttonInfo.operate.show" ui-sref="Application.Modify({applyId:application.id})" ng-class="{'disabled-a':!vm.buttonInfo.operate.show}">编辑</button>
+						<a class="check-detail" ng-click="vm.previewApplication(application.id)">预览</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<script type="text/ng-template" id="JS_prewiew">
+			<span class="name">{{vm.applicationName}}（预览）</span>
+			<div class="preview-img-exit" ng-click="closeThisDialog()"></div>
+			<preview-application application="vm.application" ng-if="vm.application&&!vm.isReq"></preview-application>
+			<preview-loader ng-if="!vm.application||vm.isReq"></preview-loader>
+		</script>
+		<div class="result-body loader-box" ng-if="vm.isSearching">
+			<div class="bg-white">
+				<div class="spinner">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
+					<div class="rect6"></div>
+					<div class="rect7"></div>
+					<div class="rect8"></div>
+				</div>
+				<span>查询中，请耐心等待...</span>
+			</div>
+		</div>
+		<div ng-if="vm.applicationList.length === 0" class="empty-info">
+			<span class="empty-img"></span>
+			<span class="empty-text">暂无申请表信息，赶快去添加吧！</span>
+		</div>
+</div>
+<pagination-counts-directive ng-if="vm.applicationList.length > 0"  page-index="vm.params.page" total="vm.total" page-total="vm.pageTotal" counts="vm.params.count" counts-array="vm.pageCountsArray">
+</pagination-counts-directive>
+<!-- <div ng-if="vm.applicationList.length > 0" class="pagination-ng" pagination-directive page-index="vm.params.page" page-total="vm.pageTotal"> -->
+	</div>
+</div>

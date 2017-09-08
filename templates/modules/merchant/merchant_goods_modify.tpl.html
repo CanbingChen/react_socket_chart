@@ -1,0 +1,98 @@
+<div class="anti-search-container merchant-detail">
+	<div class="search-header detail-header">
+		<div class="detail-header-l clearfix">
+			<div class="link">
+				<span ng-if="vm.isEdit"><a href="/merchant/list">商户管理</a>&gt;<a href="/merchant/commodity?merchantId={{vm.merchantId}}&pageNum=1&pageCount=20&goodsStatus=0">商品管理</a>&gt;商品详情</span>
+				<span ng-if="vm.isCreate"><a href="/merchant/list">商户管理</a>&gt;<a href="/merchant/commodity?merchantId={{vm.merchantId}}&pageNum=1&pageCount=20&goodsStatus=0">商品管理</a></span>
+			</div>
+			<h2>{{vm.headerMsg}}</h2>
+		</div>
+	</div>
+	<div class="merchant-infor">
+		<div class="goods-infor-content">
+			<ul class="goods-modify">
+				<li class="goods-info" ng-if="vm.isEdit">
+					<span class="edit-input-label">商品编号：</span>
+					<span ng-bind="vm.id"></span>
+				</li>
+				<li>
+					<span class="must-write edit-input-label">商品名称：</span>
+					<span>
+						<input ng-model="vm.goodsName" type="text"  placeholder="20个字以内" />
+						<p class="edit-error-msg" class="edit-error-msg" ng-bind="vm.error.name"></p>
+					</span>
+				</li>
+				<li>
+					<span class="must-write edit-input-label">商品价格：</span>
+					<span>
+						<input ng-model="vm.price" type="text"  placeholder="0.00" />
+						<p class="edit-error-msg" class="edit-error-msg" ng-bind="vm.error.price"></p>
+						<span class="yuan">元</span>
+					</span>
+				</li>
+				<li>
+					<span class="must-write edit-input-label">状态：</span>
+					<zs-select class="form-control anti-select goods-select" selected-value="vm.status"  options="vm.productTypeArray"></zs-select>
+				</li>
+				<li>
+					<span class="must-write edit-input-label loan-label">借款金额：</span>
+					<span class="edit-input-block">
+						<ul class="loanAmount">
+							<li>
+								<input type="radio" ng-value="1" ng-model="vm.loanType" id="customLoan" name="selectLoanMoney">
+								<label for="customLoan">自填金额</label>
+							</li>
+							<li>
+								<input type="radio" ng-value="2" ng-model="vm.loanType" id="fixLoan" name="selectLoanMoney">
+							<label for="fixLoan">固定金额</label>
+							</li>
+							<li>
+								<input ng-model="vm.loanMoney" type="text"  placeholder="请填入商品可借金额" />
+								<span class="yuan">元</span>
+								<p class="edit-error-msg" class="edit-error-msg" ng-bind="vm.error.loan"></p>
+							</li>
+						</ul>
+					</span>
+				</li>
+				<li class="goods-info" ng-if="vm.isEdit">
+					<span class="edit-input-label">下单量：</span>
+					<span ng-bind="vm.sold"></span>
+				</li>
+				<li class="goods-info" ng-if="vm.isEdit">
+					<span class="edit-input-label">创建时间：</span>
+					<span ng-bind="vm.createTime | emptyFilter| date:'yyyy-MM-dd'"></span>
+				</li>
+				<div class="confirm clearfix">
+					<a href="javascript:;" onClick="javascript: history.go(-1);" class="merchant-edit-button button-cancel">取消</a>
+					<a href="javascript:;" class="merchant-edit-button button-confirm" ng-click="vm.checkInput()">保存</a>
+				</div>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="submitSuccess">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tijiaochenggong'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.msg}}</p>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="JS_left">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.modalMsg}}</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="confirm()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>

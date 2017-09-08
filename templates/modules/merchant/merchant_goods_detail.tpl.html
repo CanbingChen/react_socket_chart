@@ -1,0 +1,67 @@
+<div class="anti-search-container merchant-detail">
+	<div class="search-header detail-header">
+		<div class="detail-header-l clearfix">
+			<div class="link">
+				<a href="/merchant/list">商户管理</a>&gt;<a href="/merchant/commodity?merchantId={{vm.merchantId}}&pageNum=1&pageCount=20&status=0">商品管理</a>&gt;商品详情
+			</div>
+			<h2>商品详情</h2>
+		</div>
+		<div class="detail-header-r">
+			<button ng-disabled="!vm.buttonInfo.manage.show" class="power-btn common-sucess-btn btn edit-detail" ui-sref="Merchant.goodsModify({merchantId:vm.merchantId,id:vm.goodsInfo.id})" ng-class="{'disabled-btn':!vm.buttonInfo.manage.show}">
+				<i class="icon-icon-bianji"></i>编辑
+			</button>
+			<button ng-disabled="!vm.buttonInfo.manage.show" class="power-btn delet-goods" ng-click="vm.deletModal('confirmDelete')" ng-class="{'disabled-btn':!vm.buttonInfo.manage.show}">
+				<i class="icon-xinzeng"></i>删除
+			</button>
+		</div>
+	</div>
+	<div class="merchant-infor">
+		<div class="goods-infor-content">
+			<ul class="goods-detail">
+				<li>
+					<span class="CI-label">商品编号：</span>
+					<span>{{vm.goodsInfo.id}}</span>
+				</li>
+				<li>
+					<span class="CI-label">商品名称：</span>
+					<span>{{vm.goodsInfo.name}}</span>
+				</li>
+				<li>
+					<span class="CI-label">商品价格：</span>
+					<span>{{vm.goodsInfo.price}}元</span>
+				</li>
+				<li>
+					<span class="CI-label">借款金额：</span>
+					<span>{{vm.goodsInfo.loanAmount}}</span>
+				</li>
+				<li>
+					<span class="CI-label">状态：</span>
+					<span>{{vm.goodsInfo.status}}</span>
+				</li>
+				<li>
+					<span class="CI-label">下单量：</span>
+					<span>{{vm.goodsInfo.sold}}</span>
+				</li>
+				<li>
+					<span class="CI-label">创建时间：</span>
+					<span>{{vm.goodsInfo.createTime | emptyFilter| date:'yyyy-MM-dd'}}</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="confirmDelete">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon iconfont icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>删除商品后不可恢复，确认删除吗？</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.ensure()">删除</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>

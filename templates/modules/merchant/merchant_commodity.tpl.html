@@ -1,0 +1,78 @@
+<div class="anti-list-container merchant-list">
+	<div class="search-header detail-header">
+		<div class="detail-header-l clearfix">
+			<div class="link">
+				<a href="/merchant/list">商户管理</a>&gt;查看商品
+			</div>
+			<h2>商品管理</h2>
+		</div>
+		<div class="detail-header-r">
+			<button ng-disabled="!vm.buttonInfo.manage.show" class="power-btn common-sucess-btn btn edit-detail" ui-sref="Merchant.goodsCreate({merchantId:vm.merchantId})" ng-class="{'disabled-btn':!vm.buttonInfo.manage.show}">
+				<i class="icon-icon-bianji"></i>发布商品
+			</button>
+		</div>
+	</div>
+	<div class="goods-status">
+		<div class="detail-header-l">
+			<label for="" class="anti-select-label">状态：</label>
+			<zs-select  class="form-control anti-select goods-select" selected-value="vm.postParams.status"  options="vm.goodsStatusArr" on-change="vm.changeGoodsStatus">
+			</zs-select>
+		</div>
+		
+		
+	</div>
+
+	<div class="list-table">
+		<table class="common-table " ng-if="vm.commodityList.length > 0&&!vm.isSearching">
+			<thead>
+				<tr>
+					<th>商品编号</th>
+					<th>商品名称</th>
+					<th>价格（元）</th>
+					<th>借款金额（元）</th>
+					<th>下单量</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="goodsItem in vm.commodityList" class="{{goodsItem.statusClass}}">
+					<td ng-bind="goodsItem.id | emptyFilter"></td>
+					<td ng-bind="goodsItem.name | emptyFilter"></td>
+					<td ng-bind="goodsItem.price | emptyFilter"></td>
+					<td ng-bind="goodsItem.loanAmount | emptyFilter"></td>
+					<td ng-bind="goodsItem.sold | emptyFilter"></td>
+					<td ng-bind="goodsItem.statusText | emptyFilter"></td>
+					<td>
+						<!-- <a class="check-detail" ng-click="vm.ableCommodity(goodsItem.id, 2)">禁用</a>
+						<a class="check-detail" ng-click="vm.ableCommodity(goodsItem.id, 1)">启用</a> -->
+						<a class="check-detail" href="/merchant/goods_detail?merchantId={{vm.merchantId}}&id={{goodsItem.id}}">查看详情</a>
+						<button ng-disabled="!vm.buttonInfo.manage.show" class="power-a check-detail" ng-click="vm.ableCommodity(goodsItem.id,goodsItem.status)" ng-bind="goodsItem.operate" ng-class="{'disabled-a':!vm.buttonInfo.manage.show}"></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="result-body loader-box" ng-if="vm.isSearching">
+			<div class="bg-white">
+				<div class="spinner">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
+					<div class="rect6"></div>
+					<div class="rect7"></div>
+					<div class="rect8"></div>
+				</div>
+				<span>查询中，请耐心等待...</span>
+			</div>
+		</div>
+		<div ng-if="vm.commodityList.length === 0" class="empty-info">
+			<span class="empty-img"></span>
+			<span class="empty-text">暂无商品信息，赶快去添加吧！</span>
+		</div>
+</div>
+<pagination-counts-directive ng-if="vm.commodityList.length > 0" page-index="vm.postParams.pageNum" total="vm.pagination.total" page-total="vm.pagination.pageTotal" counts="vm.postParams.pageCount" counts-array="vm.pageCountsGoods">
+</pagination-counts-directive>
+</div>
+</div>

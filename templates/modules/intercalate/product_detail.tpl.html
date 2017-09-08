@@ -1,0 +1,124 @@
+<div class="anti-search-container merchant-edit merchant-detail">
+    <div class="search-header detail-header">
+        <div class="detail-header-l clearfix">
+            <div class="link">
+                <a href="/intercalate/product">信贷产品管理</a>&gt;产品详情
+            </div>
+            <h2>{{vm.productDetail.name}}</h2>
+        </div>
+        <div class="detail-header-r">
+            <button class="power-btn" ng-disabled="!vm.buttonInfo.operate.show" ng-click=" vm.showConfirmModal('Js_confirmCooperate',vm.cooperationStatusText)" ng-class="{'pause':vm.cooperationStatusText === vm.statusObj.disabled.name,'disabled-btn':!vm.buttonInfo.operate.show}">{{vm.cooperationStatusText}}</button>
+        </div>
+    </div>
+    <div class="merchant-infor">
+        <h2 class="detail-title">
+			<span>产品信息</span>
+            <button ng-disabled="!vm.buttonInfo.operate.show" ui-sref="Intercalate.productModify({id:vm.id})" class="power-a modify-button" ng-class="{'disabled-a':!vm.buttonInfo.operate.show}"><i class="icon-icon-bianji"></i>修改信息</button>
+		</h2>
+        <div class="merchant-infor-content">
+            <ul class="product-detail-list">
+                <li><span class="product-label-left">信贷产品名称：</span>{{vm.productDetail.name}}</li>
+                <li><span class="product-label-left">还款方式：</span>{{vm.productDetail.repayType}}</li>
+                <li><span class="product-label-left">进件申请表：</span><span>{{vm.productDetail.applyTableName}} <a class="preview-active" ng-click="vm.previewApplication(vm.productDetail.applyTableId)">预览表单</a></span></li>
+                <li class="trial-row clearfix">
+                    <span class="trial-title"><span class="product-label-left">试算表：</span></span>
+                    <div class="table-block">
+                    	<table class="merchant-trial-table">
+                    	    <thead>
+                    	        <th>期数</th>
+                    	        <th>月利率(%)</th>
+                    	        <th>手续费率(%)</th>
+                    	        <th>月服务费(%)</th>
+                    	    </thead>
+                    	    <tbody>
+                    	        <tr ng-repeat="trialItem in vm.productDetail.interest track by $index" >
+                    	            <td>{{trialItem.name}}</td>
+                    	            <td>{{trialItem.month_rate}}</td>
+                    	            <td>{{trialItem.month_manage_rate}}</td>
+                    	            <td>{{trialItem.month_serve}}</td>
+                    	        </tr>
+                    	    </tbody>
+                    	</table>
+                    </div>
+                </li>
+                <li>
+                    <ul class="merchant-infor-text product-create-text clearfix">
+                        <li>
+                            <ul>
+                                <li class="over">
+                                    <span class="must-write edit-input-label">逾期罚息：</span>
+                                    <zs-select class="form-control anti-select" selected-value="vm.productDetail.overdueType"  options="vm.OVER_DUE_TYPE_MAP" is-disabled="true"></zs-select>
+                                    <p class="edit-error-msg" ng-bind="vm.errMsg.overdueType" class="edit-error-msg" ></p>
+                                </li>
+                                <li class="daily-interst">
+                                    <span class="edit-input-label">日息：</span>
+                                    <input type="text" placeholder="请输入日息" ng-model="vm.productDetail.overdueRate" ng-disabled="true">&nbsp;%
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li><span class="must-write edit-input-label">打款给：</span>
+                            <zs-select class="form-control anti-select" selected-value="vm.productDetail.recieveType"  options="vm.RECIEVE_TYPE_MAP" is-disabled="true"></zs-select>
+                            <p class="edit-error-msg" ng-bind="vm.errMsg.recieveType" class="edit-error-msg" ></p>
+                        </li>
+                        <li><span class="must-write edit-input-label">产品状态：</span>
+                            <zs-select class="form-control anti-select" selected-value="vm.productDetail.status"  options="vm.STATUS_MAP" is-disabled="true"></zs-select>
+                            <p class="edit-error-msg" ng-bind="vm.errMsg.status" class="edit-error-msg" ></p>
+                        </li>
+                    </ul>
+                </li>
+                <li class="trial-row clearfix" ng-if="vm.productDetail.merchantList.length>0">
+                    <span class="trial-title"><span class="product-label-left">签约商户：</span></span>
+                    <div>
+                    	<table class="merchant-trial-table">
+                    	    <thead>
+                    	        <th>商户名称</th>
+                    	        <th>商户等级</th>
+                    	        <th>主要联系人</th>
+                    	        <th>联系手机号码</th>
+                    	        <th>签约时间</th>
+                    	        <th>合作状态</th>
+                    	        <th>操作</th>
+                    	    </thead>
+                    	    <tbody>
+                    	        <tr ng-repeat="item in vm.productDetail.merchantList">
+                    	            <td ng-bind="item.merchantName"></td>
+                    	            <td ng-bind="item.level"></td>
+                    	            <td ng-bind="item.linkmanName"></td>
+                    	            <td ng-bind="item.linkmanPhone"></td>
+                    	            <td ng-bind="item.signTime"></td>
+                    	            <td ng-bind="item.merchantStatus"></td>
+                    	            <td><a href="/merchant/detail?id={{item.id}}">查看详情</a></td>
+                    	        </tr>
+                    	    </tbody>
+                    	</table>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="JS_imgAlert">
+    <div class="alert-img-exit" ng-click="closeThisDialog()"></div>
+    <img ng-src="{{vm.src}}" alt="" />
+</script>
+<script type="text/ng-template" id="JS_prewiew">
+    <span class="name">{{vm.applicationName}}（预览）</span>
+    <div class="preview-img-exit" ng-click="closeThisDialog()"></div>
+    <preview-application application="vm.application" ng-if="vm.application"></preview-application>
+    <preview-loader ng-if="!vm.application"></preview-loader>
+</script>
+<script type="text/ng-template" id="Js_confirmCooperate">
+    <div class="m-modal">
+        <div class="m-bar">
+            <div class="m-tl"><i class='icon-tanhao'></i></div>
+        </div>
+        <div class="m-cnt">
+            <p>确定{{vm.operateText}}该产品？</p>
+        </div>
+        <div class="m-btn">
+            <a href="javascript:;" class="m-y-btn" ng-click="vm.postProductStatus()&& closeThisDialog()">确认</a>
+            <a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,16 @@
+<div class="page-counts">
+    <div class="left-block">
+        <div class="total-block">
+            总条目数
+            <a ng-bind="total"></a>
+            条
+        </div>
+        <div class="counts-block">
+            每页显示
+             <zs-select  class="form-control anti-select" selected-value="counts"  options="countsArray"></zs-select>
+        </div>
+    </div>
+    <div class="right-block">
+       <div class="pagination-ng" pagination-directive page-index="pageIndex" page-total="pageTotal"></div>
+    </div>
+</div>

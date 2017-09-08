@@ -1,0 +1,58 @@
+<div class="anti-search-container">
+	<div class="search-header">
+		<div class="link">
+			<a href="/antifraud/list">用户进件列表</a>&gt查看报告
+		</div>
+		<h2>
+			进件申请表
+		</h2>
+	</div>
+	<div class="search-header manage-header ">
+
+	</div>
+	<div class="into-pieces">
+		<div class="into-title">
+			<span class="pieces-into-number">进件单号:{{vm.intoNumber}}</span>
+			<span>进件时间:{{vm.intoTime|date:'yyyy-MM-dd HH:mm:ss'}}</span>
+			<!-- span class="pieces-download" ng-click="vm.download()">
+				<i class="icon-icon_xiazai"></i>
+				下载申请表附件
+			</span> -->
+		</div>
+		<div class="into-pieces-item" ng-repeat="intoPiece in vm.intoPiecesData" ng-if="intoPiece.showBlock">
+			<div class="into-pieces-item-head item-head" ng-bind="intoPiece.moduleName"></div>
+			<div class="repayment-content content-block">
+				<ul>
+					<li ng-if="intoPiece.lists" ng-repeat="list in intoPiece.lists" class="clearfix single-line" ng-class="{'full-width': list.type === 'carNum' || list.type === 'houseNum'}">
+						<div class="key content-left-label" ng-bind="list.key | emptyFilter"></div>
+						<div class="value content-left-value" ng-bind="list.value | emptyFilter"></div>
+
+						<ul ng-if="list.children" ng-repeat="item in list.children">
+							<li ng-repeat="subItem in item" class="clearfix">
+								<div class="key content-left-label" ng-bind="subItem.key | emptyFilter"></div>
+								<div class="value content-left-value" ng-bind="subItem.value | emptyFilter"></div>
+							</li>
+						</ul>
+					</li>
+					<li ng-if="intoPiece.lists && intoPiece.lists.length % 2 !== 0">
+						<div class="key content-left-label">&nbsp;</div>
+						<div class="value content-left-value">&nbsp;</div>
+					</li>
+
+					<li ng-if="intoPiece.images && intoPiece.showImageBlock" ng-class="{'full-width':intoPiece.images}" ng-if="intoPiece.showImageBlock">
+						<ul class="other-content-files clearfix" ng-class="{'border-top':'intoPiece.lists.length !== 0'}">
+							<li ng-repeat="img in intoPiece.images track by $index" ng-if="img.show">
+								<img ng-src="{{img.imageUrl}}" alt="其他上传资料" ng-click="vm.showModal(img.imageUrl)">
+								<span ng-bind="img.imageDesc"></span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/ng-template" id="JS_imgAlert">
+		<div class="alert-img-exit" ng-click="closeThisDialog()"></div>
+        <img ng-src="{{vm.src}}" alt=""/>
+</script>

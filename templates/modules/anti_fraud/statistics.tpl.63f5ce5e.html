@@ -1,0 +1,226 @@
+<div class="right-bg">
+    <h2 class="today-header"><span>今日数据概览</span><span>Data Center</span></h2>
+
+    <!-- 今日数据概览 -->
+    <div class="white-container">
+        <div class="staistics-box">
+            <ul class="mar-statistics-list clearfix">
+                <li>
+                    <a href="/antifraud/list?intoPeriod=today&page=1&searchStatus=2&isSlideDown=1">
+                        <div class="bg-box">
+                            <p class="statistics-h"><span>今日成功进件</span></p>
+                            <p class="green-font"><span  class="num">{{vm.statisticsObj.todayInto | spliter}}</span><span class="num-label">次</span></p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/antifraud/list?intoPeriod=today&isBreakRule=1&page=1&isSlideDown=1">
+                        <div class="bg-box">
+                            <p class="statistics-h"><span>今日触犯欺诈规则</span></p>
+                            <p class="yellow-font"><span  class="num">{{vm.statisticsObj.todayRule | spliter}}</span><span class="num-label">次</span></p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/antifraud/list?approvePeriod=today&page=1&approveStatus=7&isSlideDown=1">
+                        <div class="bg-box">
+                            <p class="statistics-h"><span>今日审批通过</span></p>
+                            <p class="green-font"><span  class="num">{{vm.statisticsObj.todayApprove | spliter}}</span><span class="num-label">次</span></p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/antifraud/list?approvePeriod=today&approveStatus=8&page=1&isSlideDown=1">
+                        <div class="bg-box">
+                            <p class="statistics-h"><span>今日审批拒绝</span></p>
+                            <p class="red-font"><span  class="num">{{vm.statisticsObj.todayDeny | spliter}}</span><span class="num-label">次</span></p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/monitor/list?isBreakRule=0&page=1&isSlideDown=1">
+                        <div class="bg-box">
+                            <p class="statistics-h"><span>累计贷后监控</span></p>
+                            <p class="blue-font"><span class="num blue-font">{{vm.statisticsObj.todayMonitor | spliter}}</span><span class="num-label">人</span></p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="$state.go('Monitor.list' , {period: 'today', isUnusual: 1, isSlideDown: 1, page: 1, exponentNum: [1,2,3,4,5,6,7,8]})">
+                        <div class="bg-box">
+                            <p class="statistics-h"><span>今日贷后异常</span></p>
+                            <p class="red-font"><span class="num red-font">{{vm.statisticsObj.todayError | spliter}}</span><span class="num-label">人</span></p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 进件统计 -->
+    <div class="white-container">
+        <div class="chart-box">
+            <div class="chart-header">
+                <div class="chart-header-l">
+                    <h2>进件统计</h2>
+                </div>
+                <div class="chart-header-r">
+                    <div class="time-select-box">
+                        <span ng-class="{'active': (vm.antiPeriod === vm.dateOptionObj.all)}" ng-click="vm.changeAntiPeriod('all')">全部</span>
+                        <span class="divice">|</span>
+                        <span ng-class="{'active' : vm.antiPeriod === vm.dateOptionObj.week}" ng-click="vm.changeAntiPeriod('week')">近7天</span>
+                        <span class="divice">|</span>
+                        <span ng-class="{'active' : vm.antiPeriod === vm.dateOptionObj.month}" ng-click="vm.changeAntiPeriod('month')">近30天</span>
+                    </div>
+                    <div class="canlendar-box">
+                        <div class="select-date m-l-15" ng-class="{'active' : vm.antiPeriod === vm.dateOptionObj.other}">
+                            <div class="date-font">
+                                <span ng-bind="vm.antiPicker.start | date:'yyyy-MM-dd'"></span>
+                                <span>至</span>
+                                <span ng-bind="vm.antiPicker.end | date:'yyyy-MM-dd'"></span>
+                                <i id="anti-date-control" class="icon-riqi" ng-click="vm.openCalendar($event, 'antiPicker')"></i>
+                            </div>
+                            <div double-date-picker date-obj="vm.antiPicker" class="calendar service-list-calendar" pre-date-option="vm.dateOption" next-date-option="vm.dateOptions" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="chart-body clearfix">
+                <div class="chart-body-l" id="new-price-bar" style="height:374px" ng-if="vm.priceBarData">
+                    <bar node-id="new-price-bar"  data="vm.priceBarData" option="vm.priceBarOption" ></bar>
+                </div>
+                <div class="chart-body-r">
+                    <div class="chart-statistics-box">
+                        <div>
+                            <p class="statistics-h"><span>累计触犯规则</span></p>
+                            <p class="yellow-font"><span  class="num">{{vm.antiTotal.totalError | spliter}}</span><span class="num-label">人次</span></p>
+                        </div>
+
+                        <div class="percent-chart" id="anti-pie" style="width:128px;height:128px;margin:18px auto 0" ng-if="vm.antiPieOption">
+                            <pie node-id="anti-pie" option="vm.antiPieOption" data="vm.antiPieSeries">
+                            </pie>
+                        </div>
+
+                        <div class="chart-item">
+                            <p class="statistics-h"><span>累计成功进件</span></p>
+                            <p class="green-font"><span class="num green-font">{{vm.antiTotal.totalInto | spliter}}</span><span class="num-label">人次</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 审批统计 -->
+    <div class="white-container">
+        <div class="chart-box">
+            <div class="chart-header">
+                <div class="chart-header-l">
+                    <h2>审批统计</h2>
+                </div>
+                <div class="chart-header-r">
+                    <div class="time-select-box">
+                        <span ng-class="{'active': (vm.checkPeriod === vm.dateOptionObj.all)}" ng-click="vm.changeCheckPeriod('all')">全部</span>
+                        <span class="divice">|</span>
+                        <span ng-class="{'active' : vm.checkPeriod === vm.dateOptionObj.week}" ng-click="vm.changeCheckPeriod('week')">近7天</span>
+                        <span class="divice">|</span>
+                        <span ng-class="{'active' : vm.checkPeriod === vm.dateOptionObj.month}" ng-click="vm.changeCheckPeriod('month')">近30天</span>
+                    </div>
+                    <div class="canlendar-box">
+                        <div class="select-date m-l-15" ng-class="{'active' : vm.checkPeriod === vm.dateOptionObj.other}">
+                            <div class="date-font">
+                                <span ng-bind="vm.checkPicker.start | date:'yyyy-MM-dd'"></span>
+                                <span>至</span>
+                                <span ng-bind="vm.checkPicker.end | date:'yyyy-MM-dd'"></span>
+                                <i id="check-date-control" class="icon-riqi" ng-click="vm.openCalendar($event, 'checkPicker')"></i>
+                            </div>
+                            <div double-date-picker date-obj="vm.checkPicker" class="calendar service-list-calendar" pre-date-option="vm.checkEndOption" next-date-option="vm.checkStartOption" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="chart-body clearfix">
+                <div class="chart-body-l" id="check-price-bar" style="height:374px" ng-if="vm.checkBarData">
+                    <bar node-id="check-price-bar"  data="vm.checkBarData" option="vm.checkBarOption" ></bar>
+                </div>
+                <div class="chart-body-r">
+                    <div class="chart-statistics-box">
+                        <div>
+                            <p class="statistics-h"><span>通过率</span></p>
+                            <p class="green-font"><span class="num">{{vm.approvesTotal.totalApprove | spliter}}</span><span class="num-label">人次</span></p>
+                        </div>
+
+                        <div class="percent-chart" id="approve-pie" style="width:128px;height:128px;margin:18px auto 0" ng-if="vm.approvesPieOption">
+                            <pie node-id="approve-pie" option="vm.approvesPieOption" data="vm.approvesPieSeries">
+                            </pie>
+                        </div>
+
+                        <div class="chart-item">
+                            <p class="statistics-h"><span>累计成功进件</span></p>
+                            <p class="blue-font"><span class="num blue-font">{{vm.approvesTotal.totalInto | spliter}}</span><span class="num-label">人次</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 贷后监控统计 -->
+    <div class="white-container">
+        <div class="chart-box">
+            <div class="chart-header clearfix">
+                <div class="chart-header-l">
+                    <h2>贷后监控统计</h2>
+                </div>
+                <div class="chart-header-r clearfix">
+                    <div class="time-select-box">
+                        <span ng-class="{'active' : vm.monitorPeriod === vm.dateOptionObj.all}" ng-click="vm.changeMonitorPeriod('all')">全部</span>
+                        <span class="divice">|</span>
+                        <span ng-class="{'active' : vm.monitorPeriod === vm.dateOptionObj.week}" ng-click="vm.changeMonitorPeriod('week')">近7天</span>
+                        <span class="divice">|</span>
+                        <span ng-class="{'active' : vm.monitorPeriod === vm.dateOptionObj.month}" ng-click="vm.changeMonitorPeriod('month')">近30天</span>
+                    </div>
+                    <div class="canlendar-box">
+                        <div class="select-date m-l-15" ng-class="{'active' : vm.monitorPeriod === vm.dateOptionObj.other}">
+                            <div class="date-font">
+                                <span ng-bind="vm.monitorPicker.start | date:'yyyy-MM-dd'"></span>
+                                <span>至</span>
+                                <span ng-bind="vm.monitorPicker.end | date:'yyyy-MM-dd'"></span>
+                                <i id="monitor-date-control" class="icon-riqi" ng-click="vm.openCalendar($event, 'monitorPicker')"></i>
+                            </div>
+                            <div double-date-picker date-obj="vm.monitorPicker" class="calendar service-list-calendar" pre-date-option="vm.monitorEndOption" next-date-option="vm.monitorStartOption"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="chart-body clearfix">
+                <div class="chart-body-l" id="chart-line" ng-if="vm.lineOption" style="height:374px">
+                  <line node-id="chart-line"  data="vm.lineData" option="vm.lineOption"></line>
+                </div>
+                <div class="chart-body-r">
+                    <div class="chart-statistics-box">
+                        <div>
+                            <p class="statistics-h"><span>贷后异常</span></p>
+                            <p class="red-font"><span  class="num">{{vm.monitorTotal.totalError | spliter}}</span><span class="num-label">人</span></p>
+                        </div>
+                        <div class="percent-chart" id="monitor-pie" style="width:128px;height:128px;margin: 18px auto 0px;" ng-if="vm.monitorPieOption">
+                            <pie node-id="monitor-pie" option="vm.monitorPieOption" data="vm.monitorPieSeries">
+                            </pie>
+                        </div>
+                        <div class="chart-item">
+                            <p class="statistics-h"><span>累计监控</span></p>
+                            <p class="blue-font"><span ng-bind="vm.monitorTotal.totalMonitor | spliter" class="num blue-font"></span><span class="num-label">人</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

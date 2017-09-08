@@ -1,0 +1,34 @@
+<div class="into-pieces">
+	<div class="into-pieces-item" ng-repeat="intoPiece in vm.intoPiecesData"　ng-if="intoPiece.showBlock" ng-show="intoPiece.showBlock">
+		<div class="into-pieces-item-head item-head" ng-bind="intoPiece.moduleName"></div>
+		<!-- <span class="pieces-download download-h30" ng-click="vm.download()" ng-if="$first">
+			<i class="icon-icon_xiazai"></i>
+			下载申请表附件
+		</span> -->
+		<div class="repayment-content content-block">
+			<ul>
+				<li ng-if="intoPiece.lists" ng-repeat="list in intoPiece.lists" class="clearfix" ng-class="{'full-width':intoPiece.lists.length === 1}">
+					<div class="key content-left-label" ng-bind="list.key | emptyFilter"></div>
+					<div class="value content-left-value" ng-bind="list.value | emptyFilter"></div>
+				</li>
+				<li ng-if="intoPiece.lists && intoPiece.lists.length % 2 !== 0 && intoPiece.lists.length !== 1">
+					<div class="key content-left-label">&nbsp;</div>
+					<div class="value content-left-value">&nbsp;</div>
+				</li>
+
+				<li ng-if="intoPiece.images && intoPiece.images.length && intoPiece.showImageBlock" ng-class="{'full-width':intoPiece.images}">
+					<ul class="other-content-files clearfix" ng-class="{'border-top':'intoPiece.lists.length !== 0'}">
+						<li ng-repeat="img in intoPiece.images track by $index" ng-if="img.show">
+							<img ng-src="{{img.imageUrl}}" alt="{{img.imageDesc}}" ng-click="vm.showModal(img.imageUrl)">
+							<span ng-bind="img.imageDesc"></span>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/ng-template" id="JS_imgAlert">
+		<div class="alert-img-exit" ng-click="closeThisDialog()"></div>
+        <img ng-src="{{vm.src}}" alt=""/>
+</script>

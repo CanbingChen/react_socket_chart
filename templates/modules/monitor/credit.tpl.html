@@ -1,0 +1,223 @@
+<div class="anti-search-container">
+	<div class="credit clearfix">
+		<div class="search-header">
+			<div class="link">
+				<a href="/antifraud/list">用户进件列表</a>&nbsp;&gt;
+				<span>查看报告</span>
+			</div>
+			<h2>查看报告</h2>
+		</div>
+
+		<div class="credit-left">
+			<div class="into-title">
+				<span class="into-num">进件单号：<span ng-bind="vm.order.intoNumber"></span></span>
+				<span>进件时间：<span ng-bind="vm.order.intoTime | date: 'yyyy-MM-dd HH:mm:ss'"></span></span>
+				<!-- <button ng-if="$state.is('Monitor.credit.presentation')" class="export-pdf" ng-click="vm.exportPdf(vm.order)" ng-disabled="vm.order.id == -1">导出PDF</button> -->
+			</div>
+			<div class="credit-switch">
+				<a href="/monitor/credit/presentation?id={{vm.order.id}}&intoNumber={{vm.order.intoNumber}}&intoTime={{vm.order.intoTime}}&approveStatus={{vm.order.approveStatus}}" ng-class="{'click-active':($state.is('Monitor.credit.presentation'))}"><i class="icon-icon_xinyongbaogao"></i>信用报告</a><a href="/monitor/credit/into_pieces?id={{vm.order.id}}&intoNumber={{vm.order.intoNumber}}&intoTime={{vm.order.intoTime}}&approveStatus={{vm.order.approveStatus}}" ng-class="{'click-active':($state.is('Monitor.credit.intoPieces'))}"><i class="icon-icon_jinjianshenqingbiao"></i>进件申请表</a>
+			</div>
+			<div ui-view></div>
+		</div>
+		<div class="check-module" area-frozen top="30px" fix="right">
+			<p class="alert-info red-font" ng-if="vm.isLocked" >该进件{{vm.lockedUser}}审批员正在{{vm.recordStatusText}}，请稍后进行操作。</p>
+			<i class="rejected-mark" ng-if="vm.isFinished && vm.recordStatus === 8"></i>
+			<i class="passed-mark" ng-if="vm.isFinished && vm.recordStatus === 7"></i>
+			<div class="credit-right">
+				<div class="credit-examine">
+					<div class="examine-title clearfix">
+						<h2><i class="icon-icon_shenheyijian"></i>审核意见
+						<!-- <span ng-click="vm.modifyFinishedRecord()" ng-if="vm.isFinished">修改</span> -->
+						</h2>
+						<button class="start-check" ng-disabled="!vm.buttonInfo.addIntoPiece.show" ng-class="{'disabled-btn':!vm.buttonInfo.examineApplication.show}" ng-if="!vm.isOwnLocked && !vm.isFinished && !vm.isLocked" ng-click="vm.lockReport()" ng-disabled="vm.order.id == -1">开始审批</button>
+					</div>
+					<div class="check-box">
+						<div class="circle-0" ng-class="{'current': vm.consumeGrade === 0}">
+							<i></i>
+							<span>初审</span>
+						</div>
+						<ol class="clearfix">
+						   	<li ng-class="{'active': vm.checkStatus >= 2}">
+						   		<div class="line"></div>
+						   		<div class="g-circle"><span></span></div>
+						   		<div class="current-box">
+						   			<span>复审</span>
+						   		</div>
+						   	</li>
+						   	<li ng-class="{'active': vm.checkStatus >= 3}">
+						   		<div class="line"></div>
+						   		<div class="g-circle"><span></span></div>
+						   		<div class="current-box">
+						   			<span>终审</span>
+						   		</div>
+						   	</li>
+						</ol>
+					</div>
+				</div>
+				<!-- 初审 -->
+				<div class="opreation-container" ng-if="vm.checkStatus === 1">
+					<div class="mask" ng-if="!vm.isOwnLocked && !vm.isFinished"></div>
+					<div class="radio-container">
+						<ul>
+							<li class="radio-item" ng-repeat="(key, value) in vm.firstCheck">
+								<p class="radio-title">{{value}}：</p>
+								<p class="radio-line">
+									<label for="{{key}}1"><input type="radio" ng-disabled="vm.isFinished" value="1" name="{{key}}" id="{{key}}1" ng-model="vm.firstParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>肯定</span></label>
+									<label for="{{key}}2"><input type="radio" ng-disabled="vm.isFinished" value="2" name="{{key}}" id="{{key}}2" ng-model="vm.firstParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>不清楚</span></label>
+									<label for="{{key}}3"><input type="radio" ng-disabled="vm.isFinished" value="3" name="{{key}}" id="{{key}}3" ng-model="vm.firstParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>一般否定</span></label>
+									<label for="{{key}}4"><input type="radio" ng-disabled="vm.isFinished" value="4" name="{{key}}" id="{{key}}4" ng-model="vm.firstParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>一票否定</span></label>
+								</p>
+								<p class="err-msg" ng-if="vm.isShowFirstErr && !vm.firstParams[key]">请选择{{value}}</p>
+							</li>
+						</ul>
+					</div>
+
+					<div class="text-container">
+						<textarea name="" id="" cols="30" rows="10" ng-model="vm.firstParams.content" ng-if="!vm.isFinished"></textarea>
+
+						<div class="check-text" ng-if="vm.isFinished">
+							<label for="">初审审批意见：<span ng-bind="vm.firstParams.content">无异议</span></label>
+						</div>
+					</div>
+
+					<div class="btn-container">
+						<span class="next-btn" ng-click="vm.saveFirstExamine()">下一步</span>
+					</div>
+				</div>
+
+				<!-- 复审 -->
+				<div class="opreation-container" ng-if="vm.checkStatus === 2">
+					<div class="mask" ng-if="!vm.isOwnLocked && !vm.isFinished"></div>
+					<div class="radio-container">
+						<ul>
+							<li class="radio-item" ng-repeat="(key, value) in vm.reCheck">
+								<p class="radio-title">{{value}}：</p>
+								<p class="radio-line">
+									<label for="{{key}}1"><input type="radio" value="1" ng-disabled="vm.isFinished" name="{{key}}" id="{{key}}1" ng-model="vm.reParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>肯定</span></label>
+									<label for="{{key}}2"><input type="radio" value="2" ng-disabled="vm.isFinished" name="{{key}}" id="{{key}}2" ng-model="vm.reParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>不清楚</span></label>
+									<label for="{{key}}3"><input type="radio" value="3" ng-disabled="vm.isFinished" name="{{key}}" id="{{key}}3" ng-model="vm.reParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>一般否定</span></label>
+									<label for="{{key}}4"><input type="radio" value="4" ng-disabled="vm.isFinished" name="{{key}}" id="{{key}}4" ng-model="vm.reParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>一票否定</span></label>
+								</p>
+								<p class="err-msg" ng-if="vm.isShowReErr && !vm.reParams[key]">请选择{{value}}</p>
+							</li>
+						</ul>
+					</div>
+
+					<div class="text-container">
+						<textarea ng-model="vm.reParams.content" ng-if="!vm.isFinished" name="" id="" cols="30" rows="10"></textarea>
+						<div class="check-text" ng-if="vm.isFinished">
+							<label for="">复审审批意见：<span ng-bind="vm.reParams.content">无异议</span></label>
+						</div>
+					</div>
+
+					<div class="re-btn-container">
+						<span class="pre-btn" ng-click="vm.checkStatus = 1">上一步</span><span class="next-btn" ng-click="vm.saveReExamine()">下一步</span>
+					</div>
+				</div>
+
+				<!-- 终审 -->
+				<div class="opreation-container" ng-if="vm.checkStatus === 3">
+					<div class="mask" ng-if="!vm.isOwnLocked && !vm.isFinished"></div>
+					<div class="radio-container">
+						<ul>
+							<li class="radio-item" ng-repeat="(key, value) in vm.lastCheck">
+								<p class="radio-title">{{value}}：</p>
+								<p class="radio-line" ng-if="$index < 2">
+									<label for="{{key}}1"><input type="radio" value="1" ng-disabled="vm.isFinished" name="{{key}}" id="{{key}}1" ng-model="vm.lastParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>符合</span></label>
+									<label for="{{key}}2"><input type="radio" value="0" ng-disabled="vm.isFinished" name="{{key}}" id="{{key}}2" ng-model="vm.lastParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>不符合</span></label>
+								</p>
+								<p class="radio-line" ng-if="$index === 2">
+									<label for="{{key}}1"><input type="radio" value="1" ng-disabled="vm.isFinished" name="{{key}}" id="{{key}}1" ng-model="vm.lastParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>通过</span></label>
+									<label for="{{key}}2"><input type="radio" value="0" ng-disabled="vm.isFinished" name="{{key}}" id="{{key}}2" ng-model="vm.lastParams[key]"><i ng-class="{'disabled': vm.isFinished}"></i><span>不通过</span></label>
+								</p>
+								<p class="err-msg" ng-if="vm.isShowLastErr && !vm.isExist(vm.lastParams[key])">请选择{{value}}</p>
+							</li>
+						</ul>
+					</div>
+
+					<div class="text-container">
+						<textarea ng-model="vm.lastParams.content" ng-if="!vm.isFinished" name="" id="" cols="30" rows="10"></textarea>
+						<div class="check-text" ng-if="vm.isFinished">
+							<label for="">终审审批意见：<span ng-bind="vm.lastParams.content"></span></label><br>
+							<!-- <label for="" ng-if="vm.recordStatus === 8">给客户留言：<span ng-bind="vm.lastParams.msg | emptyFilter"></span></label> -->
+							<label for="">给客户留言：<span ng-bind="vm.lastParams.msg"></span></label>
+						</div>
+					</div>
+
+					<div class="last-btn-container">
+						<span class="pre-btn" ng-click="vm.checkStatus = 2">上一步</span><span class="next-btn" ng-if="!vm.isFinished" ng-click="vm.saveLastExamine(1)">通过</span><span ng-if="!vm.isFinished" class="reject-btn" ng-click="vm.saveLastExamine(0)">拒绝</span>
+					</div>
+				</div>
+
+				<p class="check-log-btn"><a href="/monitor/journal?id={{vm.order.id}}&intoNumber={{vm.order.intoNumber}}&intoTime={{vm.order.intoTime}}&approveStatus={{vm.order.approveStatus}}" target="_blank">查看审批日志</a></p>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="loading-box" ng-if="vm.isPassing">
+	<div class="mask"></div>
+	<div class="content">
+		<div class="spinner">
+			<div class="rect1"></div>
+			<div class="rect2"></div>
+			<div class="rect3"></div>
+			<div class="rect4"></div>
+			<div class="rect5"></div>
+			<div class="rect6"></div>
+			<div class="rect7"></div>
+		</div>
+		<span>审批处理中...</span>
+	</div>
+</div>
+
+
+<script type="text/ng-template" id="JS_checkALertInfo">
+    <div class="m-modal">
+        <div class="m-bar">
+            <div class="m-tl"><i class='icon-tanhao'></i></div>
+        </div>
+        <div class="m-cnt">
+            <p ng-bind="vm.alertInfo" class="font-16"></p>
+        </div>
+        <div class="m-btn">
+            <a class="m-y-btn" ng-click="closeThisDialog()">确认</a>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="JS_checkConfirmInfo">
+    <div class="m-modal">
+        <div class="m-bar">
+            <div class="m-tl"><i class='icon-tanhao'></i></div>
+        </div>
+        <div class="m-cnt">
+            <p ng-bind="vm.confirmInfo" class="font-16"></p>
+            <div class="text-box" ng-if="!vm.isFinalPass">
+            	<textarea name="" id="" cols="30" rows="10" ng-keydown="vm.limitInput()" ng-model="vm.rejectReason" placeholder="给客户留言（非必填）,最多可输入12个字"></textarea>
+            </div>
+        </div>
+        <div class="m-btn">
+            <a class="m-y-btn" ng-click="confirm()">确认</a>
+            <a class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="JS_LeaveConfirmInfo">
+    <div class="m-modal">
+        <div class="m-bar">
+            <div class="m-tl"><i class='icon-tanhao'></i></div>
+        </div>
+        <div class="m-cnt">
+            <p ng-bind="vm.confirmInfo" class="font-16"></p>
+        </div>
+        <div class="m-btn">
+            <a class="m-y-btn" ng-click="confirm()">确认</a>
+            <a class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+        </div>
+    </div>
+</script>

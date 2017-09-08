@@ -1,0 +1,73 @@
+<div class="anti-search-container account-detail">
+	<div class="list-header clearfix">
+		<div class="link">
+			<a href="/intercalate/role_manage_list">角色管理</a>&gt;角色详情
+		</div>
+		<div class="list-header-l">
+			<h2 class="">角色详情</h2>
+		</div>
+		<div class="edit-button">
+			<a href="/intercalate/role_manage_modify/account?id={{vm.roleId}}&pageNum=1" class="common-sucess-btn btn monitor-add-btn merchant-list-search"><i class="icon-icon-bianji"></i>编辑</a>
+		</div>
+	</div>
+	<div class="manage-body role-detail">
+		<div class="">
+			<ul class="manage-form">
+				<li class="info">
+					<label for="">角色名称：</label>
+					<span ng-if="!vm.modify" ng-bind="vm.roleInfo.name"></span>
+					<input ng-if="vm.modify" type="text" placeholder="最多10个字" class="input-role" ng-model="vm.roleInfo.name">
+				</li>
+				<li class="info">
+					<label class="config" for="">权限配置：</label>
+					<div class="authority-config">
+						<ul>
+							<li class="header">
+								<span class="module">功能模块</span>
+								<span class="rights">权限</span>
+							</li>
+							<li class="config-li" ng-repeat="role in vm.configList" ng-init="outerIndex = $index" repeat-done >
+								<div ng-class="{'overflow':role.isSlide,'noSlide':role.noSlide}">
+									<span class="module" ng-bind="role.name"></span>
+									<span class="rights">
+										<div class="conten detail">
+											<label class="check" ng-repeat="roleConfig in role.configList" >
+												<input class="checkBox" type="checkbox" ng-value="roleConfig.value" ng-model="roleConfig.isHave" disabled="disabled">
+												<span class="selectBox"></span>
+												<span ng-bind="roleConfig.name" ng-class="{'dis':!roleConfig.isHave}"></span>
+											</label>
+										</div>
+									</span>
+									<i ng-if="role.isSlide" class="icon-xiangxia" ng-click="role.isSlide = !role.isSlide"></i>
+									<i ng-if="!role.isSlide" class="icon-xiangshang" ng-click="role.isSlide = !role.isSlide"></i>
+								</div>
+							</li>
+							<li class="config-search" ng-if="vm.configSearching">
+								<div class="loader-box">
+									<div class="bg-white">
+										<div class="spinner">
+											<div class="rect1"></div>
+											<div class="rect2"></div>
+											<div class="rect3"></div>
+											<div class="rect4"></div>
+											<div class="rect5"></div>
+											<div class="rect6"></div>
+											<div class="rect7"></div>
+											<div class="rect8"></div>
+										</div>
+										<span>查询中，请耐心等待...</span>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="info">
+					<label class="config" for="">账号列表：</label>
+					<!-- 列表 -->
+					<div class="account-list-container" ui-view></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

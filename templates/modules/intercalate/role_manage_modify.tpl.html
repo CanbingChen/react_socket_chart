@@ -1,0 +1,114 @@
+<div class="anti-search-container account-detail">
+	<div class="list-header clearfix">
+		<div class="link">
+			<a href="/intercalate/role_manage_list">角色管理</a>&gt;{{vm.headerMsg}}
+		</div>
+		<div class="list-header-l">
+			<h2 class="">{{vm.headerMsg}}</h2>
+		</div>
+	</div>
+	<div class="manage-body role-create">
+		<div class="">
+			<ul class="manage-form">
+				<li class="info">
+					<label for=""><span class="label-alert">*</span>角色名称：</label>
+					<input type="text" placeholder="最多10个字" class="input-role" ng-model="vm.roleInfo.name">
+				</li>
+				<p class="err-msg" ng-bind="vm.err.role"></p>
+				<li class="info">
+					<label class="config" for=""><span class="label-alert">*</span>权限配置：</label>
+					<div class="authority-config">
+						<ul>
+							<li class="header">
+								<span class="module">功能模块</span>
+								<span class="rights">权限</span>
+							</li>
+							<li class="config-li" ng-repeat="role in vm.configList" ng-init="outerIndex = $index" repeat-done >
+								<div ng-class="{'overflow':role.isSlide,'noSlide':role.noSlide}">
+									<span class="module" ng-bind="role.name"></span>
+									<span class="rights">
+										<a href="javascript:;" class="isAll" ng-click="vm.clickAll(outerIndex)" ng-bind="role.isAll"></a>
+										<div class="conten">
+											<label class="check" ng-repeat="roleConfig in role.configList" >
+												<input class="checkBox" type="checkbox" ng-value="roleConfig.id" ng-model="roleConfig.isHave" ng-click="vm.check(outerIndex,$index)" ng-disabled="roleConfig.dis">
+												<span class="selectBox" ng-class="{'dis':roleConfig.dis}"></span>
+												<span ng-bind="roleConfig.name" ng-class="{'dis':roleConfig.dis}"></span>
+											</label>
+										</div>
+									</span>
+									<i ng-if="role.isSlide" class="icon-xiangxia" ng-click="role.isSlide = !role.isSlide"></i>
+									<i ng-if="!role.isSlide" class="icon-xiangshang" ng-click="role.isSlide = !role.isSlide"></i>
+								</div>
+							</li>
+							<li class="config-search" ng-if="vm.configSearching">
+								<div class="loader-box">
+									<div class="bg-white">
+										<div class="spinner">
+											<div class="rect1"></div>
+											<div class="rect2"></div>
+											<div class="rect3"></div>
+											<div class="rect4"></div>
+											<div class="rect5"></div>
+											<div class="rect6"></div>
+											<div class="rect7"></div>
+											<div class="rect8"></div>
+										</div>
+										<span>查询中，请耐心等待...</span>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<p class="err-msg" ng-bind="vm.err.config"></p>
+				<li class="info" ng-if="vm.isModify">
+					<label class="config" for="">账号列表：</label>
+					<!-- 列表 -->
+					<div class="account-list-container" ui-view></div>
+				</li>
+			</ul>
+		</div>
+		<div class="button-conten">
+			<a href="/intercalate/role_manage_list" class="ensure-cancel" >取消</a>
+			<a ng-if="vm.isModify" href="javascript:;" class="ensure-modify" ng-click="vm.checkInput()">保存修改</a>
+			<a ng-if="!vm.isModify" href="javascript:;" class="ensure-modify" ng-click="vm.checkInput()">创建</a>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="JS_left">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.modalMsg}}</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="confirm()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="roleModifySuccess">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tijiaochenggong'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>角色修改成功</p>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="roleCreateSuccess">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tijiaochenggong'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>角色创建成功</p>
+		</div>
+	</div>
+</script>

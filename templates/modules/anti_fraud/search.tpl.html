@@ -1,0 +1,106 @@
+<div class="anti-search-container">
+	<div class="search-header">
+		<div class="link">
+			<a href="/antifraud/list">信用评估</a>&gt;
+			<span>查询新用户</span>
+		</div>
+		<h2>查询页</h2>
+	</div>
+
+
+	<div class="search-body">
+		<div class="search-way-header">
+			<span ng-class="{'active': vm.searchWay === 'single'}" ng-click="vm.searchWay = 'single'">单条查询</span><span ng-class="{'active': vm.searchWay === 'multiple'}" ng-click="vm.searchWay = 'multiple'">批量查询</span>
+		</div>
+		<div class="search-form" ng-show="vm.searchWay === 'single'">
+			<ul>
+				<li>
+					<label for=""><span class="red-color">*</span>手机号</label>
+					<input type="number" placeholder="请输入11位手机号"  ng-keydown="vm.limitUnusalNumber($event)"  ng-model="vm.postParams.phone">
+					<span class="search-err-msg" ng-bind="vm.errMsg.phone"></span>
+				</li>
+				<li>
+					<label for="">姓名</label>
+					<input type="text" placeholder="请输入真实姓名" ng-model="vm.postParams.name">
+					<span class="search-err-msg" ng-bind="vm.errMsg.name"></span>
+				</li>
+				<li>
+					<label for="">身份证号</label>
+					<input type="text" placeholder="请输入18位身份证号" ng-model="vm.postParams.idNum">
+					<span class="search-err-msg" ng-bind="vm.errMsg.idNum"></span>
+				</li>
+				<li>
+					<label for="">公司名称</label>
+					<input type="text" placeholder="请输入要查询的公司名称"  ng-model="vm.postParams.company">
+					<span class="search-err-msg" ng-bind="vm.errMsg.company"></span>
+				</li>
+				<li>
+					<label for="">常用地址</label>
+					<input type="text" placeholder="请输入常用地址" ng-model="vm.postParams.address">
+					<span class="alert-info" title="该项可帮助确认用户填写地址
+是否与电商收货地址匹配">?</span>
+					<span class="search-err-msg address-msg" ng-bind="vm.errMsg.address"></span>
+				</li>
+				<!-- <li class="close-item" ng-click="vm.isSlideDown = !vm.isSlideDown"><span ng-bind="vm.SlideDownText"></span><i ng-class="vm.isSlideDown ? 'icon-xiangshang' : 'icon-xiangxia'"></i></li> -->
+			</ul>
+			<a ng-class="{'disabled': vm.isSearching}" href="javascript:;" class="btn common-search-btn" ng-click="vm.searchAnti()">{{vm.searchBtnText}}</a>
+
+			<div class="search-notice-box">
+				<ul>
+				   	<li>注意事项：</li>
+					<li>如需进行网贷黑名单查询，请同时输入姓名、身份证号或姓名、手机号</li>
+					<li>如需进行失信黑名单查询，请同时输入姓名、身份证号</li>
+					<li>如需进行企业工商信息查询，请输入该用户的公司名称</li>
+					<li>如需进行地址信息验证，请输入地址</li>
+					<li>否则相关项不会进行查询操作</li>
+				</ul>
+			</div>
+		</div>
+
+
+
+		<div  ng-show="vm.searchWay === 'multiple'">
+			<div class="search-multiple-form">
+				<p class="export-info" ng-if="vm.multipleResult.successNum !== undefined">你已经导入<span ng-bind="vm.multipleResult.total"></span>条数据，成功<span class="export-s-info" ng-bind="vm.multipleResult.successNum"></span>条，失败<span class="export-f-info" ng-bind="vm.multipleResult.failNum"></span>条</p>
+				<p class="error-info red-font" ng-if="vm.multipleResult.successNum === 0">请检查导入表格是否与模板一致</p>
+				<div class="search-multiple-box">
+					<a href="javascript:;" ng-click="vm.uploadInfo('Js_upload_input')" class="btn import-btn">{{vm.multipleText}}</a>
+					<input type="file" class="upload-input" id="Js_upload_input">
+					<p class="download">
+						<span>仅支持xls\xlsx格式文件</span>
+						<a href="/api/download/import/" target="_blank">下载批量导入模板</a>
+					</p>
+					<a ng-class="{'disabled': !vm.isUploaded}" href="javascript:;" class="btn confirm-btn" ng-click="vm.makeSureSearch()">确认查询</a>
+				</div>
+			</div>
+			<div class="search-notice-box">
+				<ul>
+				   	<li>注意事项：</li>
+					<li>请检查导入数据是否符合以下格式</li>
+					<li>手机号：11位数字，以数字1开头</li>
+					<li>姓名：不超过10个中文汉字</li>
+					<li>身份证号：18位，符合校验码规则</li>
+					<li>公司名称：5-30个汉字</li>
+					<li>地址：5-30个汉字</li>
+				</ul>
+			</div>
+		</div>
+
+		
+	</div>
+</div>
+
+<script type="text/ng-template" id="templateId">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>你确定查询该<span>{{vm.multipleResult.successNum}}</span>个用户吗？</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.searchMultiple() && closeThisDialog()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>

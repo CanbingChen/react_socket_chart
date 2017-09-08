@@ -1,0 +1,67 @@
+<div class="anti-list-container merchant-list">
+	<div class="list-header clearfix">
+		<div class="list-header-l">
+			<h2 class="">商户列表</h2>
+		</div>
+		<div class="list-header-r   clearfix">
+			<div class="phone-l merchant-phone-l clearfix" >
+				<label class="common-search-box ">
+					<input type="text" placeholder="请输入商户名称" ng-model="vm.postParams.merchantName" ng-keyup="vm.searchMerchantName($event)">
+				</label>
+				<span ng-click="vm.searchMerchantName()" class="merchant-search-btn"><i class="icon-fangdajing"></i><span>搜索</span>
+			</span>
+			<a href="/merchant/create" class="common-sucess-btn btn monitor-add-btn merchant-list-search"><i class="icon-xinzeng"></i>新增商户</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="list-table">
+		<table class="common-table credit-table merchant-table">
+			<thead>
+				<tr>
+					<th>商户名称</th>
+					<th>商户等级</th>
+					<th><span class="exponent-item">
+						签约时间
+						<i class="trangle-down" ng-class="{'active': vm.postParams.signSort === vm.exponentSort.up}" ng-click="vm.changeListSort(vm.exponentSort.up)"></i>
+						<i class="trangle-up" ng-class="{'active': vm.postParams.signSort === vm.exponentSort.down}" ng-click="vm.changeListSort(vm.exponentSort.down)"></i>
+					</span></th>
+					<th>合作状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="merchantItem in vm.merchantList">
+					<td ng-bind="merchantItem.name | emptyFilter"></td>
+					<td ng-bind="merchantItem.level | emptyFilter"></td>
+					<td ng-bind="merchantItem.signTime | emptyFilter | date:'yyyy-MM-dd'"></td>
+					<td ng-bind="merchantItem.cooperationStatusText | emptyFilter"></td>
+					<td class="">
+						<a class="check-detail"  href="/merchant/detail?id={{merchantItem.id}}">查看详情</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="result-body loader-box" ng-if="vm.isSearching">
+			<div class="bg-white">
+				<div class="spinner">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
+					<div class="rect6"></div>
+					<div class="rect7"></div>
+					<div class="rect8"></div>
+				</div>
+				<span>查询中，请耐心等待...</span>
+			</div>
+		</div>
+		<div ng-if="vm.merchantList.length === 0" class="empty-info">
+			<span class="empty-img"></span>
+			<span class="empty-text">暂无商户信息，赶快去添加吧！</span>
+		</div>
+</div>
+<div ng-if="vm.merchantList.length > 0" class="pagination-ng" pagination-directive page-index="vm.postParams.page" page-total="vm.pageTotal">
+</div>
+</div>

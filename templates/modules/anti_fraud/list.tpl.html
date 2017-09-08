@@ -1,0 +1,186 @@
+<div class="anti-list-container">
+    <div class="list-header anti-list-header clearfix">
+        <div class="list-header-l">
+            <h2 class="anti-list-header-text">用户查询列表</h2>
+            <!-- <span class="h-bottom">
+				<span class="icon-icon-dengpao"></span>
+				<span class="h-item">最新一次批量导入数：<span ng-bind="vm.totalImport"></span></span>
+				<span class="h-item">其中成功查询数：<span ng-bind="vm.success"></span></span>
+				<span class="h-item">正在查询数：<span ng-bind="vm.doing"></span></span>
+			</span> -->
+		</div>
+		<div class="list-header-r anti-list-header-r pieces-list-header-r  clearfix">
+			<div class="phone-l clearfix">
+				<label class="common-search-box anti-common-search-box">
+					<input type="text" placeholder="请输入进件单号或手机号或身份证号" ng-model="vm.postParams.number" ng-keyup="vm.searchByPhone($event)">
+				</label>
+				<span ng-click="vm.searchByPhone()" class="search-btn"><i class="icon-fangdajing"></i><span>搜索</span>
+			</span>
+			</div>
+			<button ng-disabled="!vm.buttonInfo.addIntoPiece.show" ui-sref="AntiFraud.search({stage:1})" class="power-btn common-sucess-btn btn single-search-btn" ng-class="{'disabled-btn':!vm.buttonInfo.addIntoPiece.show}"><i class="icon-xinzeng"></i>新增查询</button>
+		</div>
+	</div>
+	<div class="select-box clearfix">
+		<div class="select-box-l clearfix">
+			<div class="label time-label">进件时间：</div>
+			<div class="list-time-select-box">
+                <span ng-class="{'active': (vm.postParams.intoPeriod === vm.dateOptionObj.all)}" ng-click="vm.changeAntiPeriod('all')">全部</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active': (vm.postParams.intoPeriod === vm.dateOptionObj.today)}" ng-click="vm.changeAntiPeriod('today')">今天</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active' : vm.postParams.intoPeriod === vm.dateOptionObj.week}" ng-click="vm.changeAntiPeriod('week')">近7天</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active' : vm.postParams.intoPeriod === vm.dateOptionObj.month}" ng-click="vm.changeAntiPeriod('month')">近30天</span>
+            </div>
+            <div class="list-canlendar-box">
+                <div class="select-date m-l-15" ng-class="{'active' : vm.postParams.intoPeriod === vm.dateOptionObj.other}">
+                    <div class="date-font">
+                        <span ng-bind="vm.antiPicker.start | date:'yyyy-MM-dd'"></span>
+                        <span>至</span>
+                        <span ng-bind="vm.antiPicker.end | date:'yyyy-MM-dd'"></span>
+                        <i id="anti-date-control" class="icon-riqi" ng-click="vm.openCalendar('antiPicker')"></i>
+                    </div>
+                    <div double-date-picker date-obj="vm.antiPicker" class="calendar service-list-calendar" pre-date-option="vm.dateOption" next-date-option="vm.dateOptions"></div>
+                </div>
+            </div>
+        </div>
+        <div class="select-box-r" ng-click="vm.isSlideDown = !vm.isSlideDown">
+            <span ng-if="!vm.isSlideDown">更多筛选</span><span ng-if="vm.isSlideDown">精简筛选</span><i ng-class="vm.isSlideDown ? 'icon-xiangshang' : 'icon-xiangxia'"></i>
+        </div>
+    </div>
+    <div class="more-select-box" ng-show="vm.isSlideDown">
+        <div class="select-anti-box approve-select-anti-box">
+            <div class="select-content approve-select-content">
+                <label for="" class="w60">审批时间：</label>
+                <span class="approve-select-first" ng-class="{'active': (vm.postParams.approvePeriod === vm.dateOptionObj.all)}" ng-click="vm.changeApprovePeriod('all')">全部</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active': (vm.postParams.approvePeriod === vm.dateOptionObj.today)}" ng-click="vm.changeApprovePeriod('today')">今天</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active' : vm.postParams.approvePeriod === vm.dateOptionObj.week}" ng-click="vm.changeApprovePeriod('week')">近7天</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active' : vm.postParams.approvePeriod === vm.dateOptionObj.month}" ng-click="vm.changeApprovePeriod('month')">近30天</span>
+            </div>
+            <div class="list-canlendar-box">
+                <div class="select-date m-l-15" ng-class="{'active' : vm.postParams.approvePeriod === vm.dateOptionObj.other}">
+                    <div class="date-font">
+                        <span ng-bind="vm.approvePicker.start | date:'yyyy-MM-dd'"></span>
+                        <span>至</span>
+                        <span ng-bind="vm.approvePicker.end | date:'yyyy-MM-dd'"></span>
+                        <i id="approve-date-control" class="icon-riqi" ng-click="vm.openCalendar( 'approvePicker')"></i>
+                    </div>
+                    <div double-date-picker date-obj="vm.approvePicker" class="calendar service-list-calendar" pre-date-option="vm.approveDateOption" next-date-option="vm.approveDateOptions"></div>
+                </div>
+            </div>
+        </div>
+        <div class="select-anti-box">
+            <div class="select-content">
+                <label for="" class="anti-select-label">查询状态：</label>
+                <zs-select class="form-control anti-select" selected-value="vm.postParams.searchStatus" options="vm.antiStatusObjArr" on-change="vm.changeAntiStatus">
+                </zs-select>
+                <label for="" class="w60">审批状态：</label>
+                <zs-select class="form-control anti-select" selected-value="vm.postParams.approveStatus" options="vm.approveStatusObjArr" on-change="vm.changeApproveStatus">
+                </zs-select>
+                <label for="" class="break-label">是否触犯欺诈规则：</label>
+                <zs-select class="form-control anti-select" selected-value="vm.postParams.isBreakRule" options="vm.isBreakRuleList" on-change="vm.changeIsBreakRule">
+                </zs-select>
+                <label for="" class="break-label">进件渠道：</label>
+                <zs-select class="form-control anti-select" selected-value="vm.postParams.localState" options="vm.channelList" on-change="vm.checkIfPageEqualFirst">
+                </zs-select>
+            </div>
+        </div>
+    </div>
+    <div class="list-table">
+        <div class="result-body loader-box" ng-if="vm.isSearching">
+            <div class="bg-white">
+                <div class="spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
+                    <div class="rect5"></div>
+                    <div class="rect6"></div>
+                    <div class="rect7"></div>
+                    <div class="rect8"></div>
+                </div>
+                <span>查询中，请耐心等待...</span>
+            </div>
+        </div>
+        <table class="common-table credit-table" ng-if="vm.antiFraudList.length > 0&&!vm.isSearching">
+            <thead>
+                <tr>
+                    <th>进件单号</th>
+                    <th>姓名</th>
+                    <th>手机号</th>
+                    <th>身份证号</th>
+                    <th>商户名称</th>
+                    <th><span class="exponent-item">
+						进件时间
+						<i class="trangle-down" ng-class="{'active': vm.postParams.intoTimeSort === vm.exponentSort.up}" ng-click="vm.changeListSort(vm.exponentSort.up,'into')"></i>
+						<i class="trangle-up" ng-class="{'active': vm.postParams.intoTimeSort === vm.exponentSort.down}" ng-click="vm.changeListSort(vm.exponentSort.down,'into')"></i>
+					</span></th>
+                    <th>查询状态</th>
+                    <th>
+                        <span class="exponent-item">
+							审批时间
+							<i class="trangle-down" ng-class="{'active': vm.postParams.approveTimeSort === vm.exponentSort.up}" ng-click="vm.changeListSort(vm.exponentSort.up,'approve')"></i>
+							<i class="trangle-up" ng-class="{'active': vm.postParams.approveTimeSort === vm.exponentSort.down}" ng-click="vm.changeListSort(vm.exponentSort.down,'approve')"></i>
+						</span>
+                    </th>
+                    <th>审批状态</th>
+                    <th><span class="th-break">规则触犯</span></th>
+                    <th>评分</th>
+                    <th>进件渠道</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="antiItem in vm.antiFraudList">
+                    <td ng-bind="antiItem.intoNumber | emptyFilter"></td>
+                    <td ng-bind="antiItem.name | emptyFilter"></td>
+                    <td ng-bind="antiItem.phone | emptyFilter"></td>
+                    <td ng-bind="antiItem.idCard | emptyFilter"></td>
+                    <td ng-bind="antiItem.merchantName | emptyFilter"></td>
+                    <td><span class="td-wrap-time">{{antiItem.intoTime  | emptyFilter | date:'yyyy-MM-dd HH:mm:ss'}}</span></td>
+                    <td ng-bind="antiItem.searchStatusText | emptyFilter" class="search-status" ng-class="{'active': antiItem.searchStatus === vm.antiStatusObj.noSearch}"></td>
+                    <td>
+                        <span class="td-wrap-time">{{antiItem.approveTime| numberFilter | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </td>
+                    <td ng-bind="antiItem.approveStatusText | emptyFilter" class="approve-status" ng-class="{'pass':antiItem.approveStatus===vm.approveStatusObj.pass,'refuse':antiItem.approveStatus===vm.approveStatusObj.refuse}"></td>
+                    <td ng-bind="antiItem.isBreakText" class="is-break" ng-class="{'active': antiItem.isBreak===1}"></td>
+                    <td ng-bind="antiItem.score | numberFilter"></td>
+                    <td ng-bind="antiItem.localState | numberFilter"></td>
+                    <td class="credit-operation">
+                        <a href="/monitor/credit/presentation?id={{antiItem.id}}&intoNumber={{antiItem.intoNumber}}&intoTime={{antiItem.intoTime}}&approveStatus={{antiItem.approveStatus}}" class="check-detail" ng-if="antiItem.searchStatus === vm.antiStatusObj.done||antiItem.searchStatus === vm.antiStatusObj.monitor">查看报告</a>
+                        <a href="/monitor/into_pieces?id={{antiItem.id}}&intoTime={{antiItem.intoTime}}&intoNumber={{antiItem.intoNumber}}" class="check-detail" ng-if="antiItem.searchStatus === vm.antiStatusObj.noSearch||antiItem.searchStatus === vm.antiStatusObj.searching">查看进件</a>
+                        <a href="javascript:;" class="gray-font" ng-class="{'check-detail':antiItem.searchStatus===vm.antiStatusObj.done && antiItem.id != -1 &&vm.buttonInfo.addMonitor.show}" ng-if="!antiItem.isAddMonitor" ng-click="vm.showModal('Js_addMonitorTemplate', antiItem,vm.buttonInfo.addMonitor.show)">加入贷后监控</a>
+                        <!-- <a href="javascript:;" class="gray-font" ng-if="antiItem.searchStatus === 0">加入贷中监控</a> -->
+                        <a class="added" ng-if="antiItem.isAddMonitor" href="/monitor/result?id={{antiItem.loanId}}">已加入贷后监控</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="vm.antiFraudList.length === 0" class="empty-info">
+            <span class="empty-img"></span>
+            <span class="empty-text">暂无用户进件数据，赶快去添加吧！</span>
+        </div>
+    </div>
+    <!-- <div ng-if="vm.antiFraudList.length > 0" class="pagination-ng" pagination-directive page-index="vm.postParams.page" page-total="vm.pageTotal"> -->
+    <pagination-counts-directive ng-if="vm.antiFraudList.length > 0"  page-index="vm.postParams.page" total="vm.total" page-total="vm.pageTotal" counts="vm.postParams.count" counts-array="vm.pageCountsArray">
+    </pagination-counts-directive>
+    </div>
+    <script type="text/ng-template" id="Js_addMonitorTemplate">
+        <div class="m-modal">
+            <div class="m-bar">
+                <div class="m-tl"><i class='icon-tanhao'></i></div>
+            </div>
+            <div class="m-cnt">
+                <p>确认将该用户加入贷后监控吗？</p>
+                <!-- <p ng-if="!vm.alertInfo">确认将该用户加入贷后监控吗？</p> -->
+                <!-- <p ng-if="vm.alertInfo" class="red-font">该用户已经加入贷后监控</p> -->
+            </div>
+            <div class="m-btn">
+                <a href="javascript:;" class="m-y-btn" ng-click="vm.addMonitor()">确认</a>
+                <a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+            </div>
+        </div>
+    </script>

@@ -1,0 +1,176 @@
+<div class="anti-result-container loan-manage repayment">
+	<div class="search-header loan-detail-header">
+		<div class="link">
+			<a href="/trade/repayment_list">还款管理</a>&nbsp;&gt;
+			<span>还款详情</span>
+		</div>
+		<h2>
+		    还款详情
+			<a ng-if="vm.loanDetail.signId" ng-click="vm.contactEvent('see')" target="_blank"  class="btn loan-detail-export contact-button"><i class="icon-yulan"></i>查看合同</a>
+		</h2>
+	</div>
+	<!-- <div class="result-body" ng-if="!vm.isSearching"> -->
+	<div class="result-body">
+        <h3 class="title">
+            <span>订单详情</span>
+
+        </h3>
+		<div class="content">
+			<ul>
+				<li>
+					<span class="name">借款人姓名:</span>
+					<span class="value" ng-bind="vm.repayment.name | emptyFilter"></span>
+				</li>
+				<li>
+					<span class="name">手机号码:</span>
+					<span class="value" ng-bind="vm.repayment.phone | emptyFilter"></span>
+				</li>
+                <li>
+					<span class="name">身份证号码:</span>
+					<span class="value" ng-bind="vm.repayment.idcard | emptyFilter"></span>
+				</li>
+                <li>
+					<span class="name">订单号:</span>
+					<span class="value" ng-bind="vm.repayment.orderId | emptyFilter"></span>
+				</li>
+                <li>
+                   <span class="name">申请日期:</span>
+                   <span class="value" ng-bind="vm.repayment.createTime | emptyFilter | date:'yyyy-MM-dd'"></span>
+               </li>
+				<li>
+					<span class="name">银行卡号:</span>
+					<span class="value" ng-bind="vm.repayment.bankNum | emptyFilter"></span>
+				</li>
+				<li>
+					<span class="name">购买商品:</span>
+					<span class="value" ng-bind="vm.repayment.productName | emptyFilter"></span>
+				</li>
+				<li>
+					<span class="name">商户名称:</span>
+					<span class="value" ng-bind="vm.repayment.merchantName | emptyFilter"></span>
+				</li>
+				<li>
+					<span class="name">还款方式:</span>
+					<span class="value" ng-bind="vm.repayment.repayMethod | emptyFilter"></span>
+				</li>
+				<li>
+					<span class="name">借款金额:</span>
+					<span class="value" ng-bind="vm.repayment.loanMoney | emptyFilter"></span>
+				</li>
+                <li>
+					<span class="name">借款到账金额:</span>
+					<span class="value" ng-bind="vm.repayment.accountIntoMoney | emptyFilter"></span>
+				</li>
+                <li>
+                   <span class="name">放款时间:</span>
+                   <span class="value" ng-bind="vm.repayment.valueDate | emptyFilter | date:'yyyy-MM-dd'"></span>
+               </li>
+				<li>
+					<span class="name">分期期数:</span>
+					<span class="value" ng-bind="vm.repayment.instalments"></span>
+				</li>
+				<li>
+					<span class="name">月还款金额:</span>
+					<span class="value" ng-bind="vm.repayment.currentMoney | emptyFilter"></span>
+				</li>
+                <li>
+					<span class="name">订单状态:</span>
+					<span class="value" ng-bind="vm.repaymentStatusText | emptyFilter" ng-class="{'warning-text':vm.repayment.orderStatus === vm.RepaymentStatusObj.overdued}"></span>
+				</li>
+			</ul>
+		</div>
+        <div class="plan" ng-if="vm.repayment.repayList.length > 0">
+            <h3 class="title">
+                <span>还款计划</span>
+                <button class="deduct-money" ng-click="vm.showModal('lmanualTemplate')" ng-if="vm.repayment.status === vm.RepaymentStatusObj.repaing||vm.repayment.status === vm.RepaymentStatusObj.overdued">
+                    <i class="icon-shoudongkoukuan"></i>
+                    手动扣款
+                </button>
+            </h3>
+            </h2>
+            <table class="merchant-trial-table">
+                <thead>
+                    <th>期数</th>
+                    <th>还款日</th>
+                    <th>当期期数</th>
+                    <th>逾期天数</th>
+                    <th>逾期罚金（元）</th>
+                    <th>待还金额</th>
+                    <th>还款状态</th>
+                    <th>代扣状态</th>
+                    <th>已还金额（元）</th>
+                    <th>还款时间</th>
+                    <th>操作</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="plan in vm.repayment.repayList">
+                        <td ng-bind="plan.currentPeriods | emptyFilter"></td>
+                        <td ng-bind="plan.currentPeriodsRepay | emptyFilter | date:'yyyy-MM-dd'"></td>
+                        <td ng-bind="plan.currentMoney | emptyFilter"></td>
+                        <td ng-bind="plan.overduePeriodsDays | emptyFilter"></td>
+                        <td ng-bind="plan.overduePeriodsFine | emptyFilter"></td>
+                        <td ng-bind="plan.stayReturnMoney | emptyFilter"></td>
+                        <td ng-bind="plan.statusText | emptyFilter" ng-class="{'warning-text':plan.status === vm.RepaymentStatusObj.overdued}"></td>
+                        <td ng-class="{'warning-text':plan.withholdStatus === vm.withholdStatusObj.fail}">
+                            {{plan.withholdStatusText | emptyFilter}}
+                            <withhold-reason ng-if="plan.withholdingFailReason" reason="plan.withholdingFailReason"></withhold-reason>
+                        </td>
+                        <td ng-bind="plan.returnedMoney | emptyFilter"></td>
+                        <td ng-bind="plan.returnTime | emptyFilter | date:'yyyy-MM-dd'"></td>
+                        <td><button ng-disabled="plan.status === vm.RepaymentStatusObj.repaing||plan.status === vm.RepaymentStatusObj.repied" class="settle" ng-click="vm.showModal('settleTemplate',plan.id)">结清</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+	</div>
+
+	<div class="result-body"  ng-if="vm.isSearching">
+		<div class="bg-white">
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+				<div class="rect6"></div>
+				<div class="rect7"></div>
+				<div class="rect8"></div>
+			</div>
+			<span>添加中，请耐心等待...</span>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="lmanualTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>从客户绑定账户扣款？</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.manualDeduction()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="settleTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>确认结清本期订单？</p>
+            <p>确认后无法撤销</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.settlePlan()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="JS_imgAlert">
+		<div class="alert-img-exit" ng-click="closeThisDialog()"></div>
+        <img ng-src="{{vm.src}}" alt=""/>
+</script>

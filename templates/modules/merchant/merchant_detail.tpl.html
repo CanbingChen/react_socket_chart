@@ -1,0 +1,126 @@
+<div class="anti-search-container merchant-detail">
+	<div class="search-header detail-header">
+		<div class="detail-header-l clearfix">
+			<div class="link">
+				<a href="/merchant/list">商户列表</a>&gt;商户详情
+			</div>
+			<h2>
+				{{vm.merchantDetail.baseInfo.name}}
+			</h2>
+		</div>
+		<div class="detail-header-r">
+			<button class="power-btn" ng-disabled="!vm.buttonInfo.operate.show" ng-click="vm.operate('Js_confirmCooperate')" ng-class="{'pause':vm.merchantDetail.baseInfo.cooperationStatus,'disabled-btn':!vm.buttonInfo.operate.show}">{{vm.cooperationStatusText}}</button>
+		</div>
+	</div>
+	<div class="merchant-infor">
+		<h2 class="detail-title">
+			<span>商户信息</span>
+			<button ng-disabled="!vm.buttonInfo.operate.show" ui-sref="Merchant.modify({id:vm.id})" class="power-a modify-button" ng-class="{'disabled-a':!vm.buttonInfo.operate.show}"><i class="icon-icon-bianji"></i>修改信息</button>
+		</h2>
+		<div class="merchant-infor-content">
+			<ul class="merchant-infor-text">
+				<li>商户名称：{{vm.merchantDetail.baseInfo.name}}</li>
+				<li>商户帐号：{{vm.merchantDetail.baseInfo.account}}</li>
+				<li>
+					账户密码：{{vm.merchantDetail.baseInfo.password}}　
+					<span class="m-detial-reset" ng-click="vm.resetPassword()">重置密码</span>
+				</li>
+				<li>结算账户：{{vm.merchantDetail.baseInfo.bankAccount}}</li>
+				<li>组织机构代码：{{vm.merchantDetail.baseInfo.organizeNum}}</li>
+				<li>合作状态：{{vm.cooperationStatusMsg}}</li>
+				<li>商户等级：{{vm.merchantDetail.baseInfo.level}}</li>
+				<li>商户联系电话：{{vm.merchantDetail.baseInfo.merchantPhone}}</li>
+				<li>商户地址：{{vm.merchantDetail.baseInfo.address}}</li>
+				<li>主要联系人：{{vm.merchantDetail.baseInfo.contacts}}</li>
+				<li>联系电话：{{vm.merchantDetail.baseInfo.contactPhone}}</li>
+				<li>签约时间：{{vm.merchantDetail.baseInfo.signTime|date:'yyyy-MM-dd'}}</li>
+				<li>宣传渠道：{{vm.merchantDetail.baseInfo.propagandaChannel|emptyFilter}}</li>
+				<li>合同附件：{{vm.merchantDetail.baseInfo.contractName|emptyFilter}} <span ng-if="vm.merchantDetail.baseInfo.contractName" ng-class="{'download-active':vm.merchantDetail.baseInfo.contractName}"  ng-click="vm.downloadContract(vm.merchantDetail.baseInfo.contractUrl)"><i class="icon-icon_xiazai" ></i>下载合同附件</span></li>
+				<li>签约产品：{{vm.merchantDetail.baseInfo.productName}}</li>
+
+
+				<!-- <li>申请表名称：<span ng-repeat="table in vm.merchantDetail.applyTable" >{{vm.applicationObj[table.applicationId]}} <a class="preview-active" ng-click="vm.previewApplication(table.applicationId)">预览表单</a></span></li> -->
+			</ul>
+			<div class="merchant-infor-img clearfix">
+				<div class="img-block" >
+					<!-- <div  alert-img alert-img-src="vm.testImg"></div> -->
+					<img  class="normal-img" ng-src="{{ vm.merchantDetail.baseInfo.licenseUrl }}" ng-click="vm.showModal(vm.merchantDetail.baseInfo.licenseUrl )"/>
+					 <!-- <img ng-src="{{ vm.imgData.IdFace }}"  /> -->
+					 <!-- <p ng-if="vm.merchantDetail.baseInfo.license">{{vm.merchantDetail.baseInfo.license}}</p> -->
+					<p ng-class="{'download-active':vm.merchantDetail.baseInfo.licenseUrl!==vm.noUploadImg}" ng-click="vm.downloadImg(vm.merchantDetail.baseInfo.licenseUrl,vm.merchantDetail.baseInfo.licenseName)"><i class="icon-icon_xiazai"></i><a>下载商户营业执照</a></p>
+				</div>
+				<div class="img-block img-block-right" >
+					<!-- <div  alert-img alert-img-src="vm.testImg"></div> -->
+					<div class="two-code-img-block">
+						<span ng-if="vm.twoCodeLoading" class="two-code-loading">加载中...</span>
+						<img id="two-code-img"  class="normal-img two-code-img" ng-src="{{ vm.twoCodeUrl }}" ng-click="vm.showModal(vm.twoCodeUrl )"/>
+					</div>
+					 <!-- <img ng-src="{{ vm.imgData.IdFace }}"  /> -->
+					<p ng-class="{'download-active':vm.twoCodeUrl!==vm.defaultImg}" ><span ng-click="vm.downloadTwoCode()"><i class="icon-icon_xiazai"></i>下载二维码</span><zs-select  class="form-control merchant-select" selected-value="vm.twoCodeSize"  options="vm.pixelObjArr" on-change="vm.getTwoCode">
+					</zs-select></p>
+					<span class="copy-button" ng-click="vm.copyText(vm.merchantDetail.applyTable[0].applicationUrl)">复制进件地址链接</span>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="merchant-detail-trial">
+			<h3 class="trial-title">商户试算表</h3>
+			<table class="merchant-trial-table" ng-repeat="table in vm.merchantDetail.applyTable track by $index">
+				<thead>
+					<th>期数</th>
+					<th>月利率(%)</th>
+					<th>月服务费(%)</th>
+					<th>月账户管理费(%)</th>
+					<th>月保险手续费率(%)</th>
+					<th>还款随心包(元/月)</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="trialItem in table.trial">
+						<td>{{trialItem.stage}}</td>
+						<td>{{trialItem.monthlyInterestRate|percentFilter}}%</td>
+						<td>{{trialItem.serviceMount|percentFilter}}%</td>
+						<td>{{trialItem.administrationMount|percentFilter}}%</td>
+						<td>{{trialItem.Insurance|percentFilter}}%</td>
+						<td>{{trialItem.package}}元/月</td>
+					</tr>
+				</tbody>
+			</table>
+		</div> -->
+	</div>
+</div>
+<litle-success-toast is-show="vm.copySuccess"  toast-msg="vm.copySuccessMsg"></litle-success-toast>
+<script type="text/ng-template" id="JS_imgAlert">
+		<div class="alert-img-exit" ng-click="closeThisDialog()"></div>
+        <img ng-src="{{vm.src}}" alt=""/>
+</script>
+<script type="text/ng-template" id="JS_prewiew">
+	<span class="name">{{vm.applicationName}}（预览）</span>
+	<div class="preview-img-exit" ng-click="closeThisDialog()"></div>
+	<preview-application application="vm.application" ng-if="vm.application"></preview-application>
+	<preview-loader ng-if="!vm.application"></preview-loader>
+
+</script>
+<script type="text/ng-template" id="Js_confirmCooperate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.msg}}</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="confirm()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="resetSuccess">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-duigou'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>密码重置成功</p>
+		</div>
+	</div>
+</script>

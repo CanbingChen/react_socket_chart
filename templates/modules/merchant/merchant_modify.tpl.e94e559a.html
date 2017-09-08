@@ -1,0 +1,175 @@
+<div class="anti-search-container merchant-edit">
+	<div class="search-header">
+		<div class="detail-header-l clearfix">
+			<div class="link">
+				<a href="/merchant/list">商户列表</a>&gt{{vm.hrefText}}
+			</div>
+			<h2>
+				{{vm.title}}
+			</h2>
+		</div>
+	</div>
+		<div class="merchant-infor">
+			<h2 class="detail-title">
+				<span>基本信息</span>
+			</h2>
+			<div class="merchant-infor-content merchant-edit-content">
+					<ul class="merchant-infor-text">
+						<li><span class="must-write edit-input-label">商户名称</span><span class="edit-input-block">
+							<input ng-model=" vm.modifyObj.baseInfo.name" type="text"  placeholder="请输入商户名称" />
+							<p class="edit-error-msg" class="edit-error-msg" ng-if="vm.error_baseInfo_name">{{vm.error_baseInfo_name}}</p>
+						</span></li>
+						<li><span class="must-write edit-input-label">组织机构代码</span><span class="edit-input-block">
+							<input ng-model=" vm.modifyObj.baseInfo.organizeNum" type="text"  placeholder="请输入组织机构代码"/>
+							<p class="edit-error-msg" ng-if="vm.error_baseInfo_organizeNum">{{vm.error_baseInfo_organizeNum}}</p>
+						</span></li>
+						<!-- <li><span class="must-write edit-input-label">类型</span>
+							<zs-select ng-if="vm.modifyObj.baseInfo.type!==undefined&&vm.modifyObj.baseInfo.type!==null&&vm.merchantTypeArr"  class="form-control anti-select" selected-value="vm.modifyObj.baseInfo.type"  options="vm.merchantTypeArr">
+								</zs-select>
+							<p class="edit-error-msg" ng-if="vm.error_baseInfo_type">{{vm.error_baseInfo_type}}</p>
+						</li> -->
+						<li><span class="must-write edit-input-label">合作状态</span>
+							<zs-select ng-if="vm.modifyObj.baseInfo.cooperationStatus!==undefined&&vm.modifyObj.baseInfo.cooperationStatus!==null"  class="form-control anti-select" selected-value="vm.modifyObj.baseInfo.cooperationStatus"  options="vm.cooperationStatusArr"></zs-select>
+								<p class="edit-error-msg" ng-if="vm.error_baseInfo_cooperationStatus">{{vm.error_baseInfo_cooperationStatus}}</p>
+						</li>
+						<li><span class="must-write edit-input-label">商户等级</span>
+							<zs-select ng-if="vm.modifyObj.baseInfo.level" class="form-control anti-select" selected-value="vm.modifyObj.baseInfo.level"  options="vm.merchantLevelArr">
+								</zs-select>
+								<p class="edit-error-msg" ng-if="vm.error_baseInfo_level">{{vm.error_baseInfo_level}}</p>
+						</li>
+						<li><span class="must-write edit-input-label">商户联系电话</span><span class="edit-input-block">
+							<input ng-model=" vm.modifyObj.baseInfo.merchantPhone" type="text"  placeholder="请输入商户联系电话"/>
+							<p class="edit-error-msg"  ng-if="vm.error_baseInfo_merchantPhone">{{vm.error_baseInfo_merchantPhone}}</p>
+						</span></li>
+						<li><span class="must-write edit-input-label">商户地址</span><span class="edit-input-block">
+							<input ng-model=" vm.modifyObj.baseInfo.address" type="text"  placeholder="请输入商户地址"/>
+							<p class="edit-error-msg" ng-if="vm.error_baseInfo_address">{{vm.error_baseInfo_address}}</p>
+						</span></li>
+						<li><span class="must-write edit-input-label">主要联系人</span><span class="edit-input-block">
+							<input ng-model=" vm.modifyObj.baseInfo.contacts" type="text"  placeholder="请输入商户主要联系人姓名"/>
+							<p class="edit-error-msg" ng-if="vm.error_baseInfo_contacts">{{vm.error_baseInfo_contacts}}</p>
+						</span></li>
+						<li><span class="must-write edit-input-label">主要联系人电话</span><span class="edit-input-block">
+							<input ng-model=" vm.modifyObj.baseInfo.contactPhone" type="text"  placeholder="请输入商户主要联系人电话"/>
+							<p class="edit-error-msg" ng-if="vm.error_baseInfo_contactPhone">{{vm.error_baseInfo_contactPhone}}</p>
+						</span></li>
+						<li><span class="must-write edit-input-label">签约时间</span>
+							<span class="sign-time-block" >{{vm.modifyObj.baseInfo.signTime|date:'yyyy-MM-dd'}}
+								<i  ng-click="vm.openDate()" class="icon-riqi sign-time-icon"></i>
+								<div class="calendar"><div uib-datepicker-popup ng-model="vm.modifyObj.baseInfo.signTime" is-open="vm.timeOpiton.open" datepicker-options="vm.timeOpiton"  show-button-bar="false"></div></div>
+							</span >
+						</li>
+						<li><span class="edit-input-label">宣传渠道</span><span class="edit-input-block">
+							<input ng-model=" vm.modifyObj.baseInfo.propagandaChannel" type="text"  placeholder="请输入宣传渠道"/>
+							<p class="edit-error-msg"  ng-if="vm.error_baseInfo_propagandaChannel">{{vm.error_baseInfo_propagandaChannel}}</p>
+						</span></li>
+						<li>
+							<span class="edit-input-label">合同附件</span>
+							<span class="contract-title">
+							<p class="contract-name" ng-if="vm.modifyObj.baseInfo.contractName"><span >{{vm.modifyObj.baseInfo.contractName}}<span class="delete-contract"ng-click="vm.deleteFile('contract')">删除</span></span></p>
+							<p><label id="upload-contract"><i class="icon-icon-shangxchuan"></i>上传合同附件
+							</label><a class="upload-remarks" ng-class="{'upload-error':vm.uploadError.contract}">{{vm.contractRemarks}}</a></p>
+						</span></li>
+					</ul>
+					<div class="license-block merchant-infor-img edit-infor-img">
+						<div class="img-block">
+							<img  class="normal-img" ng-src="{{ vm.licenseUrl}}" ng-click="vm.showModal(vm.licenseUrl )"/>
+							<p ng-if="vm.modifyObj.baseInfo.licenseName">{{vm.modifyObj.baseInfo.licenseName}}<span  class="delete-file" ng-click="vm.deleteFile('license')">删除</span></p>
+							 <p  ><label id="upload-license" class="license-upload-label"><i class="icon-icon-shangxchuan"></i>上传商户营业执照
+								 <!-- <input id="license-image" type="file" style="display:none"/> -->
+								  <!-- <input input-event id="license-image" type="file" style="display:none" callback="vm.uploadLicense" event-type="change"/> -->
+							 </label></p>
+							 <p class="upload-remarks" ng-class="{'upload-error':vm.uploadError.license}">{{vm.licenseRemarks}}</p>
+
+						</div>
+					</div>
+		</div>
+		<div class="application-block"><span class="must-write edit-input-label">选择进件申请表</span>
+			<span ng-repeat="table in vm.modifyObj.applyTable track by $index">
+				<zs-select  ng-if="vm.applicationList"  class="form-control anti-select" selected-value="table.applicationId" on-change="vm.getApplication"  options="vm.applicationList" ></zs-select>
+				<span class="preview-button" ng-click="vm.previewApplication(table.applicationId)" ng-class="{'preview-disabled':table.applicationId==='-9999'}">预览表单</span>
+				<span ui-sref="Application.Modify" class="preview-button">点击创建表单</span>
+					<p class="edit-error-msg" ng-if="vm.error_application[table.applicationId]">{{vm.error_application[table.applicationId]}}</p>
+			</span>
+		</div>
+				<div class="edit-trial ">
+					<span class="trial-title edit-input-label must-write">商户试算表</span>
+					<div class="table-block" ng-repeat="table in vm.modifyObj.applyTable track by $index">
+						<table>
+							<thead>
+								<th>期数</th>
+								<th>月利率(%)</th>
+								<th>月服务费(%)</th>
+								<th>月账户管理费(%)</th>
+								<th>月保险手续费率(%)</th>
+								<th>还款随心包(元/月)</th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="trialItem in table.trial track by $index">
+									<td><input type="text" ng-model="trialItem.stage" ng-keyup="vm.limitStage(table,$index)"></td>
+									<td><input  ng-keyup="vm.limit(table,$index,'monthlyInterestRate')" type="text" ng-model="trialItem.monthlyInterestRate"></td>
+									<td><input  ng-keyup="vm.limit(table,$index,'monthlyInterestRate')" type="text" ng-model="trialItem.serviceMount"></td>
+									<td><input ng-keyup="vm.limit(table,$index,'monthlyInterestRate')" type="text" ng-model="trialItem.administrationMount"></td>
+									<td><input ng-keyup="vm.limit(table,$index,'monthlyInterestRate')" type="text" ng-model="trialItem.Insurance"></td>
+									<td><input ng-keyup="vm.limit(table,$index,'monthlyInterestRate')"  type="text" ng-model="trialItem.package"><span ng-if="table.trial.length>1" ng-click="vm.removeTrialItem(table,$index)" class="remove-trial icon-weichaxun"></span></td>
+
+								</tr>
+							</tbody>
+						</table>
+						<p class="edit-error-msg trial-error-msg" ng-if="vm.error_trial_table[table.applicationId]">{{vm.error_trial_table[table.applicationId]}}</p>
+						<p ng-if="table.trial.length<10">
+							<span class="add-trial" ng-click="vm.addTrialItem(table,$index)"><i class="icon-icon-jiahao"></i>添加期数</span>
+						</p>
+					</div>
+				</div>
+				<div class="edit-remarks">
+					<span class="edit-remarks-label">备注</span>
+					<div class="remarks-block">
+							<textarea ng-model="vm.modifyObj.baseInfo.remarks"  placeholder="请输入备注">
+
+							</textarea>
+
+					</div>
+						<p class="edit-error-msg"  ng-if="vm.error_baseInfo_remarks">{{vm.error_baseInfo_remarks}}</p>
+				</div>
+				<div class="merchant-edit-button" ng-class="{'merchant-edit-button-loading':vm.postLoading}" ng-click="vm.postMerchantInfor()">{{vm.modifyTest}}</div>
+
+			</div>
+</div>
+<script type="text/ng-template" id="JS_imgAlert">
+		<div class="alert-img-exit" ng-click="closeThisDialog()"></div>
+        <img ng-src="{{vm.src}}" alt=""/>
+</script>
+<script type="text/ng-template" id="JS_prewiew">
+	<span class="name">{{vm.applicationName}}（预览）</span>
+	<div class="preview-img-exit" ng-click="closeThisDialog()"></div>
+	<preview-application application="vm.application" ng-if="vm.application"></preview-application>
+	<preview-loader ng-if="!vm.application"></preview-loader>
+</script>
+<script type="text/ng-template" id="Js_leaveTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.modalMsg}}</p>
+		</div>
+		<div class="m-btn">
+			<a class="m-y-btn" ng-click="confirm()">确认</a>
+			<a ng-if="vm.isConfirm" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="Js_addMerchantTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-duigou'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.successMsg}}</p>
+		</div>
+		<div class="m-btn">
+			<a class="m-y-btn" ng-click="confirm()">确认</a>
+		</div>
+	</div>
+</script>

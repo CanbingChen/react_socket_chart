@@ -1,0 +1,119 @@
+<div class="anti-search-container">
+	<div class="search-header">
+		<div class="link">
+			<a href="/monitor/list">贷后监控</a>&gt;
+			<span>添加监控</span>
+		</div>
+		<h2>添加监控</h2>
+	</div>
+	<div class="search-body">
+		<div class="search-way-header">
+			<span ng-class="{'active': vm.searchWay === 'single'}" ng-click="vm.searchWay = 'single'">单条添加</span><span ng-class="{'active': vm.searchWay === 'multiple'}" ng-click="vm.searchWay = 'multiple'">批量添加</span>
+		</div>
+		<div class="search-form" ng-show="vm.searchWay === 'single'">
+			<ul class="clearfix">
+				<li>
+					<label for=""><span class="red-color">*</span>手机号</label>
+					<input type="number" placeholder="请输入11位手机号" ng-keyup="vm.checkCtrlKey($event)" ng-keydown="vm.limitUnusalNumber($event)"  ng-model="vm.postParams.phone">
+					<span class="search-err-msg" ng-bind="vm.errMsg.phone"></span>
+				</li>
+				<li>
+					<label for="">姓名</label>
+					<input type="text" placeholder="请输入真实姓名" ng-model="vm.postParams.name">
+					<span class="search-err-msg" ng-bind="vm.errMsg.name"></span>
+				</li>
+				<li>
+					<label for="">身份证号</label>
+					<input type="text" placeholder="请输入18位身份证号" ng-model="vm.postParams.idNum">
+					<span class="search-err-msg" ng-bind="vm.errMsg.idNum"></span>
+				</li>
+				<li>
+				<span class="add-err-msg" ng-bind="vm.addErrMsg">123</span>
+				</li>
+			</ul>
+			<a href="javascript:;" class="btn common-search-btn" ng-click="vm.searchAnti()">{{vm.searchBtnText}}</a>
+
+			<div class="search-notice-box">
+				<ul>
+				   	<li>注意事项：</li>
+					<li>如需进行身份验证，请同时输入姓名、身份证号</li>
+					<li>如需进行手机实名认证，请同时输入姓名、身份证号、手机号</li>
+					<li>如需进行网贷黑名单查询，请同时输入姓名、身份证号或姓名、手机号</li>
+					<!-- <li>如需进行失信黑名单查询，请同时输入姓名、身份证号</li> -->
+					<li>否则相关项不会进行添加操作</li>
+				</ul>
+			</div>
+		</div>
+		<div ng-show="vm.searchWay === 'multiple'">
+			<div class="search-multiple-form">
+				<p class="export-info" ng-if="vm.multipleResult.successNum !== undefined">你已经导入<span ng-bind="vm.multipleResult.total"></span>条数据，成功<span class="export-s-info" ng-bind="vm.multipleResult.successNum"></span>条，失败<span class="export-f-info" ng-bind="vm.multipleResult.failNum"></span>条</p>
+				<p class="error-info red-font" ng-if="vm.multipleResult.successNum === 0">请检查导入表格是否与模板一致</p>
+				<div class="search-multiple-box">
+					<a href="javascript:;" ng-click="vm.uploadInfo('Js_upload_input')" class="btn import-btn">{{vm.multipleText}}</a>
+					<input type="file" class="upload-input" id="Js_upload_input">
+					<p class="download">
+						<span>仅支持xls\xlsx格式文件</span>
+						<a href="/api/download/monitor/import/" target="_blank" class="download" >下载批量导入模板</a>
+					</p>
+					<a ng-class="{'disabled': !vm.isUploaded}" href="javascript:;" class="btn confirm-btn" ng-click="vm.makeSureSearch()">确认添加</a>
+				</div>
+			</div>
+
+			<div class="search-notice-box">
+				<ul>
+				   	<li>注意事项：</li>
+					<li>请检查导入数据是否符合以下格式</li>
+					<li>手机号：11位数字，以数字1开头</li>
+					<li>姓名：不超过10个中文汉字</li>
+					<li>身份证号：18位，符合校验码规则</li>
+				</ul>
+			</div>
+		</div>
+
+		
+	</div>
+</div>
+
+<script type="text/ng-template" id="templateId">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>确定监控该<span>{{vm.multipleResult.successNum}}</span>个用户吗？</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.searchMultiple() && closeThisDialog()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="Js_isAddingNowTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>上次批量导入数据正在加入贷后监控</p>
+			<p>请稍候再添加吧！</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="closeThisDialog()">确认</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="Js_uploadAlert">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>只支持xlsx/xls格式的文件上传</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="closeThisDialog()">确认</a>
+		</div>
+	</div>
+</script>

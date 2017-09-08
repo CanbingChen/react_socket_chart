@@ -1,0 +1,26 @@
+<div class="anti-search-container">
+	<div class="search-header manage-header">
+		<h2>系统管理</h2>
+	</div>
+	<div class="manage-body">
+		<div class="manage-form-box">
+			<ul class="manage-form">
+				<li>
+					<label for=""><span style="margin-right: 16px;"></span>用户名：</label>
+					<span ng-bind="vm.userName"></span>
+				</li>
+				<li><label for=""><span class="label-alert">*</span>原始密码：</label><input type="password" class="input-pwd" ng-model="vm.oldPwd"></li>
+				<li><label for=""><span class="label-alert">*</span>新密码：</label><input type="password" class="input-pwd" ng-model="vm.newPwd"></li>
+				<li><label for=""><span class="label-alert">*</span>确认新密码：</label><input type="password" class="input-pwd" ng-model="vm.repeatNewPwd"></li>
+				<li class="err-msg" ng-bind="vm.errMsg"></li>
+			</ul>
+			<a href="javascript:;" class="confirm-modify" ng-click="vm.changePwd()">确认修改</a>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="templateId">
+	<div class="c-modal">
+		<p>修改成功！</p>
+	</div>
+</script>

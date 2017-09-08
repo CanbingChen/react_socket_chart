@@ -1,0 +1,190 @@
+<div class="anti-result-container loan-manage overdue">
+	<div class="search-header loan-detail-header">
+		<div class="link">
+			<a href="/overdue/list">逾期管理</a>&nbsp;&gt;
+			<span>逾期详情</span>
+		</div>
+		<h2>
+		    逾期详情
+		</h2>
+	</div>
+	<!-- <div class="result-body" ng-if="!vm.isSearching"> -->
+	<div class="result-body ">
+		<div class="order">
+		    <h3 class="title">
+                <span>订单详情</span>
+            </h3>
+            <div class="content-block content">
+                <ul>
+                    <li><span class="label">订单号：{{vm.overdue.orderId | emptyFilter}}</span></li>
+                    <li><span class="label">商户名称：{{vm.overdue.merchantName | emptyFilter}}</span></li>
+                    <li><span class="label">购买商品：{{vm.overdue.productName | emptyFilter}}</span></li>
+                    <li><span class="label">申请日期：{{vm.overdue.createTime | emptyFilter|date:'yyyy-MM-dd'}}</span></li>
+                    <li><span class="label">放款日期：{{vm.overdue.valueDate | emptyFilter|date:'yyyy-MM-dd'}}</span></li>
+                    <li><span class="label">借款金额：{{vm.overdue.loanMoney | emptyFilter}}</span></li>
+                    <li><span class="label">月还款金额：{{vm.overdue.currentMoney | emptyFilter}}</span></li>
+                    <li><span class="label">分期期数：{{vm.overdue.instalments | emptyFilter}}</span></li>
+                </ul>
+            </div>
+		</div>
+        <div class="plan ">
+            <h3 class="title">
+                <span>还款计划</span>
+                <!-- <button ng-if="item.status===vm.RepaymentStatusObj.overdued" class="deduct-money">手动扣款</button> -->
+                <button  class="deduct-money" ng-click="vm.showModal('lmanualTemplate')">
+                    <i class="icon-shoudongkoukuan"></i>
+                    手动扣款
+                </button>
+            </h3>
+            <div class="plan-table">
+                <table class="merchant-trial-table">
+                    <thead>
+                        <th>期数</th>
+                        <th>还款日</th>
+                        <th>当前期款（元）</th>
+                        <th>逾期天数</th>
+                        <th>逾期罚金</th>
+                        <th>待还金额（元）</th>
+                        <th>还款状态</th>
+                        <th>代扣状态</th>
+                        <th>已还金额</th>
+                        <th>还款时间</th>
+                        <th>操作</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in vm.overdue.overdueList">
+                            <td ng-bind="item.currentPeriods |emptyFilter">1</td>
+                            <td ng-bind="item.currentPeriodsRepay |emptyFilter |date:'yyyy-MM-dd'">2017-06-29</td>
+                            <td ng-bind="item.currentMoney |emptyFilter">1000.20</td>
+                            <td ng-bind="item.overduePeriodsDays |emptyFilter">10</td>
+                            <td ng-bind="item.overduePeriodsFine |emptyFilter">100.00</td>
+                            <td ng-bind="item.stayReturnMoney |emptyFilter">2600.00</td>
+                            <td ng-bind="item.statusText |emptyFilter" ng-class="{'warning-text':item.status === vm.RepaymentStatusObj.overdued}"></td>
+                            <td  ng-class="{'warning-text':item.withholdStatus === vm.withholdStatusObj.fail}">
+                                {{item.withholdStatusText |emptyFilter}}
+                                <withhold-reason ng-if="item.withholdingFailReason" reason="item.withholdingFailReason"></withhold-reason>
+                            </td>
+                            <td ng-bind="item.returnedMoney |emptyFilter">100</td>
+                            <td ng-bind="item.returnTime |emptyFilter |date:'yyyy-MM-dd'">2016-03-02</td>
+                            <td>
+                                <button class="settle" ng-disabled="item.status!==vm.RepaymentStatusObj.overdued" ng-click="vm.showModal('settleTemplate',item.id)">结清</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="infor">
+            <h3 class="title">
+                <span>客户信息</span>
+            </h3>
+            <div class="content-block content">
+                <ul>
+                    <li><span class="label">姓名：{{vm.overdue.name|emptyFilter}}</span></li>
+                    <li><span class="label">手机号码：{{vm.overdue.phone|emptyFilter}}</span></li>
+                    <li><span class="label">身份证号码：{{vm.overdue.idcard|emptyFilter}}</span></li>
+                    <li><span class="label">银行卡号：{{vm.overdue.bankNum|emptyFilter}}</span></li>
+                    <li><span class="label">居住地址：{{vm.overdue.homeLiveAddress|emptyFilter}}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="contact">
+            <h3 class="title">
+                <span>联系人信息</span>
+            </h3>
+            <div class="content-block content">
+                <ul ng-repeat="contact in vm.contacts">
+                    <li><span class="label">姓名：{{contact.filedName}}</span></li>
+                    <li><span class="label">与客户关系：{{vm.relationToApplier[contact.filedValue]}}</span></li>
+                    <li><span class="label">手机号码：{{contact.filedPhone}}</span></li>
+                </ul>
+                <button class="add-contact-button" ng-click="vm.openModal('addContact','add-contact')" >新增联系人</button>
+            </div>
+        </div>
+	</div>
+
+	<div class="result-body"  ng-if="vm.isSearching">
+		<div class="bg-white">
+
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+				<div class="rect6"></div>
+				<div class="rect7"></div>
+				<div class="rect8"></div>
+			</div>
+			<span>添加中，请耐心等待...</span>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="addContact">
+	<div class="m-modal">
+		<h2 class="header">新增联系人</h2>
+        <div class="body">
+            <div class="input-item">
+                <h3 class="label">姓名：</h3>
+                <div class="input-block">
+                    <input type="text" placeholder="请输入联系人姓名" ng-model="vm.contact.filedName"/>
+                </div>
+                <div class="err-block">
+                    <span class="warning-text" ng-if="vm.errMsg.filedName" ng-bind="vm.errMsg.filedName"></span>
+                </div>
+            </div>
+            <div class="input-item">
+                <h3 class="label">与联系人关系：</h3>
+                <div class="input-block">
+                    <zs-select  class="form-control anti-select" selected-value="vm.contact.filedValue"  options="vm.relationToApplierArr"></zs-select>
+                </div>
+                <div class="err-block">
+                    <span class="warning-text" ng-if="vm.errMsg.filedValue" ng-bind="vm.errMsg.filedValue"></span>
+                </div>
+            </div>
+            <div class="input-item">
+                <h3 class="label">手机号码</h3>
+                <div class="input-block">
+                    <input type="text" placeholder="联系人手机号码" ng-model="vm.contact.filedPhone"/>
+                </div>
+                <div class="err-block">
+                    <span class="warning-text" ng-if="vm.errMsg.filedPhone" ng-bind="vm.errMsg.filedPhone"></span>
+                </div>
+            </div>
+        </div>
+		<div class="m-btn">
+			<button href="javascript:;" class="no-btn" ng-click="vm.clearErr()&&closeThisDialog()">取消</button>
+            <button href="javascript:;" class="y-btn" ng-click="vm.addContact()&&closeThisDialog()">确认新增</button>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="lmanualTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>从客户绑定账户扣款？</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.manualDeduction()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="settleTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>确认结清本期订单？</p>
+            <p>确认后无法撤销</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.settlePlan()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>

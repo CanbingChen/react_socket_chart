@@ -1,0 +1,374 @@
+<div class="anti-result-container">
+	<div class="search-header">
+		<div class="link">
+			<a href="/monitor/list">贷后监控</a>&nbsp;&gt;
+			<span>监控详情</span>
+		</div>
+		<h2>贷后监控详情</h2>
+	</div>
+	<div class="result-body" ng-if="!vm.isSearching">
+
+		<div class="result-item-box">
+			<div class="r-item-title">
+				基本信息
+			</div>
+			<div class="unusual-item active">异常项数：<span ng-bind="vm.unusualNum"></span></div>
+			<!-- <div class="is-break-mark no-active"></div> -->
+			<div class="monitor-basic-info-box">
+              	<ul class="clearfix">
+              		<li>
+              			<label for="">姓名：</label>
+              			<span ng-bind="vm.result.basicInfo.name"></span>
+              		</li>
+              		<li>
+              			<label for="">状&emsp;&emsp;态：</label>
+              			<span ng-bind="vm.result.basicInfo.status"></span>
+              		</li>
+              		<li>
+              			<label for="">性&emsp;别：</label>
+              			<span ng-bind="vm.result.basicInfo.sex"></span>
+              		</li>
+              		<li>
+              			<label for="">年龄：</label>
+              			<span ng-bind="vm.result.basicInfo.age"></span>
+              		</li>
+              		<li>
+              			<label for="">身份证号：</label>
+              			<span ng-bind="vm.result.basicInfo.idCard"></span>
+              		</li>
+              		<li>
+              			<label for="">手机号：</label>
+              			<span ng-bind="vm.result.basicInfo.phone"></span>
+              		</li>
+              	</ul>
+            </div>
+		</div>
+		
+		<!-- 袋中异常趋势 -->
+		<div class="result-item-box">
+			<div class="r-item-title">
+				贷后异常趋势
+			</div>
+			<!-- <div class="is-break-mark no-active"></div> -->
+			<div class="update-time">数据更新时间：<span>{{vm.updateTime | date: 'yyyy-MM-dd HH:mm:ss'}}</span></div>
+			<div class="chart-box" id="chart-line-trend" ng-if="vm.lineTrendData" style="height:374px">
+              <line node-id="chart-line-trend"  data="vm.lineTrendData" option="vm.lineTrendOption"></line>
+            </div>
+		</div>
+		<!-- 高危客户校验 -->
+		<div class="result-item-box">
+			<div class="r-item-title">
+				高危客户校验
+			</div>
+			<div class="verify-item">
+				<div class="verify-item-title">
+					<span>电商平台高危客户</span>
+					<span class="is-target" ng-if="vm.result.eBusinessDanger.isTarget"><i class="icon-tanhao"></i>有命中</span>
+					<span class="no-target" ng-if="!vm.result.eBusinessDanger.isTarget"><i class="icon-duigou"></i>未命中</span>
+					<span ng-if="vm.result.eBusinessDanger.targetNum && vm.result.eBusinessDanger.targetNum > 0">命中条数：<span ng-bind="vm.result.eBusinessDanger.targetNum"></span>条</span>
+				</div>
+				<table class="anti-com-tb">
+					<thead>
+						<tr>
+							<th>命中关键词</th>
+							<th>宝贝标题</th>
+							<th>购买时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in vm.result.eBusinessDanger.targetList">
+							<td class="w33" ng-class="{'active': item.isNew}">
+								<span class="less-20" title="{{item.keyword}}" ng-bind="item.limitKeyword"></span>
+							</td>
+							<td class="w33">
+								<span class="less-30" title="{{item.title}}" ng-bind="item.limitTitle"></span>
+							</td>
+							<td class="w33">{{item.orderTime | date: 'yyyy-MM' | emptyFilter}}</td>
+						</tr>
+
+						<tr ng-if="!vm.result.eBusinessDanger.isTarget">
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="shopping-chart-box" ng-if="vm.lineOption">
+					<div class='shopping-chart-title'>
+						电商购物趋势
+						<i class="cirle"></i>
+					</div>
+					<div class="shopping-chart-body" id="chart-line" style="height:374px;">
+		              	<line node-id="chart-line"  data="vm.lineData" option="vm.lineOption"></line>
+		            </div>
+				</div>
+			</div>
+
+			<div class="verify-item">
+				<div class="verify-item-title">
+					<span>多平台借贷</span>
+					<span class="is-target" ng-if="vm.result.multipleLoan.isTarget"><i class="icon-tanhao"></i>有命中</span>
+					<span class="no-target" ng-if="!vm.result.multipleLoan.isTarget"><i class="icon-duigou"></i>未命中</span>
+					<span ng-if="vm.result.multipleLoan.loanNum && vm.result.multipleLoan.loanNum > 0">申请借贷平台数：<span ng-bind="vm.result.multipleLoan.loanNum"></span>个</span>
+				</div>
+
+				<div class="multiple-loan-box" ng-if="vm.result.multipleLoan.targetList && vm.result.multipleLoan.targetList.length">
+					<ul>
+						<li ng-repeat="item in vm.result.multipleLoan.targetList" class="active multiple-loan-item">
+							<span ng-bind="item.name"></span>
+							<span ng-if="item.isNew" class="loan-new">new</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="verify-item">
+				<div class="verify-item-title">
+					<span>网贷逾期黑名单</span>
+					<span class="is-target" ng-if="vm.result.loanOverTimeBlackList.isTarget == vm.TargetResultObj.target"><i class="icon-tanhao"></i>有命中</span>
+					<span class="no-target" ng-if="vm.result.loanOverTimeBlackList.isTarget == vm.TargetResultObj.notTarget"><i class="icon-duigou"></i>未命中</span>
+					<span class="no-rearch" ng-if="vm.result.loanOverTimeBlackList.isTarget == vm.TargetResultObj.notSearch"><i class="icon-weichaxun"></i>未查询</span>
+					<!-- <span>命中条数：<span ng-bind=" vm.result.loanOverTimeBlackList.targetNum"></span>条</span> -->
+				</div>
+				<table class="anti-com-tb">
+					<thead>
+						<tr>
+							<th>借款时间</th>
+							<th>借款期数</th>
+							<th>借款本息（元）</th>
+							<th>逾期天数</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in vm.result.loanOverTimeBlackList.targetList">
+							<td ng-class="{'active': item.isNew}">{{item.loanTime | date: 'yyyy-MM-dd'}}</td>
+							<td ng-bind="item.loanStage"></td>
+							<td ng-bind="item.loanMoney"></td>
+							<td ng-bind="item.overDay"></td>
+						</tr>
+						<tr ng-if="vm.result.loanOverTimeBlackList.isTarget != vm.TargetResultObj.target">
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="verify-item">
+				<div class="verify-item-title">
+					<span>失信黑名单</span>
+					<span class="is-target" ng-if="vm.result.noFaithList.isTarget == vm.TargetResultObj.target"><i class="icon-tanhao"></i>有命中</span>
+					<span class="no-target" ng-if="vm.result.noFaithList.isTarget == vm.TargetResultObj.notTarget"><i class="icon-duigou"></i>未命中</span>
+					<span class="no-rearch" ng-if="vm.result.noFaithList.isTarget == vm.TargetResultObj.notSearch"><i class="icon-weichaxun"></i>未查询</span>
+					<!-- <span>命中条数：<span ng-bind=" vm.result.noFaithList.targetNum"></span>条</span> -->
+				</div>
+				<table class="anti-com-tb">
+					<thead>
+						<tr>
+							<th>立案时间</th>
+							<th>案号</th>
+							<th>失信人行为具体情形</th>
+							<th>被执行人履行情况</th>
+							<th>执行法院</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in vm.result.noFaithList.targetList">
+							<td ng-class="{'active': item.isNew}">{{item.registerTime | date: 'yyyy-MM-dd'}}</td>
+							<td>
+								<span class="less-30" title="{{item.registerNum}}" ng-bind="item.limitregisterNum"></span>
+							</td>
+							<td>
+								<span class="less-30" title="{{item.detailAction}}" ng-bind="item.limitdetailActionTitle"></span>
+							</td>
+							<td>
+								<span class="less-20" title="{{item.performance}}" ng-bind="item.limitperformance"></span>
+							</td>
+							<td>
+								<span class="less-20" title="{{item.court}}" ng-bind="item.limitcourt"></span>
+							</td>
+						</tr>
+						<tr ng-if="vm.result.noFaithList.isTarget != vm.TargetResultObj.target">
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="verify-item">
+				<div class="verify-item-title">
+					<span>手机号码被标注</span>
+					<span class="is-target" ng-if="vm.result.phoneMarkBlackList.isTarget"><i class="icon-tanhao"></i>有命中</span>
+					<span class="no-target" ng-if="!vm.result.phoneMarkBlackList.isTarget"><i class="icon-duigou"></i>未命中</span>
+					<!-- <span>命中条数：<span ng-bind=" vm.result.phoneMarkBlackList.targetNum"></span>条</span> -->
+				</div>
+				<table class="anti-com-tb">
+					<thead>
+						<tr>
+							<th>标记类型</th>
+							<th>标记次数</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in vm.result.phoneMarkBlackList.targetList">
+							<td ng-class="{'active': item.isNew}">
+								<span class="less-30" title="{{item.markType}}" ng-bind="item.limitmarkType"></span>
+							</td>
+							<td ng-bind="item.markNum"></td>
+						</tr>
+
+						<tr ng-if="!vm.result.phoneMarkBlackList.isTarget && !vm.result.phoneMarkBlackList.targetList.length">
+							<td>--</td>
+							<td>--</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="verify-item">
+				<div class="verify-item-title">
+					<span>手机号关联多账户</span>
+					<span class="is-target" ng-if="vm.result.phoneRelative.isTarget == vm.TargetResultObj.target"><i class="icon-tanhao"></i>有命中</span>
+					<span class="no-rearch" ng-if="vm.result.phoneRelative.isTarget == vm.TargetResultObj.notTarget"><i class="icon-chaxunwujieguo"></i>无结果</span>
+					<span class="no-target" ng-if="vm.result.phoneRelative.isTarget == vm.TargetResultObj.notSearch"><i class="icon-duigou"></i>无异常</span>
+					<!-- <span>命中条数：<span></span>条</span> -->
+				</div>
+				<table class="anti-com-tb">
+					<thead>
+						<tr>
+							<th>IMEI数</th>
+							<th>微信账号数</th>
+							<th>qq账号数</th>
+							<th>安卓设备数</th>
+							<th>苹果设备数</th>
+							<th>mac地址数</th>
+							<th>微博账号数</th>
+							<th>淘宝账号数</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="vm.result.phoneRelative.isTarget !== vm.TargetResultObj.notTarget">
+							<td ng-class="{'orange-font': vm.result.phoneRelative.imei > 2}" ng-bind="vm.result.phoneRelative.imei"></td>
+							<td ng-class="{'orange-font': vm.result.phoneRelative.weixin > 2}" ng-bind="vm.result.phoneRelative.weixin"></td>
+							<td ng-class="{'orange-font': vm.result.phoneRelative.qq > 2}" ng-bind="vm.result.phoneRelative.qq"></td>
+							<td ng-class="{'orange-font': vm.result.phoneRelative.android > 2}" ng-bind="vm.result.phoneRelative.android"></td>
+							<td ng-class="{'orange-font': vm.result.phoneRelative.idfa > 2}" ng-bind="vm.result.phoneRelative.idfa"></td>
+							<td ng-class="{'orange-font': vm.result.phoneRelative.mac > 2}" ng-bind="vm.result.phoneRelative.mac"></td>
+							<td ng-class="{'orange-font': vm.result.phoneRelative.weibo > 2}" ng-bind="vm.result.phoneRelative.weibo"></td>
+							<td ng-class="{'orange-font': vm.result.phoneRelative.taobao > 2}" ng-bind="vm.result.phoneRelative.taobao"></td>
+						</tr>
+						<tr ng-if="vm.result.phoneRelative.isTarget == vm.TargetResultObj.notTarget">
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="verify-item">
+				<div class="verify-item-title">
+					<span>信息平台高危客户</span>
+					<span class="is-target" ng-if="vm.result.infoDanger.isTarget"><i class="icon-tanhao"></i>有命中</span>
+					<span class="no-target" ng-if="!vm.result.infoDanger.isTarget"><i class="icon-duigou"></i>未命中</span>
+					<span ng-if="vm.result.infoDanger.targetNum && vm.result.infoDanger.targetNum > 0">命中条数：<span ng-bind="vm.result.infoDanger.targetNum"></span>条</span>
+				</div>
+				<table class="anti-com-tb">
+					<thead>
+						<tr>
+							<th>命中关键词</th>
+							<th>发布内容</th>
+							<!-- <th>发布时间</th> -->
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in vm.result.infoDanger.targetList">
+							<td ng-class="{'active': item.isNew}">
+								<span class="less-20" title="{{item.keyword}}" ng-bind="item.keyword"></span>
+							</td>
+							<td>
+								<span class="less-30" title="{{item.content}}" ng-bind="item.limitcontent"></span>
+							</td>
+							<!-- <td>{{item.time | date: 'yyyy-MM-dd'}}</td> -->
+						</tr>
+
+						<tr ng-if="!vm.result.infoDanger.isTarget">
+							<td>--</td>
+							<td>--</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="verify-item">
+				<div class="verify-item-title">
+					<span>社交平台高危客户</span>
+					<span class="is-target" ng-if="vm.result.socialDanger.isTarget"><i class="icon-tanhao"></i>有命中</span>
+					<span class="no-target" ng-if="!vm.result.socialDanger.isTarget"><i class="icon-duigou"></i>未命中</span>
+					<span ng-if="vm.result.socialDanger.targetNum && vm.result.socialDanger.targetNum > 0">命中条数：<span ng-bind="vm.result.socialDanger.targetNum"></span>条</span>
+				</div>
+				<table class="anti-com-tb">
+					<thead>
+						<tr>
+							<th>命中关键词</th>
+							<th>命中内容</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in vm.result.socialDanger.targetList">
+							<td  class="w33" ng-class="{'active': item.isNew}">
+								<span class="less-20" title="{{item.keyword}}" ng-bind="item.keyword"></span>
+							</td>
+							<td  class="w33">
+								<span class="less-30" title="{{item.content}}" ng-bind="item.content"></span>
+							</td>
+						</tr>
+						<tr ng-if="!vm.result.socialDanger.isTarget">
+							<td>--</td>
+							<td>--</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="attention-box">
+				关注的借贷平台:
+				<span ng-repeat="item in vm.result.socialDanger.attentionList"　>
+					<span class="attention-divice" ng-if="$index !== 0">|</span>
+					<span class="attention-item" ng-class="{'active': item.isNew}">
+						<span ng-bind="item.name"></span>
+						<span class="mark-new">new</span>
+					</span>
+				</span>
+				<span  ng-if="!vm.result.socialDanger.attentionList || vm.result.socialDanger.attentionList.length === 0">--</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="result-body"  ng-if="vm.isSearching">
+		<div class="bg-white">
+
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+				<div class="rect6"></div>
+				<div class="rect7"></div>
+				<div class="rect8"></div>
+			</div>
+			<span>添加中，请耐心等待...</span>
+		</div>
+	</div>
+</div>

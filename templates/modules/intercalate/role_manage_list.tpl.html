@@ -1,0 +1,92 @@
+<div class="anti-list-container merchant-list">
+	<div class="list-header clearfix">
+		<div class="list-header-l">
+			<h2 class="">角色管理</h2>
+		</div>
+		<div class="list-header-r   clearfix">
+			<div class="phone-l merchant-phone-l clearfix" >
+				<a ui-sref="Intercalate.roleModify.list" class="common-sucess-btn btn monitor-add-btn merchant-list-search"><i class="icon-xinzeng"></i>创建角色</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="list-table">
+		<table class="common-table credit-table">
+			<thead>
+				<tr>
+					<th>角色名称</th>
+					<th>成员数</th>
+					<th>创建人账号</th>
+					<th>创建时间</th>
+					<th>修改人账号</th>
+					<th>修改时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="roleItem in vm.roleList">
+					<td ng-bind="roleItem.name"></td>
+					<td ng-bind="roleItem.roleNum"></td>
+					<td ng-bind="roleItem.createUserName"></td>
+					<td ng-bind="roleItem.createTime | emptyFilter | date:'yyyy-MM-dd'"></td>
+					<td ng-bind="roleItem.updateUserName | emptyFilter"></td>
+					<td ng-bind="roleItem.modifyTime | emptyFilter | date:'yyyy-MM-dd'"></td>
+					<td>
+						<a class="check-detail"  href="/intercalate/role_manage_detail/account?id={{roleItem.id}}&pageNum=1">查看详情</a>
+						<a class="check-detail"  href="javascript:;" ng-click="vm.deletRole(roleItem.roleNum,roleItem.id)">删除</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="result-body loader-box" ng-if="vm.isSearching">
+			<div class="bg-white">
+				<div class="spinner">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
+					<div class="rect6"></div>
+					<div class="rect7"></div>
+					<div class="rect8"></div>
+				</div>
+				<span>查询中，请耐心等待...</span>
+			</div>
+		</div>
+		<div ng-if="vm.roleList.length === 0" class="empty-info">
+			<span class="empty-img"></span>
+			<span class="empty-text">暂无账号信息，赶快去添加吧！</span>
+		</div>
+</div>
+<!-- <div ng-if="vm.roleList.length > 0" class="pagination-ng" pagination-directive page-index="vm.postParams.pageNum" page-total="vm.pageTotal">
+</div> -->
+<pagination-counts-directive ng-if="vm.roleList.length > 0"  page-index="vm.postParams.pageNum" total="vm.total" page-total="vm.pageTotal" counts="vm.postParams.pageCount" counts-array="vm.pageCountsArray">
+</pagination-counts-directive>
+</div>
+
+<script type="text/ng-template" id="JS_deletRole">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.modalMsg}}</p>
+		</div>
+		<div class="m-btn">
+			<a ng-if="!vm.noDelete"  href="javascript:;" class="m-no-btn" ng-click="confirm()">删除</a>
+			<a ng-if="!vm.noDelete" href="javascript:;" class="m-y-btn" ng-click="closeThisDialog()">取消</a>
+			<a ng-if="vm.noDelete" href="javascript:;" class="m-y-btn" ng-click="closeThisDialog()">确认</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="deleteSuccess">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tijiaochenggong'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>角色删除成功</p>
+		</div>
+	</div>
+</script>

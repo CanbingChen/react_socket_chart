@@ -1,0 +1,24 @@
+{
+  "presets": ["es2015", "react", "stage-3"],
+  "plugins": [
+		"syntax-dynamic-import",
+       	["module-resolver", {
+			"root": ["./src"],
+			"alias": {
+				'SRC': './',
+				'LESS': 'assets/less',
+				'CONTAINER': 'container',
+				'COMPONENTS': 'components',
+				'CONSTANTS': 'constants',
+				'SERVICE': 'service',
+				'UTILS': 'utils',
+				'REDUX': 'redux',
+			}
+       	}],
+       	["import", {
+			"style": "css",
+			"libraryName": "antd-mobile"
+		}]
+    ]
+
+}

@@ -1,0 +1,23 @@
+<div class="signin-header">
+    <a href="/signin" class="logo-box"><img src="/static/assets/images/login_logo.1948ebde.png" /></a>
+</div>
+<div class="signin-box">
+    <div class="clearfix signin-content">
+        <div class="signin-form">
+            <h1>欢迎登录</h1>
+            <div class="form-group">
+                <span class="icon"><i class="icon-user"></i></span><input type="text" ng-model="vm.username" placeHolder="请输入用户名" ng-keydown="vm.enterLogin($event)"/>
+            </div>
+            <div class="form-group pwd-from-group">
+                <span class="icon"><i class="icon-password"></i></span><input type="password" ng-model="vm.password" placeHolder="请输入密码" ng-keydown="vm.enterLogin($event)"/>
+            </div>
+            <div class="error-box" ng-bind="vm.errMsg">
+            </div>
+            <button ng-click="vm.signin()" class="signin-btn">登录</button>
+        </div>
+    </div>
+</div>
+<!-- <div class="align-center f-bar">
+    <a href="#">产品服务</a><a href="#" class="news">新闻动态</a><a href="#">关于我们</a>
+</div> -->
+<p class="align-center">Copyright&copy;2013-2016 WolongData.com All Rights Reserved.蜀ICP备14028253号-6</p>

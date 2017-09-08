@@ -1,0 +1,533 @@
+<div class="preview-box">
+	<div class="preview-box-block">
+		<div class="preview-nav clearfix"  ng-repeat="modular in application" ng-class="{'active':modular.index===previewModularIndex,'w100':application.length===1,'w50':application.length===2,'w33':application.length===3,'w25':application.length===4,'w20':application.length===5}">
+			<div class="graphical">
+				<span ng-if="!$first" class="line-l"></span>
+				<span ng-if="!$last" class="line-r"></span>
+				<span class="circle"></span>
+			</div>
+			<span class="modular-name">{{modular.name}}</span>
+		</div>
+		<div class="modular" ng-if="previewModularIndex===ModularIndexObj.base">
+			<ul>
+				<li ng-if="handleModularBool(ModularIndexObj.base,0,0,0,'isShow')" class="preview-option">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.base,0,0,0,'mustWrite')}">姓名</span>
+					<span class="preview-input clearfix">
+						<input class="font-5" type="text" placeholder="请输入姓名">
+					</span>
+				</li >
+				<li class="preview-option clearfix" ng-if="handleModularBool(ModularIndexObj.base,0,0,1,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.base,0,0,1,'mustWrite')}">手机号</span>
+					<span class="preview-input">
+						<input class="font-6" type="text" placeholder="请输入手机号请输入身份证号">
+					</span>
+				</li>
+				<li class="preview-option clearfix" ng-if="handleModularBool(ModularIndexObj.base,0,0,2,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.base,0,0,2,'mustWrite')}">身份证号</span>
+					<span class="preview-input">
+						<input class="font-7" type="text" placeholder="请输入身份证号">
+					</span>
+				</li>
+				<li class="preview-option-code clearfix" ng-if="handleModularBool(ModularIndexObj.base,0,0,3,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.base,0,0,3,'mustWrite')}">短信验证码</span>
+					<div>
+						<input class="font-6" type="text" placeholder="请输入验证码">
+						<span class="obtain-button">获取验证码</span>
+					</div>
+				</li>
+				<li class="preview-option clearfix" ng-if="handleModularBool(ModularIndexObj.base,0,0,4,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.base,0,0,4,'mustWrite')}">qq号码</span>
+					<span class="preview-input">
+						<input class="font-6" type="text" placeholder="请输入常用QQ">
+					</span>
+				</li>
+				<li class="preview-option clearfix" ng-if="handleModularBool(ModularIndexObj.base,0,0,5,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.base,0,0,5,'mustWrite')}">电子邮箱</span>
+					<span class="preview-input">
+						<input class="font-9" type="text" placeholder="请输入常用电子邮箱">
+					</span>
+				</li>
+				<li class="preview-option clearfix" ng-if="handleModularBool(ModularIndexObj.base,0,0,6,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.base,0,0,6,'mustWrite')}">是否学生</span>
+					<span class="preview-input"><input type="radio" name="student"><label>是</label><input class="no-radio" name="student" type="radio"><label>否</label></span>
+				</li>
+				<li class="preview-option clearfix" ng-if="handleModularBool(ModularIndexObj.base,0,0,7,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.base,0,0,7,'mustWrite')}">用户协议</span>
+					<span class="preview-input">
+						<input name="argument" type="radio">是<input name="argument" class="no-radio"  type="radio">否</span>
+					</span>
+				</li>
+
+			</ul>
+		</div>
+		<div class="modular" ng-if="previewModularIndex===ModularIndexObj.loan">
+			<ul>
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,0,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,0,'mustWrite')}">产品类别</span>
+					<span class="preview-input">
+						<input class="font-7" type="text" placeholder="请输入产品类别">
+					</span>
+				</li>
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,1,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,1,'mustWrite')}">产品名称</span>
+					<span class="preview-input">
+						<input class="font-7" type="text" placeholder="请输入产品名称">
+					</span>
+				</li>
+
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,2,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,2,'mustWrite')}">产品金额</span>
+					<span class="preview-input">
+						<input class="font-7" type="text" placeholder="请输入产品金额">
+					</span>
+				</li>
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,3,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,3,'mustWrite')}">借款金额</span>
+					<span class="preview-input">
+						<input class="font-7" type="text" placeholder="请输入借款金额">
+					</span>
+				</li>
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,4,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,4,'mustWrite')}">分期期数</span>
+					<span class="preview-input">
+						<select name="">
+							<option>请选择分期期数</option>
+							<option>3期</option>
+							<option>6期</option>
+							<option>9期</option>
+							<option>12期</option>
+						</select>
+					</span>
+				</li>
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,5,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,5,'mustWrite')}">申请参加保险</span>
+					<span class="preview-input">
+						<input type="checkbox">
+					</span>
+				</li>
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,6,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,6,'mustWrite')}">还款随心包</span>
+					<span class="preview-input">
+						<input type="checkbox">
+					</span>
+				</li>
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,8,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,8,'mustWrite')}">到账银行卡号</span>
+					<span class="preview-input">
+						<input class="font-9" type="text" placeholder="请输入到账银行卡号">
+					</span>
+				</li>
+				<!-- <li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,8,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,8,'mustWrite')}">开户银行</span>
+					<span class="preview-input">
+						<input class="font-7" type="text" placeholder="请输入开户银行">
+					</span>
+				</li> -->
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,9,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,9,'mustWrite')}">账户名</span>
+					<span class="preview-input">
+						<input class="font-6" type="text" placeholder="请输入账户名">
+					</span>
+				</li>
+				<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.loan,0,0,10,'isShow')">
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.loan,0,0,10,'mustWrite')}">银行卡预留电话号码</span>
+					<span class="preview-input">
+						<input class="font-12" type="text" placeholder="请输入银行卡预留电话号码">
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class="modular" ng-if="previewModularIndex===ModularIndexObj.comprehensive">
+			<div>
+				<h3 ng-if="sonModularIsShow(ModularIndexObj.comprehensive,0,0)">
+					<span >家庭居住情况</span>
+				</h3>
+				<ul>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,0,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,0,'mustWrite')}">婚姻状况</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择婚姻状况</option>
+								<option>已婚</option>
+								<option>未婚</option>
+								<option>丧偶</option>
+								<option>离异</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,1,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,1,'mustWrite')}">家庭成员姓名</span>
+						<span class="preview-input">
+							<input class="font-9" type="text" placeholder="请输入家庭成员姓名">
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,2,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,2,'mustWrite')}">与申请人关系</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择与申请人关系</option>
+								<option>夫妻</option>
+								<option>父母</option>
+								<option>子女</option>
+								<option>兄弟姐妹</option>
+								<option>其它亲戚</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,3,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,3,'mustWrite')}">联系电话</span>
+						<span class="preview-input">
+							<input class="font-7" type="text" placeholder="请输入联系电话">
+						</span>
+					</li>
+					<!-- <li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,1,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,1,'mustWrite')}">配偶姓名</span>
+						<span class="preview-input">
+							<input class="font-7" type="text" placeholder="请输入配偶姓名">
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,2,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,2,'mustWrite')}">配偶联系电话</span>
+						<span class="preview-input">
+							<input class="font-9" type="text" placeholder="请输入配偶联系电话">
+						</span>
+					</li> -->
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,4,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,4,'mustWrite')}">供养人数</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择供养人数</option>
+								<option>2人以下</option>
+								<option>2-4人</option>
+								<option>4人以上</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,5,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,5,'mustWrite')}">住房类型</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择住房类型</option>
+								<option>完全自有</option>
+								<option>按揭</option>
+								<option>与父母同住</option>
+								<option>租赁</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,6,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,6,'mustWrite')}">居住时间</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择现住址居住时间</option>
+								<option>1年以内</option>
+								<option>1-3年</option>
+								<option>3-5年</option>
+								<option>5-10年</option>
+								<option>10年以上</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option-address" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,7,'isShow')">
+						<p ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,7,'mustWrite')}">居住地址</p>
+						<div>
+							<select>
+								<option>省</option>
+								<option>四川</option>
+							</select>
+							<select>
+								<option>市</option>
+								<option>成都市</option>
+								<option>绵阳市</option>
+								<option>南充市</option>
+								<option>德阳市</option>
+								<option>广安市</option>
+							</select>
+							<select name="" id="">
+								<option>区/县</option>
+								<option>武侯区</option>
+								<option>青羊区</option>
+								<option>金牛区</option>
+								<option>成华区</option>
+								<option>高新区</option>
+							</select>
+						</div>
+						<input ng-if="handleModularBool(ModularIndexObj.comprehensive,0,0,8,'isShow')" type="text" placeholder="请输入详细地址">
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h3 ng-if="sonModularIsShow(ModularIndexObj.comprehensive,0,1)">
+					<span>工作信息</span>
+				</h3>
+				<ul>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,0,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,1,0,'mustWrite')}">工作单位名称</span>
+						<span class="preview-input">
+							<input class="font-9" type="text" placeholder="请输入工作单位名称">
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,1,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,1,1,'mustWrite')}">职位</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择职位</option>
+								<option>一般工作人员</option>
+								<option>主管/项目经理/班组长</option>
+								<option>部门负责人/部门经理</option>
+								<option>副总/总经理助理</option>
+								<option>总经理/老板</option>
+								<option>其它</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,2,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,1,2,'mustWrite')}">月收入</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择收入区间</option>
+								<option>3000元以下</option>
+								<option>3000-5000元</option>
+								<option>5000-1000元</option>
+								<option>10000-20000元</option>
+								<option>2万元以上</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,3,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,1,3,'mustWrite')}">工作年限</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择工作年限</option>
+								<option>1年以内</option>
+								<option>1-3年</option>
+								<option>3-5年</option>
+								<option>5-10年</option>
+								<option>10年以上</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,4,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,1,4,'mustWrite')}">所属行业</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择所属行业</option>
+								<option>制造业/生产加工</option>
+								<option>政府|非盈利机构|事业单位</option>
+								<option>医疗业</option>
+								<option>新闻</option>
+								<option>物流|仓储</option>
+								<option>文体教育</option>
+								<option>其他</option>
+								<option>农|林|牧|渔|</option>
+								<option>能源/矿产</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,5,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,1,5,'mustWrite')}">单位性质</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择单位性质</option>
+								<option>个体户</option>
+								<option>民营</option>
+								<option>国营</option>
+								<option>三资企业</option>
+								<option>政府机关及企事业单位</option>
+								<option>社会公益组织</option>
+								<option>其它</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,6,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,1,6,'mustWrite')}">单位规模</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择单位规模</option>
+								<option>50人以下</option>
+								<option>50-100人</option>
+								<option>100-500人</option>
+								<option>500-1000人</option>
+								<option>1000人以上</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,7,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,1,7,'mustWrite')}">单位联系人姓名</span>
+						<span class="preview-input">
+							<input class="font-10" type="text" placeholder="请输入单位联系人姓名"/>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,8,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,1,8,'mustWrite')}">单位联系人电话</span>
+						<span class="preview-input">
+							<input class="font-10" type="text" placeholder="请输入单位联系人电话"/>
+						</span>
+					</li>
+					<li class="preview-option-address" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,9,'isShow')">
+						<p ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,0,9,'mustWrite')}">单位地址</p>
+						<div>
+							<select>
+								<option>省</option>
+								<option>四川</option>
+							</select>
+							<select>
+								<option>市</option>
+								<option>成都市</option>
+								<option>绵阳市</option>
+								<option>南充市</option>
+								<option>德阳市</option>
+								<option>广安市</option>
+							</select>
+							<select name="" id="">
+								<option>区/县</option>
+								<option>武侯区</option>
+								<option>青羊区</option>
+								<option>金牛区</option>
+								<option>成华区</option>
+								<option>高新区</option>
+							</select>
+						</div>
+						<input ng-if="handleModularBool(ModularIndexObj.comprehensive,0,1,10,'isShow')" type="text" placeholder="请输入详细地址">
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h3 ng-if="sonModularIsShow(ModularIndexObj.comprehensive,0,2)">
+					<span>教育信息</span>
+				</h3>
+				<ul>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,2,0,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,2,0,'mustWrite')}">学校名称</span>
+						<span class="preview-input">
+							<input class="font-5" type="text" placeholder="请输入名称"/>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,2,1,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,2,1,'mustWrite')}">学历</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择学历</option>
+								<option>专科</option>
+								<option>本科</option>
+								<option>硕士</option>
+								<option>博士</option>
+								<option>其他</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,2,2,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,2,2,'mustWrite')}">入学时间</span>
+						<span class="preview-input">
+							2013年9月
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,2,3,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,2,3,'mustWrite')}">专业名称</span>
+						<span class="preview-input">
+							<input class="font-7" type="text" placeholder="请输入专业名称"/>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,2,4,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,2,4,'mustWrite')}">学校联系人姓名</span>
+						<span class="preview-input">
+							<input class="font-8" type="text" placeholder="请输入联系人姓名"/>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,2,5,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,2,5,'mustWrite')}">与联系人关系</span>
+						<span class="preview-input">
+							<select>
+								<option>请选择联系人关系</option>
+								<option>室友</option>
+								<option>师生</option>
+								<option>同学</option>
+							</select>
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,2,6,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,2,6,'mustWrite')}">学校联系人电话</span>
+						<span class="preview-input">
+							<input class="font-10" type="text" placeholder="请输入学校联系人电话"/>
+						</span>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h3 ng-if="sonModularIsShow(ModularIndexObj.comprehensive,0,3)">
+					<span>借贷情况</span>
+				</h3>
+				<ul>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,3,0,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,3,0,'mustWrite')}">是否有房贷</span>
+						<span class="preview-input">
+							<input type="radio">是
+							<input type="radio">否
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,3,1,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,3,1,'mustWrite')}">是否有车贷</span>
+						<span class="preview-input">
+							<input type="radio">是
+							<input type="radio">否
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,3,2,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,3,2,'mustWrite')}">是否有其他贷款</span>
+						<span class="preview-input">
+							<input type="radio">是
+							<input type="radio">否
+						</span>
+					</li>
+					<li class="preview-option" ng-if="handleModularBool(ModularIndexObj.comprehensive,0,3,3,'isShow')">
+						<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.comprehensive,0,3,3,'mustWrite')}">是否有信用卡</span>
+						<span class="preview-input">
+							<input type="radio">是
+							<input type="radio">否
+						</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="modular upload-modular"
+		ng-if="previewModularIndex===ModularIndexObj.upload">
+			<div class="upload-box" ng-if="handleModularBool(ModularIndexObj.upload,0,0,0,'isShow')">
+				<div class="upload-block id-face"></div>
+				<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.upload,0,0,0,'mustWrite')}">身份证正面</span>
+			</div>
+			<div class="upload-box" ng-if="handleModularBool(ModularIndexObj.upload,0,0,1,'isShow')">
+				<div class="upload-block id-back"></div>
+				<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.upload,0,0,1,'mustWrite')}">身份证背面</span>
+				<span class="preview-input"></span>
+			</div>
+			<div class="upload-box" ng-if="handleModularBool(ModularIndexObj.upload,0,0,2,'isShow')">
+				<div class="upload-block id-hand"></div>
+				<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.upload,0,0,2,'mustWrite')}">手持身份证现场照</span>
+			</div>
+			<div class="upload-box" ng-if="handleModularBool(ModularIndexObj.upload,0,0,3,'isShow')">
+				<div class="upload-block bank"></div>
+				<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.upload,0,0,3,'mustWrite')}">银行卡照片</span>
+			</div>
+			<div class="upload-box" ng-if="handleModularBool(ModularIndexObj.upload,0,0,4,'isShow')">
+				<div class="upload-block upload-other"></div>
+				<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.upload,0,0,4,'mustWrite')}">学生证/学信网截图</span>
+			</div>
+			<div class="upload-box" ng-if="handleModularBool(ModularIndexObj.upload,0,0,5,'isShow')">
+				<div class="upload-block upload-other"></div>
+				<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.upload,0,0,5,'mustWrite')}">芝麻信用截图</span>
+			</div>
+			<!-- <span ng-if="vm.previewModularIndex===3&&handleModularBool(ModularIndexObj.upload,0,0,'isShow')">我只是一个测试预览的东西</span> -->
+		</div>
+		<div class="modular" ng-if="previewModularIndex===ModularIndexObj.vertify">
+				<div class="vertify-box" ng-if="handleModularBool(ModularIndexObj.vertify,0,0,0,'isShow')">
+					<div class="vertify-block">
+						<i class="icon-yunyingshangrenzheng"></i>
+					</div>
+					<span ng-class="{'must-write-label':handleModularBool(ModularIndexObj.vertify,0,0,0,'mustWrite')}">运营商授权</span>
+
+				</div>
+		</div>
+	</div>
+	<span class="pre-button" ng-click="preModular()" ng-if="previewModularIndex!==chooseModularArr[0]"></span>
+	<span class="next-button" ng-click="nextModular()" ng-if="previewModularIndex!==chooseModularArr[chooseModularArr.length-1]"></span>
+</div>

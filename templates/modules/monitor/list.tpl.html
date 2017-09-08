@@ -1,0 +1,252 @@
+<div class="anti-list-container">
+
+	<!-- <div class="list-header clearfix">
+		<div class="monitor-list-header-l">
+			<div class="h-top">
+				<h2>贷后监控列表</h2>
+				<label for="">
+					<input type="checkbox" ng-model="vm.postParams.isUnusual" ng-click="vm.checkIfPageEqualFirst()">
+					<span>仅看贷后监控异常的用户</span>
+				</label>
+			</div>
+			<div class="h-bottom">
+				<span class="icon-icon-dengpao"></span>
+				<span class="h-item">最新一次批量导入数：<span ng-bind="vm.totalImport"></span></span>
+				<span class="h-item">其中成功加入贷后监控数：<span ng-bind="vm.success"></span></span>
+				<span class="h-item">正在加入贷后监控数：<span ng-bind="vm.doing"></span></span>
+				<span class="h-item">重复数：<span ng-bind="vm.duplicate"></span></span>
+			</div>
+		</div>
+		<div class="list-header-r monitor-list-header-r clearfix">
+			<div class="phone-l">
+				<label class="common-search-box">
+					<input type="number" placeholder="请输入手机号" ng-model="vm.postParams.phone" ng-keydown="vm.searchByPhone($event)">
+					<span ng-click="vm.searchByPhone()"><i class="icon-fangdajing"></i></span>
+				</label>
+			</div>
+			<a href="/monitor/search" class="common-sucess-btn btn monitor-add-btn"><i class="icon-xinzeng"></i>添加监控对象</a>
+		</div>
+	</div> -->
+
+
+	<div class="list-header clearfix">
+		<div class="list-header-l">
+			<h2>贷后监控列表</h2>
+			<span class="h-bottom">
+				<span class="icon-icon-dengpao"></span>
+				<span class="h-item">最新一次批量导入数：<span ng-bind="vm.totalImport"></span></span>
+				<span class="h-item">其中成功加入贷后监控数：<span ng-bind="vm.success"></span></span>
+				<span class="h-item">正在加入贷后监控数：<span ng-bind="vm.doing"></span></span>
+				<span class="h-item">重复数：<span ng-bind="vm.duplicate"></span></span>
+			</span>
+		</div>
+		<div class="list-header-r anti-list-header-r clearfix">
+			<div class="phone-l">
+				<label class="common-search-box">
+					<input type="text" placeholder="请输入手机号或身份证号" ng-model="vm.postParams.phone" ng-keydown="vm.searchByPhone($event)">
+				</label>
+				<span ng-click="vm.searchByPhone()" class="search-btn monitor-search-btn"><i class="icon-fangdajing"></i><span>搜索</span></span>
+			</div>
+			<button ng-disabled="!vm.buttonInfo.addMonitor.show" ui-sref="Monitor.search" class="power-btn common-sucess-btn btn monitor-add-btn " ng-class="{'disabled-btn':!vm.buttonInfo.addMonitor.show}"><i class="icon-xinzeng"></i>添加监控对象</button>
+		</div>
+	</div>
+
+	<div class="select-box clearfix monitor-s-box">
+		<div class="select-box-l">
+			<div class="list-time-select-box">
+				<label class="label">最新异常时间：</label>
+                <span ng-class="{'active': (vm.postParams.period === vm.dateOptionObj.all)}" ng-click="vm.changeAntiPeriod('all')">全部</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active': (vm.postParams.period === vm.dateOptionObj.today)}" ng-click="vm.changeAntiPeriod('today')">今天</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active' : vm.postParams.period === vm.dateOptionObj.week}" ng-click="vm.changeAntiPeriod('week')">近7天</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active' : vm.postParams.period === vm.dateOptionObj.month}" ng-click="vm.changeAntiPeriod('month')">近30天</span>
+            </div>
+            <div class="list-canlendar-box">
+                <div class="select-date m-l-15" ng-class="{'active' : vm.postParams.period === vm.dateOptionObj.other}">
+                    <div class="date-font">
+                        <span ng-bind="vm.antiPicker.start | date:'yyyy-MM-dd'"></span>
+                        <span>至</span>
+                        <span ng-bind="vm.antiPicker.end | date:'yyyy-MM-dd'"></span>
+                        <i class="icon-riqi" ng-click="vm.openCalendar($event, 'antiPicker')"></i>
+                    </div>
+                    <div double-date-picker date-obj="vm.antiPicker" class="calendar service-list-calendar" pre-date-option="vm.dateOption" next-date-option="vm.dateOptions" ></div>
+                </div>
+            </div>
+		</div>
+
+		<div class="select-box-r" ng-click="vm.isSlideDown = !vm.isSlideDown">
+			<span ng-if="!vm.isSlideDown">更多筛选</span><span ng-if="vm.isSlideDown">精简筛选</span><i ng-class="vm.isSlideDown ? 'icon-xiangshang' : 'icon-xiangxia'"></i>
+		</div>
+	</div>
+
+	<div class="more-select-box clearfix" ng-show="vm.isSlideDown">
+		<div class="select-anti-box">
+			<div class="select-content clearfix">
+				<div class="list-time-select-box">
+					<label class="w85">开始监控时间：</label>
+	                <span ng-class="{'active': (vm.postParams.monitorPeriod === vm.dateOptionObj.all)}" ng-click="vm.changeMonitorPeriod('all')">全部</span>
+	                <span class="divice">|</span>
+	                <span ng-class="{'active': (vm.postParams.monitorPeriod === vm.dateOptionObj.today)}" ng-click="vm.changeMonitorPeriod('today')">今天</span>
+	                <span class="divice">|</span>
+	                <span ng-class="{'active' : vm.postParams.monitorPeriod === vm.dateOptionObj.week}" ng-click="vm.changeMonitorPeriod('week')">近7天</span>
+	                <span class="divice">|</span>
+	                <span ng-class="{'active' : vm.postParams.monitorPeriod === vm.dateOptionObj.month}" ng-click="vm.changeMonitorPeriod('month')">近30天</span>
+	            </div>
+	            <div class="list-canlendar-box">
+	                <div class="select-date m-l-15" ng-class="{'active' : vm.postParams.monitorPeriod === vm.dateOptionObj.other}">
+	                    <div class="date-font">
+	                        <span ng-bind="vm.monitorPicker.start | date:'yyyy-MM-dd'"></span>
+	                        <span>至</span>
+	                        <span ng-bind="vm.monitorPicker.end | date:'yyyy-MM-dd'"></span>
+	                        <i class="icon-riqi" ng-click="vm.openCalendar($event, 'monitorPicker')"></i>
+	                    </div>
+	                    <div double-date-picker date-obj="vm.monitorPicker" class="calendar service-list-calendar" pre-date-option="vm.monitorEndOption" next-date-option="vm.monitorStartOption" ></div>
+	                </div>
+            </div>
+			</div>
+		</div>
+
+
+		<div class="select-anti-box">
+			<div class="select-content">
+				<label for="" class="w85">异常项数：</label>
+				<span ng-class="{'active': vm.postParams.exponentNum.length === 0}" ng-click="vm.changeExponentNum(-1)">全部</span>
+				<label ng-repeat="item in [0,1,2,3,4,5,6,7,8]">
+					<label class="divice">|</label>
+					<span ng-class="{'active': vm.postParams.exponentNum.indexOf(item+'') > -1}" ng-click="vm.changeExponentNum(item)">{{item}}项</span>
+				</label>
+			</div>
+		</div>
+
+		<div class="select-anti-box">
+			<div class="select-content">
+				<label for="" class="w85">异常项：</label>
+				<span ng-class="{'active': vm.postParams.exceptionList.length === 0}" ng-click="vm.changeSelectExceptionStatus(-1)">全部</span>
+				<label class="divice">|</label>
+				<span ng-repeat="exception in vm.exceptionArr">
+					<span ng-click="vm.changeSelectExceptionStatus(exception.name)" ng-class="{'active':(vm.postParams.exceptionList.indexOf(exception.name) > -1)}" ng-bind="exception.value"></span>
+					<span class="divice" ng-if="!$last">|</span>
+				</span>
+			</div>
+		</div>
+
+		<div class="select-anti-box">
+			<div class="select-content">
+				<label for="" class="w85">监控状态：</label>
+				<span ng-click="vm.changeSelectMonitorStatus(vm.monitorStatusObj.all)" ng-class="{'active': vm.postParams.status === vm.monitorStatusObj.all}">全部</span>
+				<span class="divice">|</span>
+				<span ng-click="vm.changeSelectMonitorStatus(vm.monitorStatusObj.noticing)" ng-class="{'active': vm.postParams.status === vm.monitorStatusObj.noticing}">监控中</span>
+				<span class="divice">|</span>
+				<span ng-click="vm.changeSelectMonitorStatus(vm.monitorStatusObj.stopped)" ng-class="{'active': vm.postParams.status === vm.monitorStatusObj.stopped}">已停止</span>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="list-table">
+		<table class="common-table monitor-table credit-table" ng-if="vm.antiFraudList.length > 0">
+			<thead>
+				<tr>
+					<th class="name">姓名</th>
+					<th>手机号</th>
+					<th>身份证号</th>
+					<th>
+						<span class="exponent-item">最新异常时间
+							<i class="trangle-down" ng-class="{'active': vm.postParams.unusalSort === vm.exponentSort.up}" ng-click="vm.changeListSort(vm.exponentSort.up, 'unusalSort')"></i>
+							<i class="trangle-up" ng-class="{'active': vm.postParams.unusalSort === vm.exponentSort.down}" ng-click="vm.changeListSort(vm.exponentSort.down, 'unusalSort')"></i>
+						</span>
+					</th>
+					<th>
+						<span class="exponent-item">开始监控时间
+							<i class="trangle-down" ng-class="{'active': vm.postParams.monitorSort === vm.exponentSort.up}" ng-click="vm.changeListSort(vm.exponentSort.up, 'monitorSort')"></i>
+							<i class="trangle-up" ng-class="{'active': vm.postParams.monitorSort === vm.exponentSort.down}" ng-click="vm.changeListSort(vm.exponentSort.down, 'monitorSort')"></i>
+						</span>
+					</th>
+					<th>异常项</th>
+					<th>
+						<span class="exponent-item">异常项数
+							<i class="trangle-down" ng-class="{'active': vm.postParams.exponentSort === vm.exponentSort.up}" ng-click="vm.changeListSort(vm.exponentSort.up, 'exponentSort')"></i>
+							<i class="trangle-up" ng-class="{'active': vm.postParams.exponentSort === vm.exponentSort.down}" ng-click="vm.changeListSort(vm.exponentSort.down, 'exponentSort')"></i>
+						</span>
+					</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="antiItem in vm.antiFraudList">
+					<td ng-bind="antiItem.name" class="name"></td>
+					<td ng-bind="antiItem.phone"></td>
+					<td ng-bind="antiItem.idCard"></td>
+					<td class="search-status"> {{antiItem.newTime | date:'yyyy-MM-dd HH:mm:ss'}} </td>
+					<td>{{antiItem.monitorTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+					<td ng-bind="antiItem.exceptionList | ellipsisFilter:12" title="{{antiItem.exceptionList | ellipsisFilter : 10000}}"></td>
+					<td ng-bind="antiItem.monitorExponent" class="is-break" ng-class="{'active': antiItem.monitorExponent > 1}"></td>
+					<td ng-bind="antiItem.statusText"></td>
+					<td>
+						<a href="/monitor/result?id={{antiItem.id}}" class="check-detail">查看详情</a>
+						<button ng-disabled="!vm.buttonInfo.stopMonitor.show" ng-if="antiItem.status" ng-click="vm.showModal('Js_stopMonitorTemplate', antiItem.id)" class="power-a check-detail" ng-class="{'disabled-a':!vm.buttonInfo.stopMonitor.show}">停止监控</button>
+						<a href="javascript:;" ng-if="!antiItem.status" class="green-font" ng-click="vm.showModal('Js_reStartMonitorTemplate', antiItem.id)">重启监控</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div ng-if="vm.antiFraudList.length === 0" class="empty-info">
+			<span class="empty-img"></span>
+			<span class="empty-text">暂无监控数据，赶快去添加吧！</span>
+		</div>
+	</div>
+    <pagination-counts-directive ng-if="vm.antiFraudList.length > 0"  page-index="vm.postParams.page" total="vm.total" page-total="vm.pageTotal" counts="vm.postParams.count" counts-array="vm.pageCountsArray">
+    </pagination-counts-directive>
+</div>
+
+<script type="text/ng-template" id="Js_stopMonitorTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>确定要停止该用户的监控吗？</p>
+			<p>停止后该用户产生新的异常将不再提示！</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.changeMonitorStatus(false) && closeThisDialog()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="Js_reStartMonitorTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>确定要重启该用户的监控吗？</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="vm.changeMonitorStatus(true) && closeThisDialog()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+
+
+<div class="result-body loader-box" ng-if="vm.isSearching">
+	<div class="bg-white">
+		<div class="spinner">
+			<div class="rect1"></div>
+			<div class="rect2"></div>
+			<div class="rect3"></div>
+			<div class="rect4"></div>
+			<div class="rect5"></div>
+			<div class="rect6"></div>
+			<div class="rect7"></div>
+			<div class="rect8"></div>
+		</div>
+		<span>查询中，请耐心等待...</span>
+	</div>
+</div>

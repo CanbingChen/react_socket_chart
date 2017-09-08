@@ -1,0 +1,1225 @@
+<div class="credit-body download-credit">
+	<div class="c-basic-header">
+		<h2>个人信用报告</h2>
+		<span>进件单号：{{vm.downloadParams.intoNumber}}</span>
+		<span class="intotime-block clearfix">进件时间：{{vm.downloadParams.intoTime | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+	</div>
+	<div class="c-basic-info clearfix">
+		<div class="clearfix">
+			<div class="c-basic-info-l">
+				<div class="name-box">
+					<div class="name-t">
+						<h2 class="name" ng-bind="vm.result.basicInfo.name"></h2>
+						<span >信用分 {{vm.circleOption.creditNum|creditNumber}}</span>
+						<span ng-if="vm.circleOption.creditNum===0||vm.circleOption.creditNum===-1" class="credit-level">暂无信用分</span>
+						<span ng-if="vm.circleOption.creditNum>0&&vm.circleOption.creditNum<=300" class="credit-level">信用极低</span>
+						<span ng-if="vm.circleOption.creditNum>300 && vm.circleOption.creditNum<=550" class="credit-level">信用低</span>
+						<span ng-if="vm.circleOption.creditNum>550 && vm.circleOption.creditNum<=600" class="credit-level">信用一般</span>
+						<span ng-if="vm.circleOption.creditNum>600 && vm.circleOption.creditNum<=650" class="credit-level">信用高</span>
+						<span ng-if="vm.circleOption.creditNum>650" class="credit-level">信用高</span>
+					</div>
+					<div class="name-b">
+						<span >年&emsp;&emsp;龄：　<span ng-bind="vm.result.basicInfo.age"></span></span>
+						<span >性&emsp;&emsp;别：　<span ng-bind="vm.result.basicInfo.sex"></span></span>
+					</div>
+				</div>
+				<ul>
+					<li class="clearfix">
+						<label for="">
+							身份证号：
+							<span ng-bind="vm.result.basicInfo.idCard">2222222222222222222</span>
+						</label>
+						<label for="">
+							<span ng-if="vm.result.verifyInfo.isId == vm.SearchResultObj.identical" class="identical"><i class="icon-duigou"></i><span>认证一致</span></span>
+							<span ng-if="vm.result.verifyInfo.isId == vm.SearchResultObj.notIdentical" class="not-identical"><i class="icon-tanhao"></i><span>认证不一致</span></span>
+							<span ng-if="vm.result.verifyInfo.isId == vm.SearchResultObj.notSearch" class="not-search"><i class="icon-weichaxun"></i><span>未查询</span></span>
+							<span ng-if="vm.result.verifyInfo.isId == vm.SearchResultObj.noResult" class="not-search"><i class="icon-chaxunwujieguo"></i><span>查询无结果</span></span>
+						</label>
+					</li>
+					<li class="clearfix">
+						<label for="">
+							银行卡号：
+							<span ng-bind="vm.result.basicInfo.bankNum">2222222222222222222</span>
+						</label>
+						<label for="">
+							<span ng-if="vm.result.verifyInfo.isBankNum == vm.SearchResultObj.identical" class="identical"><i class="icon-duigou"></i><span>认证一致</span></span>
+							<span ng-if="vm.result.verifyInfo.isBankNum == vm.SearchResultObj.notIdentical" class="not-identical"><i class="icon-tanhao"></i><span>认证不一致</span></span>
+							<span ng-if="vm.result.verifyInfo.isBankNum == vm.SearchResultObj.notSearch" class="not-search"><i class="icon-weichaxun"></i><span>未查询</span></span>
+							<span ng-if="vm.result.verifyInfo.isBankNum == vm.SearchResultObj.noResult" class="not-search"><i class="icon-chaxunwujieguo"></i><span>查询无结果</span></span>
+						</label>
+					</li>
+					<li class="clearfix">
+						<label for="">
+							手&ensp;机&ensp;号：
+							<span ng-bind="vm.result.basicInfo.phone">2222222222222222222</span>
+						</label>
+						<label for="">
+						<span ng-if="vm.result.verifyInfo.isPhone == vm.SearchResultObj.identical" class="identical"><i class="icon-duigou"></i><span>认证一致</span></span>
+							<span ng-if="vm.result.verifyInfo.isPhone == vm.SearchResultObj.notIdentical" class="not-identical"><i class="icon-tanhao"></i><span>认证不一致</span></span>
+							<span ng-if="vm.result.verifyInfo.isPhone == vm.SearchResultObj.notSearch" class="not-search"><i class="icon-weichaxun"></i><span>未查询</span></span>
+							<span ng-if="vm.result.verifyInfo.isPhone == vm.SearchResultObj.noResult" class="not-search"><i class="icon-chaxunwujieguo"></i><span>查询无结果</span></span>
+						</label>
+					</li>
+				</ul>
+			</div>
+			<div class="c-basic-info-r">
+				<div class="rate-container" ng-if="vm.authList.mashangScore">
+						<div class="download-face-container" ng-if="vm.authList.mashangFace && vm.isExist(vm.result.verifyInfo.faceImg)">
+							<img ng-src="{{vm.result.verifyInfo.faceImg}}" alt="">
+							<p><span class="face-score-label">人脸验证得分：</span><span class="face-score" ng-bind="vm.result.verifyInfo.faceScore | emptyFilter">123123</span></p>
+						</div>
+				</div>
+			</div>
+
+
+
+			<!-- <div class="c-basic-info-r">
+				<div class="rate-container" ng-if="vm.authList.mashangScore">
+					<div class="rate">
+						<span class="score" ng-bind="vm.result.verifyInfo.score | emptyFilter"></span>
+						<span class="label">综合评分</span>
+					</div>
+				</div>
+			</div> -->
+		</div>
+	</div>
+
+
+	<!-- 贷前风险评估 -->
+	<div class="pre-risk-assessment">
+		<div class="download-pre-risk-header">
+			<span></span>
+			<sapn class="download-pre-risk-title">贷前风险评估</sapn>
+			<span class="download-pre-risk-level">风险等级</span>
+			<span class="level-block" ng-if="vm.riskAssess.conclusion === vm.riskAssessObj.low" ng-class="{'low' : (vm.riskAssess.conclusion === vm.riskAssessObj.low)}" >低</span>
+			<span class="level-block"ng-if="vm.riskAssess.conclusion === vm.riskAssessObj.attention||vm.riskAssess.conclusion === vm.riskAssessObj.attentionHigh" ng-class="{'attention' : (vm.riskAssess.conclusion === vm.riskAssessObj.attention||vm.riskAssess.conclusion === vm.riskAssessObj.attentionHigh)}">关注</span>
+			<span class="level-block" ng-if="vm.riskAssess.conclusion === vm.riskAssessObj.high" ng-class="{'high' : (vm.riskAssess.conclusion === vm.riskAssessObj.high)}">高</span>
+			<span class="level-block" ng-if="vm.riskAssess.conclusion === vm.riskAssessObj.higher" ng-class="{'higher' : (vm.riskAssess.conclusion === vm.riskAssessObj.higher)}">极高</span>
+		</div>
+		<div class="risk-assessment-body">
+			<table>
+				<thead>
+					<tr>
+						<th>风险类别</th>
+						<th>验证结果</th>
+						<th>风险评估</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="col-6">身份认证</td>
+						<td class="col-15" ng-bind-html="vm.riskAssess.idVerify.result"></td>
+						<td class="col-3" ng-bind="vm.riskAssessObjRev[vm.riskAssess.idVerify.assess]" ng-class="{'text-red':(vm.riskAssess.idVerify.assess === vm.riskAssessObj.high || vm.riskAssess.idVerify.assess === vm.riskAssessObj.higher)}"></td>
+					</tr>
+					<tr>
+						<td>地址验证</td>
+						<td ng-bind-html="vm.riskAssess.addrsesVerify.result"></td>
+						<td >
+							<span ng-bind="vm.riskAssessObjRev[vm.riskAssess.addrsesVerify.assess]" ng-class="{'text-red':(vm.riskAssess.addrsesVerify.assess === vm.riskAssessObj.high || vm.riskAssess.addrsesVerify.assess === vm.riskAssessObj.higher)}"></span>
+							<!-- <i class="icon icon-wenhao">
+								<div class="address-check-detail">家庭或单位地址与第三方信息定位距离2KM以内时,判断为一致,距离超过2KM时, 有虚假嫌疑,违约风险高.</div>
+							</i> -->
+						</td>
+					</tr>
+					<tr>
+						<td>逾期及违约</td>
+						<td ng-bind-html="vm.riskAssess.overdue.result"></td>
+						<td ng-bind="vm.riskAssessObjRev[vm.riskAssess.overdue.assess]" ng-class="{'text-red':(vm.riskAssess.overdue.assess === vm.riskAssessObj.high || vm.riskAssess.overdue.assess === vm.riskAssessObj.higher)}" ></td>
+					</tr>
+					<tr>
+						<td>多平台借贷</td>
+						<td ng-bind-html="vm.riskAssess.multiLoan.result"></td>
+						<td  ng-bind="vm.riskAssessObjRev[vm.riskAssess.multiLoan.assess]" ng-class="{'text-red':(vm.riskAssess.multiLoan.assess === vm.riskAssessObj.high || vm.riskAssess.multiLoan.assess === vm.riskAssessObj.higher)}"></td>
+					</tr>
+					<tr>
+						<td>失信被执行</td>
+						<td ng-bind-html="vm.riskAssess.noFaith.result"></td>
+						<td  ng-bind="vm.riskAssessObjRev[vm.riskAssess.noFaith.assess]" ng-class="{'text-red':(vm.riskAssess.noFaith.assess === vm.riskAssessObj.high || vm.riskAssess.noFaith.assess === vm.riskAssessObj.higher)}"></td>
+					</tr>
+					<tr>
+						<td>第三方平台高危客户</td>
+						<td ng-bind-html="vm.riskAssess.thirdRisk.result"></td>
+						<td  ng-bind="vm.riskAssessObjRev[vm.riskAssess.thirdRisk.assess]" ng-class="{'text-red':(vm.riskAssess.thirdRisk.assess === vm.riskAssessObj.high || vm.riskAssess.thirdRisk.assess === vm.riskAssessObj.higher)}"></td>
+					</tr>
+					<tr>
+						<td>失联风险</td>
+						<td ng-bind-html="vm.riskAssess.lostContact.result"></td>
+						<td  ng-bind="vm.riskAssessObjRev[vm.riskAssess.lostContact.assess]" ng-class="{'text-red':(vm.riskAssess.lostContact.assess === vm.riskAssessObj.high || vm.riskAssess.lostContact.assess === vm.riskAssessObj.higher)}"></td>
+					</tr>
+					<tr>
+						<td>贷款类联系人</td>
+						<td ng-bind-html="vm.riskAssess.loanContact.result"></td>
+						<td  ng-bind="vm.riskAssessObjRev[vm.riskAssess.loanContact.assess]" ng-class="{'text-red':(vm.riskAssess.loanContact.assess === vm.riskAssessObj.high || vm.riskAssess.loanContact.assess === vm.riskAssessObj.higher)}"></td>
+					</tr>
+					<tr>
+						<td>违约风险</td>
+						<td ng-bind-html="vm.riskAssess.defaultRisk.result"></td>
+						<td ng-bind="vm.riskAssessObjRev[vm.riskAssess.defaultRisk.assess]" ng-class="{'text-red':(vm.riskAssess.defaultRisk.assess === vm.riskAssessObj.high || vm.riskAssess.defaultRisk.assess === vm.riskAssessObj.higher)}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="divice-line" ng-if="vm.authList.creditPhoneMsgCheck || vm.authList.addressGetByMobile || vm.authList.online">
+		<div class="download-title">基本信息校验</div>
+	</div>
+
+	<div class="credit-module">
+		<div class="phone-verify c-verify" ng-if="vm.authList.creditPhoneMsgCheck">
+			<span class="item-title"><i class="circle"></i>手机注册及活跃度综合校验</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th>平台类型</th>
+						<th>是否注册</th>
+						<th>昵称</th>
+						<th>注册时间</th>
+						<th>活跃度</th>
+					</tr>
+				<tbody ng-if="!vm.result.phoneVertify.isEmpty">
+					<tr>
+						<td>电商平台</td>
+						<td ng-bind="vm.result.phoneVertify.elec_flag_text" ng-class="{'g-font': vm.result.phoneVertify.elec_flag == vm.registerStatus.isRegister}"></td>
+						<td ng-bind="vm.result.phoneVertify.elec_nickname"></td>
+						<td>{{ vm.result.phoneVertify.elec_regtime | date: 'yyyy-MM-dd'}}</td>
+						<td ng-bind="vm.result.phoneVertify.elec_num">--</td>
+					</tr>
+					<tr>
+						<td>社交平台</td>
+						<td ng-bind="vm.result.phoneVertify.social_flag_text" ng-class="{'g-font': vm.result.phoneVertify.social_flag == vm.registerStatus.isRegister}"></td>
+						<td ng-bind="vm.result.phoneVertify.social_nickname"></td>
+						<td>{{ vm.result.phoneVertify.social_regtime | date: 'yyyy-MM-dd'}}</td>
+						<td>--</td>
+					</tr>
+					<tr>
+						<td>信息平台</td>
+						<td ng-bind="vm.result.phoneVertify.info_flag_text" ng-class="{'g-font': vm.result.phoneVertify.info_flag == vm.registerStatus.isRegister}"></td>
+						<td ng-bind="vm.result.phoneVertify.info_nickname"></td>
+						<td>--</td>
+						<td ng-bind="vm.result.phoneVertify.info_num">--</td>
+					</tr>
+				</tbody>
+				<tbody ng-if="vm.result.phoneVertify.isEmpty">
+					<tr>
+						<td>电商平台</td>
+						<td>未检测到</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+					<tr>
+						<td>社交平台</td>
+						<td>未检测到</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+					<tr>
+						<td>信息平台</td>
+						<td>未检测到</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="phone-verify c-verify" ng-if="vm.authList.online">
+			<span class="item-title"><i class="circle"></i>手机在网时长及状态校验</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th>运营商</th>
+						<th>在网时长</th>
+					</tr>
+				<tbody>
+					<tr>
+						<td ng-bind="vm.result.onLineTime.operator | emptyFilter"></td>
+						<td ng-bind="vm.result.onLineTime.timeRange | emptyFilter">电商平台</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="phone-verify c-verify" ng-if="vm.authList.contactInfoCheck">
+			<span class="item-title"><i class="circle"></i>重要联系人信息校验</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th>类别</th>
+						<th>与本人关系</th>
+						<th>姓名</th>
+						<th>手机号</th>
+						<th>近一个月通话</th>
+						<th>近三个月通话</th>
+						<th>亲密度</th>
+					</tr>
+				<tbody>
+					<tr ng-repeat="contactInfo in vm.result.contactInfoCheck">
+						<td ng-bind="contactInfo.type | emptyFilter"></td>
+						<td ng-bind="contactInfo.relation | emptyFilter"></td>
+						<td ng-bind="contactInfo.name | emptyFilter"></td>
+						<td ng-bind="contactInfo.telphone | emptyFilter"></td>
+						<td ng-bind="contactInfo.oneMonthTel | emptyFilter"></td>
+						<td ng-bind="contactInfo.threeMonthTel | emptyFilter"></td>
+						<td ng-class="{'text-red' : (contactInfo.intimacy === vm.intimacyObj.low || contactInfo.intimacy === vm.intimacyObj.high)}" ng-bind="vm.intimacyObjRev[contactInfo.intimacy] | emptyFilter"></td>
+						<!-- <td ng-bind="contactInfo.intimacy | emptyFilter"></td> -->
+					</tr>
+					<tr ng-if="!vm.result.contactInfoCheck.length">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- 地址校验 -->
+		<!-- <div class="phone-verify c-verify" ng-if="vm.authList.addressMatch"> -->
+		<div class="phone-verify c-verify">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>地址校验</span>
+			</div>
+
+			<div class="address-check">
+				<!-- 图标部分 -->
+				<div class="address-check-charts">
+					<!-- 商户地址 -->
+					<div class="business-address clearfix">
+
+						<h1>商户地址</h1>
+						<span class="address-cicle"></span>
+						<p ng-bind="vm.AddressCheck.chart.businessAddress" ng-if="vm.AddressCheck.chart.businessAddress"></p>
+						<p ng-if="!vm.AddressCheck.chart.businessAddress">未填写</p>
+						<span class="business2live distance" ng-if="vm.AddressCheck.chart.bussiness2live">距离<span ng-bind="vm.AddressCheck.chart.bussiness2live"></span></span>
+						<span class="business2live distance" ng-if="!vm.AddressCheck.chart.bussiness2live">无法判断</span>
+					</div>
+					<!-- 第三方收货地址 -->
+					<div class="third-address">
+						<h1>第三方收货地址</h1>
+						<span class="address-cicle"></span>
+						<p ng-bind="vm.AddressCheck.chart.thirdAddress" ng-if="vm.AddressCheck.chart.thirdAddress"></p>
+						<p ng-if="!vm.AddressCheck.chart.thirdAddress">未获取到第三方收货地址</p>
+						<span class="third2business distance" ng-if="vm.AddressCheck.chart.third2business">距离<span ng-bind="vm.AddressCheck.chart.third2business"></span></span>
+						<span class="third2business distance" ng-if="!vm.AddressCheck.chart.third2business">无法判断</span>
+					</div>
+					<!-- 居住地址 -->
+					<div class="live-address">
+						<h1>居住地址</h1>
+						<span class="address-cicle"></span>
+						<p ng-bind="vm.AddressCheck.chart.liveAddress" ng-if="vm.AddressCheck.chart.liveAddress"></p>
+						<p ng-if="!vm.AddressCheck.chart.liveAddress">未填写</p>
+						<span class="live2third distance" ng-if="vm.AddressCheck.chart.live2third">距离<span ng-bind="vm.AddressCheck.chart.live2third"></span></span>
+						<span class="live2third distance" ng-if="!vm.AddressCheck.chart.live2third">无法判断</span>
+					</div>
+				</div>
+
+				<!-- 地址列表部分 -->
+				<div class="address-check-list">
+					<ul>
+						<li ng-repeat="address in vm.AddressCheck.addressList">
+							<h1 ng-bind="address.title"></h1>
+							<p ng-bind="address.detailAddress"></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="divice-line">
+		<div class="download-title">负面信息校验</div>
+	</div>
+	<div class="credit-module">
+		<div class="phone-verify c-verify" ng-if="vm.authList.creditNetBlackList">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>网贷逾期</span>
+				<span class="is-target" ng-if="vm.result.loanOverTimeBlackList.isTarget == vm.TargetResultObj.target">有命中</span>
+				<span class="no-target" ng-if="vm.result.loanOverTimeBlackList.isTarget == vm.TargetResultObj.notTarget">未命中</span>
+				<span class="no-rearch" ng-if="vm.result.loanOverTimeBlackList.isTarget == vm.TargetResultObj.notSearch">未查询</span>
+				<!-- <span>命中条数：<span ng-bind=" vm.result.loanOverTimeBlackList.targetNum"></span>条</span> -->
+				<span class="text-red" ng-if="vm.result.loanOverTimeBlackList.isTarget == vm.TargetResultObj.target && vm.showRiskHigh"><i class="icon icon-tanhao"></i>风险极高</span>
+			</div>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th>借款时间</th>
+						<th>借款期数</th>
+						<th>借款本息（元）</th>
+						<th>逾期天数</th>
+					</tr>
+				<tbody>
+					<tr ng-repeat="item in vm.result.loanOverTimeBlackList.targetList">
+						<td>{{item.loanTime | date: 'yyyy-MM-dd'}}</td>
+						<td ng-bind="item.loanStage"></td>
+						<td ng-bind="item.loanMoney"></td>
+						<td ng-bind="item.overDay"></td>
+					</tr>
+					<!-- <tr ng-if="vm.result.loanOverTimeBlackList.isTarget != vm.TargetResultObj.target"> -->
+					<tr ng-if="!vm.result.loanOverTimeBlackList.targetList.length">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- 第三方逾期判定	 -->
+		<div class="phone-verify c-verify" ng-if="vm.authList.mashangOverdue">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>第三方逾期判定</span>
+				<span class="is-target" ng-if="vm.result.thirdOverTime.isTarget">有命中</span>
+				<span class="no-target" ng-if="!vm.result.thirdOverTime.isTarget">未命中</span>
+				<!-- <span class="no-rearch" ng-if="vm.result.thirdOverTime.isTarget == vm.TargetResultObj.notSearch">未查询</span> -->
+			</div>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th>曾经是否逾期</th>
+						<th>当前是否逾期</th>
+					</tr>
+				<tbody>
+					<tr>
+						<td ng-bind="vm.result.thirdOverTime.isPast"></td>
+						<td ng-bind="vm.result.thirdOverTime.isNow"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="phone-verify c-verify" ng-if="vm.authList.creditPerson">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>失信黑名单</span>
+				<span class="is-target" ng-if="vm.result.noFaithList.isTarget == vm.TargetResultObj.target">有命中</span>
+				<span class="no-target" ng-if="vm.result.noFaithList.isTarget == vm.TargetResultObj.notTarget">未命中</span>
+				<span class="no-rearch" ng-if="vm.result.noFaithList.isTarget == vm.TargetResultObj.notSearch">未查询</span>
+				<!-- <span>命中条数：<span ng-bind=" vm.result.noFaithList.targetNum"></span>条</span> -->
+				<span class="text-red" ng-if="vm.result.noFaithList.isTarget == vm.TargetResultObj.target"><i class="icon icon-wenhao"></i>风险极高</span>
+			</div>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th>立案时间</th>
+						<th>案号</th>
+						<th>失信人行为具体情形</th>
+						<th class="w120">被执行人履行情况</th>
+						<th>执行法院</th>
+					</tr>
+				<tbody>
+					<tr ng-repeat="item in vm.result.noFaithList.targetList">
+						<td>{{item.registerTime | date: 'yyyy-MM-dd'}}</td>
+						<td>
+							<span class="less-30" title="{{item.registerNum}}" ng-bind="item.limitregisterNum"></span>
+						</td>
+						<td>
+							<span class="less-30" title="{{item.detailAction}}" ng-bind="item.limitdetailActionTitle"></span>
+						</td>
+						<td>
+							<span class="less-20" title="{{item.performance}}" ng-bind="item.limitperformance"></span>
+						</td>
+						<td>
+							<span class="less-20" title="{{item.court}}" ng-bind="item.limitcourt"></span>
+						</td>
+					</tr>
+					<tr ng-if="vm.result.noFaithList.isTarget != vm.TargetResultObj.target">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- 第三方负面信息 -->
+		<div class="phone-verify c-verify" ng-if="vm.authList.mashangNegative">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>第三方负面信息</span>
+				<span class="is-target" ng-if="vm.result.thirdNegativeInfo.isTarget">有命中</span>
+				<span class="no-target" ng-if="!vm.result.thirdNegativeInfo.isTarget">未命中</span>
+				<!-- <span class="no-rearch" ng-if="vm.result.thirdNegativeInfo.isTarget == vm.TargetResultObj.notSearch">未查询</span> -->
+				<span class="text-red" ng-if="vm.result.thirdNegativeInfo.isTarget"><i class="icon icon-wenhao"></i>风险极高</span>
+			</div>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th>是否欺诈</th>
+						<th>是否失联</th>
+						<th>是否执行人</th>
+					</tr>
+				<tbody>
+					<tr>
+						<td ng-bind="vm.result.thirdNegativeInfo.isAntiFraud"></td>
+						<td ng-bind="vm.result.thirdNegativeInfo.isLost"></td>
+						<td ng-bind="vm.result.thirdNegativeInfo.isAction"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="phone-verify c-verify" ng-if="vm.authList.policeBadInfo">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>公安不良信息校验</span>
+				<span class="is-target" ng-if="vm.result.policeBadInfo.isTarget == vm.TargetResultObj.target">有命中</span>
+				<span class="no-target" ng-if="vm.result.policeBadInfo.isTarget == vm.TargetResultObj.notTarget">未命中</span>
+				<span class="no-rearch" ng-if="vm.result.policeBadInfo.isTarget == vm.TargetResultObj.notSearch">未查询</span>
+				<span class="text-red" ng-if="vm.result.policeBadInfo.isTarget == vm.TargetResultObj.target"><i class="icon icon-wenhao"></i>风险极高</span>
+			</div>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th>案发时间</th>
+						<th>不良类型</th>
+					</tr>
+				<tbody>
+					<tr ng-repeat="item in vm.result.policeBadInfo.targetList">
+						<td ng-bind="item.time | emptyFilter"></td>
+						<td ng-bind="item.type | emptyFilter"></td>
+					</tr>
+					<!-- <tr ng-if="vm.result.policeBadInfo.isTarget != vm.TargetResultObj.target"> -->
+					<tr ng-if="!vm.result.policeBadInfo.targetList.length">
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+	<div class="divice-line">
+		<div class="download-title">高危信息校验</div>
+	</div>
+
+	<div class="credit-module">
+		<div class="phone-verify c-verify" ng-if="vm.authList.creditManyPlatCheck">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>多平台借贷</span>
+				<span class="is-target" ng-if="vm.result.multipleLoan.isTarget">有命中</span>
+				<span class="no-target" ng-if="!vm.result.multipleLoan.isTarget">未命中</span>
+				<span ng-if="vm.result.multipleLoan.loanNum && vm.result.multipleLoan.loanNum > 0">申请借贷平台数：<span ng-bind="vm.result.multipleLoan.loanNum"></span>个</span>
+			</div>
+			<div class="multiple-loan-box" ng-if="vm.result.multipleLoan.targetList.length > 0">
+				<ul>
+					<li ng-repeat="item in vm.result.multipleLoan.targetList" class="active multiple-loan-item">
+						<span ng-bind="item"></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="phone-verify c-verify" ng-if="vm.authList.creditTelRiskList">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>电商平台高危客户</span>
+				<span class="is-target" ng-if="vm.result.eBusinessDanger.isTarget">有命中</span>
+				<span class="no-target" ng-if="!vm.result.eBusinessDanger.isTarget">未命中</span>
+				<span ng-if="vm.result.eBusinessDanger.targetNum && vm.result.eBusinessDanger.targetNum > 0">命中条数：<span ng-bind="vm.result.eBusinessDanger.targetNum"></span>条</span>
+			</div>
+			<table class="anti-com-tb  color-thead">
+					<tr class="thead">
+						<td>宝贝标题</td>
+						<td>命中关键词</td>
+						<td>购买时间</td>
+					</tr>
+				<tbody>
+					<tr ng-repeat="item in vm.result.eBusinessDanger.targetList">
+						<td class="w33">
+							<span class="less-30" title="{{item.title}}" ng-bind="item.limitTitle"></span>
+						</td>
+						<td class="w33">
+							<span class="less-20" title="{{item.keyword}}" ng-bind="item.limitKeyword"></span>
+						</td>
+						<td class="w33">{{item.orderTime | date: 'yyyy-MM' | emptyFilter}}</td>
+					</tr>
+
+					<tr ng-if="!vm.result.eBusinessDanger.isTarget">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="phone-verify c-verify" ng-if="vm.authList.creditNewsPlatRisk">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>信息平台高危客户</span>
+				<span class="is-target" ng-if="vm.result.infoDanger.isTarget">有命中</span>
+				<span class="no-target" ng-if="!vm.result.infoDanger.isTarget">未命中</span>
+				<span ng-if="vm.result.infoDanger.targetNum && vm.result.infoDanger.targetNum > 0">命中条数：<span ng-bind="vm.result.infoDanger.targetNum"></span>条</span>
+			</div>
+			<table class="anti-com-tb  color-thead">
+					<tr class="thead">
+						<th>发布内容</th>
+						<th>命中关键词</th>
+						<th>发布时间</th>
+					</tr>
+				<tbody>
+					<tr ng-repeat="item in vm.result.infoDanger.targetList">
+						<td>
+							<span class="less-30" title="{{item.content}}" ng-bind="item.limitcontent"></span>
+						</td>
+						<td>
+							<span class="less-20" title="{{item.keyword}}" ng-bind="item.keyword"></span>
+						</td>
+						<td ng-bind="item.time | date: 'yyyy-MM-dd'"></td>
+					</tr>
+
+					<tr ng-if="!vm.result.infoDanger.isTarget">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="phone-verify c-verify" ng-if="vm.authList.creditSocialBlackList">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>社交平台高危客户</span>
+				<span class="is-target" ng-if="vm.result.socialDanger.isTarget">有命中</span>
+				<span class="no-target" ng-if="!vm.result.socialDanger.isTarget">未命中</span>
+				<span ng-if="vm.result.socialDanger.targetNum && vm.result.socialDanger.targetNum > 0">命中条数：<span ng-bind="vm.result.socialDanger.targetNum"></span>条</span>
+			</div>
+			<table class="anti-com-tb  color-thead">
+					<tr class="thead">
+						<th>命中关键词</th>
+						<th>发布内容</th>
+					</tr>
+				<tbody>
+					<tr ng-repeat="item in vm.result.socialDanger.targetList">
+						<td  class="w33">
+							<span class="less-20" title="{{item.keyword}}" ng-bind="item.keyword"></span>
+						</td>
+						<td  class="w33">
+							<span class="less-30" title="{{item.content}}" ng-bind="item.content"></span>
+						</td>
+					</tr>
+					<tr ng-if="!vm.result.socialDanger.isTarget">
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="attention-box" ng-if="vm.authList.creditSocialBlackList">
+			关注的借贷平台:
+			<span ng-repeat="item in vm.result.socialDanger.attentionList">
+				<span class="attention-divice" ng-if="$index !== 0">|</span>
+				<span class="attention-item" ng-bind="item"></span>
+			</span>
+			<span ng-if="!vm.result.socialDanger.attentionList || vm.result.socialDanger.attentionList.length === 0">--</span>
+		</div>
+
+		<div class="phone-verify c-verify" ng-if="vm.authList.creditPhoneBlack">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>手机号码被标注</span>
+				<span class="is-target" ng-if="vm.result.phoneMarkBlackList.isTarget">有命中</span>
+				<span class="no-target" ng-if="!vm.result.phoneMarkBlackList.isTarget">未命中</span>
+				<!-- <span>命中条数：<span ng-bind=" vm.result.phoneMarkBlackList.targetNum"></span>条</span> -->
+			</div>
+			<table class="anti-com-tb  color-thead">
+					<tr class="thead">
+						<th>标记类型</th>
+						<th>标记次数</th>
+						<th>最近标注时间</th>
+					</tr>
+				<tbody>
+					<tr ng-repeat="item in vm.result.phoneMarkBlackList.targetList">
+						<td>
+							<span class="less-30" title="{{item.markType}}" ng-bind="item.limitmarkType"></span>
+						</td>
+						<td ng-bind="item.markNum"></td>
+						<td ng-bind="item.time | date:'yyyy-MM-dd HH:mm:ss'"></td>
+					</tr>
+
+					<tr ng-if="!vm.result.phoneMarkBlackList.isTarget && vm.result.phoneMarkBlackList.targetList.length === 0">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+
+
+	<div class="divice-line">
+		<div class="download-title margin-bottom-none">运营商数据分析</div>
+	</div>
+	<h3 class="opetator-label">近６个月数据</h3>
+	<div class="credit-module">
+		<!-- 基本信息 -->
+		<div class="phone-verify c-verify">
+			<span class="item-title little-top"><i class="circle"></i>运营商基本信息</span>
+
+			<div class="company-basic-info operator-basic-info clearfix" ng-if="!vm.operatorLoading && vm.operatorAuth === vm.operatorAuthObj.authed">
+				<div class="register first-line"><span class="label">客户名称：</span><span class="content" ng-bind="vm.operatorInfo.phoneInfo.realName | emptyFilter"></span></div>
+				<div class="register first-line"><span class="label">欠费情况：</span><span class="content" ng-bind="vm.operatorInfo.phoneInfo.ownInfo | emptyFilter"></span></div>
+				<div class="register first-line"><span class="label">积分：</span><span class="content" ng-bind="vm.operatorInfo.phoneInfo.pointValue | emptyFilter"></span></div>
+				<div class="register first-line"><span class="label">月平均消费金额：</span><span class="content" ng-bind="vm.operatorInfo.phoneInfo.averageConsume | emptyFilter"></span></div>
+				<div class="register first-line"><span class="label">入网日期：</span><span class="content" ng-bind="vm.operatorInfo.phoneInfo.inNetDate | emptyFilter"></span></div>
+				<div class="register first-line"><span class="label">登记邮箱：</span><span class="content" ng-bind="vm.operatorInfo.phoneInfo.email | emptyFilter"></span></div>
+				<div class="register first-line"><span class="label">最近通话时间：</span><span class="content" ng-bind="vm.operatorInfo.phoneInfo.lastCallDate | emptyFilter"></span></div>
+				<div class="register first-line"><span class="label">最早通话时间：</span><span class="content" ng-bind="vm.operatorInfo.phoneInfo.firstCallDate | emptyFilter"></span></div>
+				<div class="register first-line"><span class="label">登记地址：</span><span class="content" ng-bind="vm.operatorInfo.phoneInfo.addr | emptyFilter"></span></div>
+			</div>
+
+			<div class="company-basic-info operator-basic-info clearfix text-center" ng-if="!vm.operatorLoading && !vm.operatorAuth">未查询运营商数据</div>
+			<div class="company-basic-info operator-basic-info clearfix text-center" ng-if="!vm.operatorLoading && vm.operatorAuth === vm.operatorAuthObj.authing">运营商数据查询中,请稍候...</div>
+
+
+			<div class="company-basic-info operator-basic-info clearfix" ng-if="vm.operatorLoading">
+				数据正在加载中，请稍后查看...
+			</div>
+		</div>
+
+		<div class="phone-verify c-verify">
+			<span class="item-title"><i class="circle"></i>用户异常行为分析</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th class="col-6">分析项</th>
+						<th class="col-3">结果</th>
+						<th class="col-13">分析依据</th>
+						<th class="col-2">风险评估</th>
+					</tr>
+				<tbody ng-if="!vm.operatorLoading" class="abnormal-behavior">
+					<tr ng-repeat="item in vm.operatorInfo.abnormalBehavior" ng-class="{'bg-pink':(item.assess === vm.riskAssessObj.high)}">
+						<td ng-bind="item.name | emptyFilter"></td>
+						<td ng-bind="item.result | emptyFilter"></td>
+						<td ng-bind-html="item.accord"></td>
+						<td ng-bind="vm.riskAssessObjRev[item.assess] | emptyFilter" ng-class="{'text-red':(item.assess === vm.riskAssessObj.high)}"></td>
+					</tr>
+				</tbody>
+				<tbody ng-if="vm.operatorLoading">
+					<tr>
+						<td colspan="2">数据正在加载中，请稍后查看...</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div class="phone-verify c-verify">
+			<span class="item-title"><i class="circle"></i>风险号码标记记录分析</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th class="col-3">号码标记</th>
+						<th class="col-3">号码数量</th>
+						<th class="col-3">通话次数</th>
+						<th class="col-3">主叫次数</th>
+						<th class="col-3">主叫时间(分)</th>
+						<th class="col-3">被叫次数</th>
+						<th class="col-3">被叫时间(分)</th>
+						<th class="col-3">最近联系时间</th>
+					</tr>
+				<tbody ng-if="!vm.operatorLoading">
+					<tr ng-repeat="item in vm.operatorInfo.riskNumTag">
+						<td ng-bind="item.tag | emptyFilter"></td>
+						<td ng-bind="item.telNum | emptyFilter"></td>
+						<td ng-bind="item.callTimes | emptyFilter"></td>
+						<td ng-bind="item.callingTimes | emptyFilter"></td>
+						<td ng-bind="item.callingMinute | emptyFilter"></td>
+						<td ng-bind="item.calledTimes | emptyFilter"></td>
+						<td ng-bind="item.calledMinute | emptyFilter"></td>
+						<td ng-bind="item.lastConnTime | emptyFilter"></td>
+					</tr>
+					<tr ng-if="vm.operatorInfo.riskNumTag.length === 0">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+
+				<tbody ng-if="vm.operatorLoading">
+					<tr>
+						<td colspan="5">数据正在加载中，请稍后查看...</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="phone-verify c-verify">
+			<span class="item-title"><i class="circle"></i>重要联系人通话分析</span>
+			<label for="" class="operator-checkbox" ng-if="vm.operatorInfo.importantConnAnalysis.length === 0">未填写</label>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th class="col-3">类别</th>
+						<th class="col-2">关系</th>
+						<th class="col-3">姓名</th>
+						<th class="col-4">号码</th>
+						<th class="col-2">通话次数</th>
+						<th class="col-2">占比(%)</th>
+						<!-- <th class="col-2">所在地区</th> -->
+						<th class="col-3">主叫次数</th>
+						<th class="col-3">被叫次数</th>
+						<th class="col-2">平均通话时间(分)</th>
+					</tr>
+				<tbody ng-if="!vm.operatorLoading">
+					<tr ng-repeat="item in vm.operatorInfo.importantConnAnalysis">
+						<td ng-bind="item.type | emptyFilter"></td>
+						<td ng-bind="item.relation | emptyFilter"></td>
+						<td ng-bind="item.name | emptyFilter"></td>
+						<td ng-bind="item.telphone | emptyFilter"></td>
+						<td ng-bind="item.callTimes | emptyFilter"></td>
+						<td ng-bind="item.ratio | emptyFilter"></td>
+						<!-- <td ng-bind="item.address | emptyFilter"></td> -->
+						<td ng-bind="item.callingTimes | emptyFilter"></td>
+						<td ng-bind="item.calledTimes | emptyFilter"></td>
+						<td ng-bind="item.coverageCallMinute | emptyFilter"></td>
+					</tr>
+					<tr ng-if="vm.operatorInfo.importantConnAnalysis.length === 0">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<!-- <td>--</td> -->
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+
+				<tbody ng-if="vm.operatorLoading">
+					<tr>
+						<td colspan="5">数据正在加载中，请稍后查看...</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+
+		<div class="phone-verify c-verify">
+			<span class="item-title"><i class="circle"></i>联系人top5分析</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th class="col-4">号码</th>
+						<th class="col-4">通话次数</th>
+						<th class="col-3">占比(%)</th>
+						<th class="col-3">号码归属地</th>
+						<th class="col-3">主叫次数</th>
+						<th class="col-3">被叫次数</th>
+						<th class="col-3">平均通话时间(分)</th>
+						<th class="col-4">标识</th>
+					</tr>
+				<tbody ng-if="!vm.operatorLoading">
+					<tr ng-repeat="item in vm.operatorInfo.connTop5Analysis" ng-if="vm.operatorAuth === vm.operatorAuthObj.authed">
+						<td ng-bind="item.telphone | emptyFilter"></td>
+						<td ng-bind="item.callTimes | emptyFilter"></td>
+						<td ng-bind="item.ratio | emptyFilter"></td>
+						<td ng-bind="item.address | emptyFilter"></td>
+						<td ng-bind="item.callingTimes | emptyFilter"></td>
+						<td ng-bind="item.calledTimes | emptyFilter"></td>
+						<td ng-bind="item.coverageCallTime | emptyFilter"></td>
+						<td ng-bind="item.tag | emptyFilter"></td>
+					</tr>
+					<tr ng-if="vm.operatorInfo.connTop5Analysis.length === 0 || vm.operatorAuth !== vm.operatorAuthObj.authed">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+
+				<tbody ng-if="vm.operatorLoading">
+					<tr>
+						<td colspan="5">数据正在加载中，请稍后查看...</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- <div class="c-compare-box" ng-if="vm.priceBarData">
+				<h3>重要联系人通话分析</h3>
+				<!-- <div class="chart-body" id="new-price-bar" style="height:374px" ng-if="vm.priceBarData"> -->
+				<!-- <div class="chart-body" id="important-conn-chart" style="height:374px">
+				    <line node-id="important-conn-chart" data="vm.importantConnData" option="vm.importantConnOption" ></line>
+				</div>
+			</div> -->
+		</div>
+
+
+		<div class="phone-verify c-verify">
+			<span class="item-title"><i class="circle"></i>本人通话区域TOP5分析</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th class="col-4">地区</th>
+						<th class="col-3">停留天数</th>
+						<th class="col-5">最早停留日期</th>
+						<th class="col-5">最近停留日期</th>
+						<th class="col-3">通话占比(%)</th>
+						<th class="col-4">通话次数</th>
+					</tr>
+				<tbody ng-if="!vm.operatorLoading">
+					<tr ng-repeat="item in vm.operatorInfo.callAreaTop5" ng-if="vm.operatorAuth === vm.operatorAuthObj.authed">
+						<td ng-bind="item.address | emptyFilter"></td>
+						<td ng-bind="item.days | emptyFilter"></td>
+						<td ng-bind="item.firstTime | emptyFilter"></td>
+						<td ng-bind="item.lastTime | emptyFilter"></td>
+						<td ng-bind="item.ratio | emptyFilter"></td>
+						<td ng-bind="item.callTimes | emptyFilter"></td>
+					</tr>
+					<tr ng-if="vm.operatorInfo.callAreaTop5.length === 0 || vm.operatorAuth !== vm.operatorAuthObj.authed">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+
+				<tbody ng-if="vm.operatorLoading">
+					<tr>
+						<td colspan="5">数据正在加载中，请稍后查看...</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="phone-verify c-verify">
+			<span class="item-title"><i class="circle"></i>联系人区域TOP5分析</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th class="col-4">地区</th>
+						<th class="col-3">号码数量</th>
+						<th class="col-3">占比(%)</th>
+						<th class="col-3">主叫次数</th>
+						<th class="col-4">主叫时间(分)</th>
+						<th class="col-3">被叫次数</th>
+						<th class="col-4">被叫时间(分)</th>
+					</tr>
+				<tbody ng-if="!vm.operatorLoading">
+					<tr ng-repeat="item in vm.operatorInfo.connAreaTop5" ng-if="vm.operatorAuth === vm.operatorAuthObj.authed">
+						<td ng-bind="item.address | emptyFilter"></td>
+						<td ng-bind="item.telNum | emptyFilter"></td>
+						<td ng-bind="item.ratio | emptyFilter"></td>
+						<td ng-bind="item.callingTimes | emptyFilter"></td>
+						<td ng-bind="item.callingSecond | emptyFilter"></td>
+						<td ng-bind="item.calledTimes | emptyFilter"></td>
+						<td ng-bind="item.calledSecond | emptyFilter"></td>
+					</tr>
+					<tr ng-if="vm.operatorInfo.connAreaTop5.length === 0 || vm.operatorAuth !== vm.operatorAuthObj.authed">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+
+				<tbody ng-if="vm.operatorLoading">
+					<tr>
+						<td colspan="5">数据正在加载中，请稍后查看...</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div class="phone-verify c-verify">
+			<span class="item-title"><i class="circle"></i>通话时段分析</span>
+			<table class="anti-com-tb color-thead">
+				<tr class="thead">
+					<th class="col-4">时间段</th>
+					<th class="col-3">通话次数</th>
+					<th class="col-3">通话占比（%）</th>
+				</tr>
+				<tbody ng-if="!vm.operatorLoading">
+					<tr ng-repeat="item in vm.operatorInfo.callAnalysisData" ng-if="vm.operatorAuth === vm.operatorAuthObj.authed">
+						<td ng-bind="item.time | emptyFilter"></td>
+						<td ng-bind="item.contactTimes | emptyFilter"></td>
+						<td>{{item.ratio | emptyFilter}}%</td>
+					</tr>
+					<tr ng-if="vm.operatorInfo.callAnalysisData.length === 0 || vm.operatorAuth !== vm.operatorAuthObj.authed">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+
+				<tbody ng-if="vm.operatorLoading">
+					<tr>
+						<td colspan="5">数据正在加载中，请稍后查看...</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- <div class="chart-body" id="call-period-analysis" style="height:374px" ng-if="vm.callAnalysisData && vm.operatorAuth === vm.operatorAuthObj.authed">
+
+			    <bar node-id="call-period-analysis" data="vm.callAnalysisData" option="vm.callAnalysisOption" ></bar>
+			</div> -->
+			<div class="company-basic-info operator-basic-info clearfix text-center" ng-if="!vm.operatorLoading && vm.operatorAuth === vm.operatorAuthObj.authing">运营商数据查询中,请稍候...</div>
+		</div>
+
+
+
+		<div class="phone-verify c-verify　page-module">
+			<span class="item-title"><i class="circle"></i>通话记录分析</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th class="col-4">号码</th>
+						<th class="col-4">通话次数</th>
+						<th class="col-4">通话时长（分）</th>
+						<th class="col-4">号码归属地</th>
+						<th class="col-4">被叫次数</th>
+						<th class="col-4">主叫次数</th>
+						<th class="col-4">号码标识</th>
+					</tr>
+				<tbody ng-if="!vm.operatorLoading">
+					<tr ng-repeat="item in vm.operatorCallInfo.callDetail" ng-if="vm.operatorAuth === vm.operatorAuthObj.authed">
+						<td ng-bind="::item.phoneNo | emptyFilter"></td>
+						<td ng-bind="::item.connTimes | emptyFilter"></td>
+						<td ng-bind="::item.connTime | emptyFilter"></td>
+						<td ng-bind="::item.belongArea | emptyFilter"></td>
+						<td ng-bind="::item.calledTimes | emptyFilter"></td>
+						<td ng-bind="::item.callTimes | emptyFilter"></td>
+						<td ng-bind="::item.identifyInfo | emptyFilter"></td>
+					</tr>
+					<tr ng-if="vm.operatorCallInfo.callDetail.length === 0 || vm.operatorAuth !== vm.operatorAuthObj.authed">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+				<tbody ng-if="vm.operatorLoading">
+					<tr>
+						<td colspan="7">数据正在加载中，请稍后查看...</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- <div ng-if="vm.operatorCallInfo.callDetail.length > 0" class="pagination-ng" pagination-directive page-index="vm.callPage" page-total="vm.callTotal" total-num="vm.operatorCallInfo.total" show-total="vm.showTotal"></div> -->
+		</div>
+
+
+		<div class="phone-verify c-verify">
+			<span class="item-title"><i class="circle"></i>短信记录分析</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th class="col-8">号码</th>
+						<th class="col-6">号码归属地</th>
+						<th class="col-8">条数</th>
+						<th class="col-8">号码标识</th>
+					</tr>
+				<tbody ng-if="!vm.operatorLoading">
+					<tr ng-repeat="item in vm.operatorMsgInfo.msgDetail" ng-if="vm.operatorAuth === vm.operatorAuthObj.authed">
+						<td ng-bind="::item.phoneNo | emptyFilter"></td>
+						<td ng-bind="::item.belongArea | emptyFilter"></td>
+						<td ng-bind="::item.totalSmsNumber | emptyFilter"></td>
+						<td ng-bind="::item.identifyInfo | emptyFilter"></td>
+					</tr>
+					<tr ng-if="vm.operatorMsgInfo.msgDetail.length === 0 || vm.operatorAuth !== vm.operatorAuthObj.authed">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+				<tbody ng-if="vm.operatorLoading">
+					<tr>
+						<td colspan="4">数据正在加载中，请稍后查看...</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- <div ng-if="vm.operatorMsgInfo.msgDetail.length > 0" class="pagination-ng" pagination-directive page-index="vm.msgPage" page-total="vm.msgTotal" total-num="vm.operatorMsgInfo.total" show-total="vm.showTotal"></div> -->
+		</div>
+
+	</div>
+
+
+
+		<div class="divice-line" ng-if="vm.authList.telBatch && !vm.isConsumeEmpty">
+			<div class="download-title">消费能力</div>
+	</div>
+
+	<div class="credit-module" ng-if="vm.authList.telBatch && !vm.isConsumeEmpty">
+		<!-- 电商消费等级 -->
+		<div class="phone-verify c-verify">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>电商消费等级</span>
+				<span class="level-target" ng-if="vm.consumeGrade == 1">V1</span>
+				<span class="level-target" ng-if="vm.consumeGrade == 2">V2</span>
+				<span class="level-target" ng-if="vm.consumeGrade == 3">V3</span>
+				<span class="level-target" ng-if="vm.consumeGrade == 4">V4</span>
+				<span class="level-target" ng-if="vm.consumeGrade == 5">V5</span>
+			</div>
+			<!-- <div class="c-grade-box" ng-if="vm.isGradeEmpty">
+				<div class="c-grade-r clearfix">
+					<div class="circle-0" ng-class="{'current': vm.consumeGrade === 0}">
+						<i class="icon-dengji"></i><span>0</span>
+						<div class="current-box">
+							<span>报告人消费等级</span>
+							<span class="trangle"></span>
+						</div>
+					</div>
+					<ol class="clearfix">
+						<li ng-class="{'active': item <= vm.consumeGrade , 'current': vm.consumeGrade === item}" ng-repeat="item in [1, 2, 3, 4, 5]">
+							<div class="line"></div>
+							<div class="g-circle"><i class="icon-dengji"></i><span>{{item}}</span></div>
+							<div class="current-box">
+								<span>报告人消费等级</span>
+								<span class="trangle"></span>
+							</div>
+						</li>
+					</ol>
+				</div>
+			</div> -->
+		</div>
+
+		<!-- 电商消费情况 -->
+		<div class="phone-verify c-verify" ng-if="vm.isconsumeSituation">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>电商消费情况</span>
+			</div>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead">
+						<th>活跃度</th>
+						<th>是否实名认证</th>
+						<th>电商注册时长（年）</th>
+						<th>50元以下消费次数占比</th>
+					</tr>
+				<tbody>
+					<tr>
+						<td ng-bind="vm.consumeSituation.liveness">
+						</td>
+						<td ng-bind="vm.consumeSituation.isRealName">
+						</td>
+						<td ng-bind="vm.consumeSituation.registerTime"></td>
+						<td ng-bind="vm.consumeSituation.percent"></td>
+					</tr>
+					<!-- <tr ng-if="!vm.result.eBusinessDanger.isTarget">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr> -->
+				</tbody>
+			</table>
+		</div>
+
+		<!-- 电商消费特征 -->
+		<div class="phone-verify c-verify" ng-if="vm.isConsumeTags">
+			<div class="verify-item-title">
+				<span class="item-title"><i class="circle"></i>电商消费特征</span>
+			</div>
+			<div class="c-tag-box">
+				<label for="">标签：</label>
+				<span ng-repeat="item in vm.consumeTags" ng-bind="item">游戏</span>
+			</div>
+		</div>
+
+		<div class="c-brand-box clearfix">
+			<div class="c-brand-l" ng-if="vm.coustomerTopBarData">
+				<span class="item-title"><i class="circle"></i>品牌偏好top5</span>
+				<table class="anti-com-tb color-thead">
+						<tr class="thead">
+							<th>品牌</th>
+							<th>占比</th>
+						</tr>
+					<tbody>
+						<tr ng-repeat="trend in vm.priceTrend | repeatReverse">
+							<td ng-bind="trend.name">
+							</td>
+
+							<td>
+								{{trend.percent}}%
+							</td>
+						</tr>
+						<tr ng-if="!vm.priceTrend.length">
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- <div style="height: 220px;padding-right: 20%;padding-left: 20%;" ng-if="vm.coustomerTopBarData">
+				    <vertical-line id="potential-customer-top-line" no-hover="false" node-id="potential-customer-top-line" screen-data="vm.coustomerTopBarData" screen-option="vm.coustomerTopBarOption"></vertical-line>
+				</div> -->
+			</div>
+		</div>
+
+		<div class="c-brand-box">
+			<div class="c-brand-r" ng-if="vm.brandTopBarData">
+				<span class="item-title"><i class="circle"></i>品类偏好top5</span>
+				<table class="anti-com-tb color-thead">
+						<tr class="thead">
+							<th>品牌</th>
+							<th>占比</th>
+						</tr>
+					<tbody>
+						<tr ng-repeat="trend in vm.consumeTrend | repeatReverse">
+							<td ng-bind="trend.name">
+							</td>
+							<td>
+								{{trend.percent}}%
+							</td>
+						</tr>
+						<tr ng-if="!vm.consumeTrend.length">
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+							<td>--</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- <div class="percent-chart" id="monitor-pie" style="width:100%;height:200px;margin: 20px auto 0px;" ng-if="vm.monitorPieOption">
+				    <pie node-id="monitor-pie" option="vm.monitorPieOption" data="vm.monitorPieSeries">
+				    </pie>
+				</div> -->
+
+				<!-- <div style="height: 220px;padding-right: 20%;padding-left: 20%;" ng-if="vm.brandTopBarData">
+				    <vertical-line id="brand-customer-top-line" no-hover="false" node-id="brand-customer-top-line" screen-data="vm.brandTopBarData" screen-option="vm.brandTopBarOption"></vertical-line>
+				</div> -->
+			</div>
+		</div>
+		<!-- 单价对比 -->
+		<div class="c-compare-box" ng-if="vm.priceBarData">
+			<span class="item-title"><i class="circle"></i>类目客单价与平均价格对比</span>
+			<table class="anti-com-tb color-thead">
+					<tr class="thead" >
+						<th>消费类目</th>
+						<th>客单价（元）</th>
+						<th>平均价（元）</th>
+					</tr>
+				<tbody>
+					<tr ng-repeat="compare in  vm.priceCompare">
+						<td ng-bind="compare.type">
+						</td>
+						<td ng-bind="compare.singlePrice|number:2">
+						</td>
+						<td ng-bind="compare.average|number:2">
+						</td>
+					</tr>
+					<tr ng-if="!vm.priceCompare.length">
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+						<td>--</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- <div class="chart-body" id="new-price-bar" style="height:374px" ng-if="vm.priceBarData">
+			    <bar node-id="new-price-bar" data="vm.priceBarData" option="vm.priceBarOption" ></bar>
+			</div> -->
+		</div>
+	</div>
+
+
+
+
+</div>

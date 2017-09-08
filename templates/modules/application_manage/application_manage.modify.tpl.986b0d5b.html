@@ -1,0 +1,137 @@
+<div class="anti-list-container application-modify" >
+	<div class="list-header clearfix">
+		<div class="link">
+			<a href="/antifraud/list">申请表管理</a>&gt{{vm.headerMsg}}
+		</div>
+		<div class="list-header-l">
+			<h2 class="" ng-bind="vm.headerMsg"></h2>
+		</div>
+	</div>
+	<div class="application-modify-content">
+		<div class="content clearfix">
+			<div class="content-l clearfix">
+				<div class="option">
+					<span class="choose-label must-write clearfix">
+						申请表名称
+					</span>
+					<div class="option-content">
+						<input class="name" type="text" placeholder="请输入申请表名称" ng-model="vm.applicationName"/>
+						<p class="error-msg">{{vm.errorMsg.applicationName}}</p>
+					</div>
+				</div>
+				<div class="option">
+					<span class="choose-label must-write clearfix">选择模块</span>
+					<div class="option-content">
+						<div class="recommend-button" ng-click="vm.IsRecommend=!vm.IsRecommend">使用推荐配置</div>
+						<span class="choose-modular-box" ng-repeat="item in vm.ApplicationModularArr">
+							<span class="choose-modular"  ng-click="vm.changeChoseModularIndex(item.index)" ng-class="{'choose-modular-active':item.index===vm.choseModularIndex,'choose-modular-last':$last}">{{item.name}}
+							(<a>{{vm.gainPreviewTotalShow(item.index)}}</a>)
+							</span>
+						</span>
+						<div ng-repeat="item in vm.ApplicationModularArr" ng-if="item.index === vm.choseModularIndex">
+							<div ng-repeat="page in item.pages" >
+								<div ng-repeat="modular in page.modulars track by $index">
+									<h3 ng-click="vm.changeSonModularShow(page,$index)" class="son-modular-name" ng-if="page.modulars.length>1">
+										<span class="text">{{modular.name}}({{modular.totalShow}}/{{modular.labels.length}})</span>
+										<span ng-if="modular.IsShow" class="slideDown clearfix" >收起</span>
+										<span ng-if="!modular.IsShow" class="slideUp clearfix" >展开</span>
+									</h3>
+									<ul class="choose-table" ng-if="modular.IsShow">
+										<li>
+											<span>模块名称</span>
+											<span>是否显示</span>
+											<span>是否必填</span>
+											<span>备注说明</span>
+										</li>
+										<li ng-repeat="label in modular.labels track by $index">
+											<span>{{label.name}}</span>
+											<span>
+												<label class="yes-label"><input class="radio" type="radio"  ng-value="1" ng-model="label.isShow" ng-disabled="label.unchanged"><span ng-class="{'radio-unchanged':label.unchanged}"></span><span class="radio-text" ng-class="{'radio-disabled':label.unchanged}">是</span></label>
+												<label class="no-label"><input  class="radio" type="radio" ng-value="0" ng-model="label.isShow" ng-disabled="label.unchanged"><span ng-class="{'radio-unchanged':label.unchanged}"></span><span
+												class="radio-text" ng-class="{'radio-disabled':label.unchanged}">否</span></label>
+											</span>
+											<span>
+												<label class="yes-label">
+													<input type="radio"  class="radio" ng-value="1" ng-model="label.mustWrite" ng-disabled="label.unchanged||label.isShow===0"><span ng-class="{'radio-unchanged':label.unchanged}"></span><span class="radio-text" ng-class="{'radio-disabled':label.unchanged||label.isShow===0}">是</span>
+												</label>
+												<label class="no-label">
+													<input type="radio"  class="radio" ng-value="0" ng-model="label.mustWrite" ng-disabled="label.unchanged||label.isShow===0" ><span ng-class="{'radio-unchanged':label.unchanged}"></span><span class="radio-text" ng-class="{'radio-disabled':label.unchanged||label.isShow===0}">否</span>
+												</label>
+											</span>
+											<span>{{label.remarks}}</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="preview-block">
+								<span class="summary-infor">
+									{{item.name}}汇总 : <span>{{item.totalShow}}</span>项显示,<span>{{item.totalMustWrite}}</span>项必填
+								</span>
+								<span class="eliminate-button" ng-click="vm.removeModular(item.index)" ng-class="{'disabled':!vm.removeModularObj[item.index]}">清除</span>
+								<span class="determine-button" ng-click="vm.addModular(item.index)" ng-class="{'disabled':!vm.changeModuleObj[item.index]}">保存预览</span>
+							</div>
+
+						</div>
+						<div class="choosen-block">
+							<span class="choosen-block-label">已添加模块 : </span>
+							<div>
+								<span class="choosen-item" ng-repeat="modular in vm.chooseModularNameArr">{{modular.name}}
+									<span ng-repeat="sonName in modular.sonModularNames">
+										<span ng-if="$first">(</span>
+										<span>{{sonName}}<a ng-if="!$last">，</a></span>
+										<span ng-if="$last">)</span>
+									</span>
+									<a ng-if="!$last">，</a>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="option">
+					<span class="choose-label must-write clearfix">申请状态</span>
+					<zs-select   class="form-control anti-select" selected-value="vm.status"  options="vm.chooseStatusObj">
+					</zs-select>
+				</div>
+			</div>
+			<div class="content-r">
+				<preview-application class="preview-directive" preview-fix client-width="300" fix-top="24" max-top="161" fix="right" application="vm.application" preview-modular-index="vm.previewModularIndex" choose-modular-arr="vm.chooseModularArr" chose-modular-index="vm.choseModularIndex" ng-if="vm.application"></preview-application>
+			</div>
+		</div>
+		<div class="submit-block">
+			<span class="save-button" ng-click="vm.postApplicationData()">
+				保存
+			</span>
+			<span class="cancel-button" ng-click="vm.cancel()">
+				取消
+			</span>
+		</div>
+	</div>
+	<posting-modal ng-if="vm.posting.isPosting" modal-msg="vm.posting.msg"></posting-modal>
+</div>
+<script type="text/ng-template" id="Js_addMonitorTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.modalMsg}}</p>
+		</div>
+		<div class="m-btn">
+			<a class="m-y-btn" ng-click="confirm()">确认</a>
+			<a class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="Js_addApplicationTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-duigou'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.successMsg}}</p>
+		</div>
+		<div class="m-btn">
+			<a class="m-y-btn" ng-click="confirm()">确认</a>
+		</div>
+	</div>
+</script>

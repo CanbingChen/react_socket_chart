@@ -1,0 +1,101 @@
+<div class="anti-list-container loan-list">
+	<div class="list-header clearfix">
+		<div class="list-header-l">
+			<h2 class="">用户借款列表</h2>
+		</div>
+		<div class="list-header-r   clearfix">
+			<div class="phone-l loan-phone-l clearfix" >
+				<label class="common-search-box ">
+					<input type="text" placeholder="请输入进件单号或手机号或身份证号" ng-model="vm.postParams.searchNum" ng-keyup="vm.searchLoanInfo($event)">
+				</label>
+				<span ng-click="vm.searchLoanInfo()" class="loan-search-btn"><i class="icon-fangdajing"></i><span>搜索</span>
+			</span>
+			<a href="/api/loan/export/list/?{{vm.checkIdsUrl.join('&')}}" ng-if="vm.checkIdsUrl.length !== 0" target="_blank" class="btn loan-list-search"><i class="icon-daochu"></i>导出数据</a>
+			<a href="javascript:void(0);" ng-click="vm.showExportEmpty()" target="_blank" ng-if="vm.checkIdsUrl.length === 0" class="btn loan-list-search"><i class="icon-daochu"></i>导出数据</a>
+			</div>
+		</div>
+	</div>
+	<div class="select-box clearfix">
+		<div class="select-box-l clearfix">
+			<div class="label time-label">状态筛选：</div>
+			<div class="list-time-select-box">
+                <span ng-class="{'active': (vm.postParams.loanStatus === vm.loanStatusObj.all)}" ng-click="vm.changeStatus(vm.loanStatusObj.all)">全部</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active': (vm.postParams.loanStatus === vm.loanStatusObj.Lending)}" ng-click="vm.changeStatus(vm.loanStatusObj.Lending)">放款中</span>
+                <span class="divice">|</span>
+                <span ng-class="{'active' : vm.postParams.loanStatus === vm.loanStatusObj.repaying}" ng-click="vm.changeStatus(vm.loanStatusObj.repaying)">还款中</span>
+                <span class="divice">|</span>
+                <span ng-if="vm.contractSwitchStatus" ng-class="{'active' : vm.postParams.loanStatus === vm.loanStatusObj.Signing}" ng-click="vm.changeStatus(vm.loanStatusObj.Signing)">待签署合同</span>
+				<span ng-if="vm.contractSwitchStatus" class="divice">|</span>
+				<span ng-class="{'active' : vm.postParams.loanStatus === vm.loanStatusObj.failure}" ng-click="vm.changeStatus(vm.loanStatusObj.failure)">放款失败</span>
+            </div>
+		</div>
+	</div>
+
+	<div class="list-table">
+		<table class="common-table credit-table" ng-if="vm.loanList.length > 0 && !vm.isSearching">
+			<thead>
+				<tr>
+					<th><input type="checkbox" name="checkAll" ng-checked="vm.isCheckAll" ng-click="vm.checkAll()"></th>
+					<th>进件单号</th>
+					<th>姓名</th>
+					<th>手机号</th>
+					<th>身份证号</th>
+					<th><span class="exponent-item">
+						进件时间
+						<i class="trangle-down" ng-class="{'active': vm.postParams.timeSort === vm.exponentSort.up}" ng-click="vm.changeListSort(vm.exponentSort.up)"></i>
+						<i class="trangle-up" ng-class="{'active': vm.postParams.timeSort === vm.exponentSort.down}" ng-click="vm.changeListSort(vm.exponentSort.down)"></i>
+					</span></th>
+					<th>借款金额</th>
+					<th>借款状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="loan in vm.loanList track by $index">
+					<td><input type="checkbox" value="loan.id" ng-init="vm.checkIds[$index] = ''" ng-click="vm.checkOne($index,loan.id)" ng-checked="vm.checkIds[$index] !== ''" name="checkbox"></td>
+					<td ng-bind="loan.intoNumber"></td>
+					<td ng-bind="loan.name"></td>
+					<td ng-bind="loan.telphone"></td>
+					<td ng-bind="loan.idCard"></td>
+					<td ng-bind="loan.intoTime | date:'yyyy-MM-dd HH:mm:ss'"></td>
+					<td ng-bind="loan.loanNumber"></td>
+					<td ng-bind="loan.loanStatus"></td>
+					<td><a href="/antifraud/loan_detail?id={{loan.id}}" target="_blank" class="check-detail">查看详情</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="result-body loader-box" ng-if="vm.isSearching">
+			<div class="bg-white">
+				<div class="spinner">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
+					<div class="rect6"></div>
+					<div class="rect7"></div>
+					<div class="rect8"></div>
+				</div>
+				<span>查询中，请耐心等待...</span>
+			</div>
+		</div>
+		<div ng-if="vm.loanList.length === 0" class="empty-info">
+			<span class="empty-img"></span>
+			<span class="empty-text" ng-bind="vm.emptyText"></span>
+		</div>
+</div>
+<div ng-if="vm.loanList.length > 0" class="pagination-ng" pagination-directive page-index="vm.postParams.page" page-total="vm.pageTotal">
+</div>
+</div>
+
+<script type="text/ng-template" id="exportEmptyTemplate">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>请选择你要导出的数据</p>
+		</div>
+	</div>
+</script>

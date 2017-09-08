@@ -1,0 +1,42 @@
+<!-- 这里是画圆的部分 -->
+<style type="text/css">
+	.circle{
+		position: relative;
+		display: block;
+		width: 130px;
+		/*height: 400px;*/
+		margin: 0 auto;
+		text-align: center;
+	}
+	canvas{
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	#circle_1{
+		z-index: 1;
+	}
+	#circle_2{
+		z-index: 2;
+	}
+	#point_img{
+		z-index: 3;
+	}
+</style>
+<div class="circle">
+	<canvas id="circle_1" width="130" height="130"></canvas>
+	<canvas id="circle_2" width="130" height="130"></canvas>
+	<canvas id="point_img" width="130" height="130"></canvas>
+	<div class="circle-desc">
+		<span ng-bind="gradeMsg"></span>
+		<i class="icon icon-wenhao">
+			<div class="desc">
+				<p>信用评分标准：</p>
+				<p>300-550分为信用低客户;</p>
+				<p>550-600为信用一般客户;</p>
+				<p>600-650为信用高客户;</p>
+				<p>650-700为信用优秀客户;</p>
+			</div>
+		</i>
+	</div>
+</div>

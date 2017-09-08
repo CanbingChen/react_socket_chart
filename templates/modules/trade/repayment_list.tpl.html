@@ -1,0 +1,102 @@
+<div class="anti-list-container loan-list">
+	<div class="list-header clearfix">
+		<div class="list-header-l">
+			<h2 class="">还款管理</h2>
+		</div>
+		<div class="list-header-r   clearfix">
+			<div class="phone-l loan-phone-l clearfix" >
+				<label class="common-search-box ">
+					<input type="text" placeholder="请输入订单名或姓名或手机号或身份证号" ng-model="vm.postParams.serchNum" ng-keyup="vm.searchRepayment($event)">
+				</label>
+				<span ng-click="vm.searchRepayment()" class="loan-search-btn"><i class="icon-fangdajing"></i><span>搜索</span>
+			</span>
+			</div>
+		</div>
+	</div>
+	<div class="select-box clearfix">
+
+		<div class="select-box-l clearfix">
+            <label for="" class="w60">订单状态：</label>
+            <zs-select class="form-control anti-select" selected-value="vm.postParams.repayStatus"  options="vm.RepaymentStatusArr" on-change="vm.getList">
+		</div>
+        <div class="select-box-l clearfix">
+            <label for="" class="w60">代扣状态：</label>
+            <zs-select class="form-control anti-select" selected-value="vm.postParams.withholdStatus"  options="vm.withholdStatusArr" on-change="vm.getList">
+        </div>
+	</div>
+
+	<div class="list-table">
+		<table class="common-table credit-table" ng-if="vm.repaymentList.length > 0&&!vm.isSearching">
+			<thead>
+				<tr>
+					<th>订单号</th>
+					<th>姓名</th>
+                    <th>身份证号</th>
+                    <th><span class="exponent-item">
+						申请日期
+						<i class="trangle-down" ng-class="{'active':vm.checkSortActive('applySort','up')}" ng-click="vm.changeListSort(vm.exponentSort.up,vm.RepaymentSortObj.applySort)"></i>
+						<i class="trangle-up" ng-class="{'active': vm.checkSortActive('applySort','down')}" ng-click="vm.changeListSort(vm.exponentSort.down,vm.RepaymentSortObj.applySort)"></i>
+					</span></th>
+                    <th>商户名称</th>
+					<th>借款到账金额</th>
+					<th>借款金额</th>
+					<th>当前期数</th>
+                    <th><span class="exponent-item">
+						当前还款日
+						<i class="trangle-down" ng-class="{'active': vm.checkSortActive('repaySort','up')}" ng-click="vm.changeListSort(vm.exponentSort.up,vm.RepaymentSortObj.repaySort)"></i>
+						<i class="trangle-up" ng-class="{'active': vm.checkSortActive('repaySort','down')}" ng-click="vm.changeListSort(vm.exponentSort.down,vm.RepaymentSortObj.repaySort)"></i>
+					</span></th>
+					<th>
+                        <span class="exponent-item">
+    						最长逾期天数
+    						<i class="trangle-down" ng-class="{'active':vm.checkSortActive('overdueSort','up')}" ng-click="vm.changeListSort(vm.exponentSort.up,vm.RepaymentSortObj.overdueSort)"></i>
+    						<i class="trangle-up" ng-class="{'active': vm.checkSortActive('overdueSort','down')}" ng-click="vm.changeListSort(vm.exponentSort.down,vm.RepaymentSortObj.overdueSort)"></i>
+    					</span></th>
+                    <th>逾期罚金总额</th>
+                    <th>订单状态</th>
+                    <th>代扣状态</th>
+                    <th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+                <tr ng-repeat="repayItem in vm.repaymentList">
+                    <td ng-bind="repayItem.orderId | emptyFilter"></td>
+                    <td ng-bind="repayItem.name | emptyFilter"></td>
+                    <td ng-bind="repayItem.idcard | emptyFilter"></td>
+                    <td ng-bind="repayItem.createTime | emptyFilter | date:'yyyy-MM-dd'"></td>
+                    <td ng-bind="repayItem.merchantName | emptyFilter"></td>
+                    <td ng-bind="repayItem.accountIntoMoney | emptyFilter"></td>
+                    <td ng-bind="repayItem.loanMoney | emptyFilter"></td>
+                    <td ng-bind="repayItem.currentMoney | emptyFilter"></td>
+                    <td ng-bind="repayItem.currentPeriodsRepay | emptyFilter | date:'yyyy-MM-dd'"></td>
+                    <td ng-bind="repayItem.overduePeriodsDays | emptyFilter"></td>
+                    <td ng-bind="repayItem.overduePeriodsFine | emptyFilter"></td>
+                    <td ng-bind="repayItem.repayStatusText | emptyFilter" ng-class="{'warning-text':repayItem.status === vm.RepaymentStatusObj.overdued}"></td>
+                    <td ng-bind="repayItem.withholdStatusText | emptyFilter" ng-class="{'warning-text':repayItem.withholdStatus === vm.withholdStatusObj.fail}"></td>
+                    <td><a class="change-state-button" href="/trade/repayment_detail?id={{repayItem.id}}&orderId={{repayItem.orderId}}">查看详情</a></td>
+                </tr>
+			</tbody>
+		</table>
+		<div class="result-body loader-box" ng-if="vm.isSearching">
+			<div class="bg-white">
+				<div class="spinner">
+					<div class="rect1"></div>
+					<div class="rect2"></div>
+					<div class="rect3"></div>
+					<div class="rect4"></div>
+					<div class="rect5"></div>
+					<div class="rect6"></div>
+					<div class="rect7"></div>
+					<div class="rect8"></div>
+				</div>
+				<span>查询中，请耐心等待...</span>
+			</div>
+		</div>
+		<div ng-if="vm.repaymentList.length === 0&&!vm.isSearching" class="empty-info">
+			<span class="empty-img"></span>
+			<span class="empty-text" ng-bind="vm.emptyText"></span>
+		</div>
+</div>
+<pagination-counts-directive ng-if="vm.repaymentList.length > 0"  page-index="vm.postParams.page" total="vm.pagination.total" page-total="vm.pagination.pageTotal" counts="vm.postParams.count" counts-array="vm.pageCountsArray">
+</pagination-counts-directive>
+</div>

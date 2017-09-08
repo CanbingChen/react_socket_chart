@@ -1,0 +1,117 @@
+<div class="anti-search-container account-detail">
+	<div class="list-header clearfix">
+		<div class="link">
+			<a href="/intercalate/account_manage/list">账号管理</a>&gt;账号详情&gt;账号编辑
+		</div>
+		<div class="list-header-l">
+			<h2 class="">账号编辑</h2>
+		</div>
+	</div>
+	<div class="manage-body">
+		<div class="manage-form-box account-manage">
+			<ul class="manage-form">
+				<li>
+					<label for=""><span class="to-left"></span>账号：</label>
+					<span>{{vm.accountInfo.loginName | emptyFilter}}</span>
+				</li>
+				<li>
+					<label for=""><span class="to-left"></span>密码：</label>
+					<span>{{vm.accountInfo.loginPwd }}</span>
+					<a class="reset" href="javascript:;" ng-click="vm.reset()">重置密码</a>
+				</li>
+				<li class="info">
+					<label for=""><span class="label-alert">*</span>员工姓名：</label>
+					<input type="text" class="input-pwd" ng-model="vm.accountInfo.name" placeholder="请输入使用人姓名">
+				</li>
+				<p class="err-msg" ng-bind="vm.err.name"></p>
+				<li class="info">
+					<label for=""><span class="label-alert">*</span>手机号码：</label>
+					<input type="text" class="input-pwd" ng-model="vm.accountInfo.mobile" placeholder="请输入账号使用人手机号码">
+				</li>
+				<p class="err-msg" ng-bind="vm.err.phone"></p>
+				<li class="info">
+					<label for=""><span class="label-alert">*</span>账号角色：</label>
+					<zs-select-edit  class="form-control account-select account-role" selected-value="vm.accountInfo.roleNameIds"  options="vm.accountRoleArr">
+				</li>
+				<p class="err-msg" ng-bind="vm.err.role"></p>
+				<li>
+					<label for=""><span class="label-alert">*</span>状态：</label>
+					<zs-select class="form-control account-select" selected-value="vm.accountInfo.status"  options="vm.accountStatusArr">
+				</li>
+				<li>
+					<label for=""><span class="to-left"></span>创建人账号：</label>
+					<span>{{vm.accountInfo.createUserName | emptyFilter}}</span>
+				</li>
+				<li>
+					<label for=""><span class="to-left"></span>创建时间：</label>
+					<span>{{vm.accountInfo.createTime | emptyFilter |date:'yyyy-MM-dd'}}</span>
+				</li>
+				<li>
+					<label for=""><span class="to-left"></span>修改人账号：</label>
+					<span>{{vm.accountInfo.updateUserName | emptyFilter}}</span>
+				</li>
+				<li>
+					<label for=""><span class="to-left"></span>修改时间:</label>
+					<span>{{vm.accountInfo.modifyTime | emptyFilter |date:'yyyy-MM-dd'}}</span>
+				</li>
+			</ul>
+		</div>
+		<div class="button-conten">
+			<a href="/intercalate/account_manage/list" class="ensure-cancel">取消</a>
+			<a href="javascript:;" class="ensure-modify" ng-click="vm.checkInput()">保存修改</a>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="JS_modal">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>{{vm.modalMsg}}</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="confirm()">确认</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="closeThisDialog()">取消</a>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="resetSuccess">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tijiaochenggong'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>密码重置成功</p>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="modifySuccess">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tijiaochenggong'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>账号修改成功</p>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="cancelAccount">
+	<div class="m-modal">
+		<div class="m-bar">
+			<div class="m-tl"><i class='icon-tanhao'></i></div>
+		</div>
+		<div class="m-cnt">
+			<p>注销账号后不能恢复</p>
+		</div>
+		<div class="m-btn">
+			<a href="javascript:;" class="m-y-btn" ng-click="closeThisDialog()">取消</a>
+			<a href="javascript:;" class="m-no-btn" ng-click="vm.cancelAccount()">注销</a>
+		</div>
+	</div>
+</script>
+

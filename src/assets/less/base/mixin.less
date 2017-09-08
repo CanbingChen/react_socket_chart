@@ -1,0 +1,94 @@
+@main_color: #3b85f5;
+
+.vertical-center(@height){
+    height: @height;
+    line-height: @height;
+}
+
+.over-elipsis(@width) {
+    width: @width;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.fz(@px){
+    font-size: @px;
+    [data-dpr="2"] &{
+        font-size: 2 * @px;
+    }
+    [data-dpr="3"] &{
+        font-size: 3 * @px;
+    }
+}
+
+.wh(@px){
+    width: @px;
+    height: @px;
+    [data-dpr="2"] &{
+        width: 2 * @px;
+        height: 2 * @px;
+    }
+    [data-dpr="3"] &{
+        width: 3 * @px;
+        height: 3 * @px;
+    }
+}
+
+.bs(@px, @px2) {
+    background-size: @px @px2;
+    [data-dpr="2"] &{
+        background-size: 2*@px 2*@px2;
+    }
+    [data-dpr="3"] &{
+        background-size: 2*@px 2*@px2;
+    }
+}
+
+
+.px2px(@name, @px){
+    @{name}: round(@px / 2) * 1px;
+    [data-dpr="2"] & {
+        @{name}: @px * 1px;
+    }
+    // for mx3
+    [data-dpr="2.5"] & {
+        @{name}: round(@px * 2.5 / 2) * 1px;
+    }
+    // for 小米note
+    [data-dpr="2.75"] & {
+        @{name}: round(@px * 2.75 / 2) * 1px;
+    }
+    [data-dpr="3"] & {
+        @{name}: round(@px / 2 * 3) * 1px
+    }
+    // for 三星note4
+    [data-dpr="4"] & {
+        @{name}: @px * 2px;
+    }
+}
+
+
+.span-rotate(@num){
+    transform: rotate(@num*30deg-30);
+    opacity: 1-(12-@num)/12;
+}
+
+.main-font {
+    color: #333333;
+}
+
+.grey-font {
+    color: #848484;
+}
+.lh(@px){
+    line-height: @px;
+    [data-dpr="2"] &{
+        line-height: 2 * @px;
+    }
+    [data-dpr="3"] &{
+        line-height: 3 * @px;
+    }
+
+}

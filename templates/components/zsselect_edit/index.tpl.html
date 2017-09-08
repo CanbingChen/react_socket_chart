@@ -1,0 +1,15 @@
+<div class="zs-select-unit zs-select-user zs-select zs-select-edit" ng-click="toggleSelectList();" ng-attr-id="{{ randomId }}" ng-class="{ 'zs-select-unit-active': listVisible }">
+    <div class="zs-select-unit-div zs-select-unit-div-edit" unselectable="on" ng-class="{'select-shadow':listVisible}">
+         <span class="zs-selected-option edit-option">
+            <span ng-if="selectedValue.length===0" class="holder">最多可选5个角色</span>
+            <span class="selectItem" ng-repeat="selectedItem in selectedValue">
+                <span ng-bind="selectedItem.name"></span>
+                <span class="delet" ng-click="removethis(selectedItem.id,$event)">&times;</span>
+            </span>
+        </span>
+        <span class="caret"></span>
+    </div>
+    <div class="zs-select-unit-option zs-select-user-option option-edit" ng-class="{ 'zs-select-options-show select-shadow' : listVisible}">
+        <div class="zs-select-unit-option-div " ng-repeat="option in options" ng-bind="option.name" title="{{option.name}}" ng-class="{'disabled':option.dis}" ng-click="setSelectedItem(option.id,option.name,$event)">条</div>
+    </div>
+</div>
